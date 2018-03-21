@@ -55,7 +55,7 @@ Route::get('/', function () {
   Route::resource('carritos/mercaderiaproxeventos', 'MercaderiaProxEventosController');
   Route::resource('registro', 'AuxController');
   Route::resource('carritos/utilidad_costos', 'Utilidad_costosController');
-  Route::resource('carritos/cuentas_contables', 'cuentas_contablesController');
+  Route::resource('carritos/cuentas_contables', 'Cuentas_contablesController');
 
 
   Auth::routes();

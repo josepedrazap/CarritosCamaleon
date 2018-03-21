@@ -11,6 +11,12 @@
         <strong>Presione aquí para obtener el balance en PDF</strong>
       </a>
   </div>
+  <?php
+      $total_debe_2 = 0;
+      $total_haber_2 = 0;
+      $total_debe_3 = 0;
+      $total_haber_3 = 0;
+   ?>
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="table-responsive">
@@ -26,26 +32,47 @@
             <th>Debe</th>
             <th>Haber</th>
           </tr>
-          <tfoot>
-            <th>Sub Totales</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tfoot>
+
           @foreach($data as $dat)
           <tr>
             <td>{{$dat->nombre_cuenta}}</td>
             <td>{{$dat->debe}}</td>
             <td>{{$dat->haber}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            @if($dat->tipo == 'ACTIVO' || $dat->tipo == 'PASIVO')
+            <?php
+              $total = $dat->debe - $dat->haber;
+            ?>
+            @if($total > 0)
+              <td>{{$total}}</td>
+              <td>0</td>
+              <?php $total_debe_2 += $total; ?>
+            @elseif($total < 0)
+              <td>0</td>
+              <td>{{$total*(-1)}}</td>
+              <?php $total_haber_2 += $total*(-1); ?>
+            @else
+              <td>0</td>
+              <td>0</td>
+            @endif
+            @endif
+
+            @if($dat->tipo == 'GASTOS' || $dat->tipo == 'COSTOS')
+            <?php
+              $total = $dat->debe - $dat->haber;
+            ?>
+            @if($total > 0)
+              <td>{{$total}}</td>
+              <td>0</td>
+              <?php $total_debe_3 += $total; ?>
+            @elseif($total < 0)
+              <td>0</td>
+              <td>{{$total*(-1)}}</td>
+              <?php $total_haber_2 += $total*(-1); ?>
+            @else
+              <td>0</td>
+              <td>0</td>
+            @endif
+            @endif
             <td></td>
             <td></td>
           </tr>
@@ -61,6 +88,17 @@
           <th></th>
           <th></th>
         </tr>
+        <tfoot>
+          <th>Sub Totales</th>
+          <th>{{$total_debe}}</th>
+          <th>{{$total_haber}}</th>
+          <th>{{$total_debe_2}}</th>
+          <th>{{$total_haber_2}}</th>
+          <th>{{$total_debe_3}}</th>
+          <th>{{$total_haber_3}}</th>
+          <th></th>
+          <th></th>
+        </tfoot>
         </table>
       </div>
     </div>

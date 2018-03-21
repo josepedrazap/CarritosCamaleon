@@ -20,7 +20,7 @@ class AuxController extends Controller{
   }
 
     function registrar(){
-      return view('Auth.register');
+      return view('auth.register');
     }
     public function index(){
       $data=DB::table('users')->get();

@@ -45,14 +45,23 @@ class Cuentas_contablesController extends Controller
       ->get();
       return view('carritos.cuentas_contables.create', ["tipos"=>$tipos, "prefijos"=>$prefijos]);
     }
+
     public function balance (){
         $data = DB::table('cuentas_contables as cc')
-        ->join('cuentas_mov_facturas as cf', 'cf.id_cuenta', '=', 'cc.id')
-        ->select('nombre_cuenta', DB::raw('sum(debe) as debe'), DB::raw('sum(haber) as haber'))
-        ->groupBy('nombre_cuenta')
-
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->select('nombre_cuenta', 'tipo', DB::raw('sum(debe) as debe'), DB::raw('sum(haber) as haber'))
+        ->groupBy('nombre_cuenta', 'tipo')
         ->get();
-        return view('carritos.cuentas_contables.balance', ['data'=>$data]);
+
+        $total_debe = DB::table('cuentas_contables as cc')
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->sum('debe');
+        $total_haber = DB::table('cuentas_contables as cc')
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->sum('haber');
+
+        return view('carritos.cuentas_contables.balance', ['data'=>$data, 'total_debe'=>$total_debe,
+                                                           'total_haber'=>$total_haber]);
 
     }
     public function store(Request $request){

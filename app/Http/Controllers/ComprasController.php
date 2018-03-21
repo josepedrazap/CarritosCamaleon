@@ -2,18 +2,21 @@
 
 namespace CamaleonERP\Http\Controllers;
 
+use Illuminate\Support\Facades\Redirect;
+
 use Illuminate\Http\Request;
-use CamaleonERP\Facturas_ventas;
-use CamaleonERP\Cuentas_mov_facturas;
+use CamaleonERP\Documento_financiero;
+use CamaleonERP\Cuentas_movimientos;
 use DB;
 
 class ComprasController extends Controller
 {
     public function index(){
-        $facturas = DB::table('facturas_ventas as fv')
-        ->join('proveedores as prov', 'prov.id', '=', 'fv.id_proveedor')
-        ->select('fv.id', 'tipo_documento', 'fv.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
-        ->groupBy('fv.id', 'tipo_documento', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
+        $facturas = DB::table('documento_financiero as df')
+        ->where('tipo_dato', '=', 'factura_compra')
+        ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
+        ->select('df.id', 'tipo_documento', 'df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
+        ->groupBy('df.id', 'tipo_documento', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->orderBy('id','desc')
         ->paginate(7);
         return View('carritos.compras.index', ["facturas"=>$facturas]);
@@ -28,20 +31,20 @@ class ComprasController extends Controller
     }
 
     public function show($id){
-      $factura = DB::table('facturas_ventas as fv')
-      ->join('proveedores as prov', 'prov.id', '=', 'fv.id_proveedor')
-      ->where('fv.id', '=', $id)
+      $factura = DB::table('documento_financiero as df')
+      ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
+      ->where('df.id', '=', $id)
       ->get();
-      $cuentas = DB::table('cuentas_mov_facturas as cmf')
-      ->join('cuentas_contables as cc', 'cc.id', '=', 'cmf.id_cuenta')
-      ->where('cmf.id_factura', '=', $id)
+      $cuentas = DB::table('cuentas_movimientos as cm')
+      ->join('cuentas_contables as cc', 'cc.id', '=', 'cm.id_cuenta')
+      ->where('cm.id_documento', '=', $id)
       ->get();
       return View('carritos.compras.ver', ["factura"=>$factura, "cuentas"=>$cuentas, "id"=>$id]);
     }
 
     public function store(Request $request){
       try{
-        $id_proveedor = $request->get('id_proveedor');
+        $id_tercero = $request->get('id_proveedor');
         $tipo_documento = $request->get('tipo_documento');
         $numero_documento = $request->get('numero_documento');
         $fecha_documento = $request->get('fecha_documento');
@@ -54,8 +57,10 @@ class ComprasController extends Controller
         $haber_cuenta = $request->get('haber_cuenta');
         $glosa_cuenta = $request->get('glosa_cuenta');
 
-        $fact_temp = new Facturas_ventas;
-        $fact_temp->id_proveedor = $id_proveedor;
+        $fact_temp = new Documento_financiero;
+        $fact_temp->id_tercero = $id_tercero;
+        $fact_temp->tipo_tercero = 'prov';
+        $fact_temp->tipo_dato = 'factura_compra';
         $fact_temp->tipo_documento = $tipo_documento;
         $fact_temp->numero_documento = $numero_documento;
         $fact_temp->fecha_documento = $fecha_documento;
@@ -67,9 +72,9 @@ class ComprasController extends Controller
         $cont = 0;
         while($cont < count($id_cuenta)){
 
-          $cmf_temp = new Cuentas_mov_facturas;
+          $cmf_temp = new Cuentas_movimientos;
           $cmf_temp->id_cuenta = $id_cuenta[$cont];
-          $cmf_temp->id_factura = $fact_temp->id;
+          $cmf_temp->id_documento = $fact_temp->id;
           if($debe_cuenta[$cont] != ''){
                 $cmf_temp->debe =  $debe_cuenta[$cont];
           }else{

@@ -4,20 +4,22 @@ namespace CamaleonERP;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Facturas_ventas extends Model
+class Documento_financiero extends Model
 {
-  protected $table = 'facturas_ventas';
+  protected $table = 'documento_financiero';
   protected $primaryKey = 'id';
   public $timestamp = 'false';
 
   protected $fillable = [
-    'id_proveedor',
+    'id_tercero',
     'tipo_documento',
     'numero_documento',
     'fecha_documento',
+    'tipo_dato',
     'monto_neto',
     'iva',
-    'total'
+    'total',
+    'tipo_tercero',
   ];
 
   protected $guarded = [
