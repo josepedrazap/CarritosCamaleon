@@ -182,6 +182,7 @@
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+                <li><a href="/carritos/cuentas_contables"><i class="far fa-circle"></i> Cuentas</a></li>
                 <li><a href=""><i class="far fa-circle"></i> Boletas y facturas</a></li>
                 <li><a href="/carritos/pagos"><i class="far fa-circle"></i> Pagos pendientes</a></li>
                 <li><a href="/carritos/cuentas_contables/balance?año=1"><i class="far fa-circle"></i> Resumen y balance</a></li>
