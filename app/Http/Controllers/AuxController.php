@@ -27,19 +27,39 @@ class AuxController extends Controller{
       return view('carritos.aux_views.index', ["data"=>$data]);
     }
 
-    function store(UserFormRequest $request){
+    public function cambiar_contraseña(){
+      return view('carritos.aux_views.cambiar_contraseña');
+    }
 
-      try{
-        $user = new User;
-        $user->name = $request->get('name');
-        $user->password = bcrypt($request->get('password'));
-        $user->email = $request->get('email');
-        $user->nivel = $request->get('nivel');
-        $user->save();
-        return view('carritos.aux_views.succes', ["resultado" => 1, "user"=>$user]);
-      }catch(Exception $e){
-        return view('carritos.aux_views.succes', ["resultado" => 0]);
+    function store(UserFormRequest $request){
+      return view('carritos.aux_views.succes', ["resultado" => 0]);
+
+      if($request->get('reset') == 1){
+        try{
+          $user = User::findOrFail($request->get('id'));
+          $user->password = bcrypt($request->get('password'));
+          $user->update();
+          DB::commit();
+          return view('carritos.aux_views.succes', ["resultado" => 1, "user"=>$user]);
+
+        }catch(Exception $e){
+          return view('carritos.aux_views.succes', ["resultado" => 0]);
+        }
+      }else{
+        try{
+          $user = new User;
+          $user->name = $request->get('name');
+          $user->password = bcrypt($request->get('password'));
+          $user->email = $request->get('email');
+          $user->nivel = $request->get('nivel');
+          $user->save();
+          return view('carritos.aux_views.succes', ["resultado" => 1, "user"=>$user]);
+          DB::commit();
+        }catch(Exception $e){
+          return view('carritos.aux_views.succes', ["resultado" => 0]);
+        }
       }
+
 
     }
 }

@@ -181,27 +181,8 @@ class DespachoController extends Controller
                 $ete_temp->update();
                 $cont++;
               }
+              
         }
-        //descuento del inventario si el ingrediente es inventareable
-        $ingredientes=DB::table('productos as prod')
-        ->join('productos_tienen_ingredientes as pti', 'prod.id', '=', 'pti.id_producto')
-        ->join('ingredientes as ingr', 'pti.id_ingrediente', '=', 'ingr.id')
-        ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
-        ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
-        ->where('etp.id_evento', '=', $id)
-        ->where('ingr.inventareable', '=', 1) //inventareable?
-        ->select('ingr.id as id_ingr', 'inv.id as id_inv', DB::raw('sum(porcion*etp.cantidad) as sum'))
-        ->groupBy('id_ingr', 'id_inv')
-        ->get();
-
-        $cont = 0;
-        while($cont < count($ingredientes)){
-          $inv_temp = Inventario::findOrFail($ingredientes[$cont]->id_inv);
-          $inv_temp->cantidad = $inv_temp->cantidad - $ingredientes[$cont]->sum;
-          $inv_temp->update();
-          $cont++;
-        }
-
         DB::commit();
 
       }catch(Exception $e){

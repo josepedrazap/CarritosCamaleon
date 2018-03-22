@@ -34,6 +34,7 @@
             @endif
             <td>
                 <a href="/carritos/eventos/{{$eve->id}}"><button class="btn btn-info">ver</button></a>
+                <a href="/carritos/utilidad_costos/aprobar_2/{{$eve->id}}"><button class="btn btn-info">ver valores</button></a>
                 <a href="" data-target="#modal-delete-{{$eve->id}}" data-toggle="modal"><button class="btn btn-danger">Borrar</button></a>
             </td>
           </tr>

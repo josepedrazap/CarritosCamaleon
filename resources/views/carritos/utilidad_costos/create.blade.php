@@ -12,7 +12,7 @@ var haber_sum = 0;
     if(z == 1){
         sv = "#precio_bruto_" + i;
         v1 = $(sv).val();
-        sv = "#sum_" + i;
+        sv = "#cant_usada_" + i;
         v2 = $(sv).val();
         sv = "costo_ingr_" + i;
         document.getElementById(sv).value = v1 * v2;
@@ -46,6 +46,7 @@ var haber_sum = 0;
 {!!Form::open(array('url'=>'carritos/utilidad_costos','method'=>'POST','autocomplete'=>'off'))!!}
 {{Form::Token()}}
 
+<input name="id_evento_" value="{{$id}}" class="hidden"/>
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
     <h3>Costos del evento</h3>
@@ -71,9 +72,9 @@ var haber_sum = 0;
             <tr>
               <td>{{$ingr->nombre}}</td>
               @if($ingr->unidad == 'gramos')
-              <td>{{round($ingr->sum/1000,1)}} Kg</td>
+              <th><input value="{{round($ingr->sum/1000,1)}}" class="form-control" name="cantidad_usada[]" id="cant_usada_{{$i}}" onkeyup="calc({{$i}}, 1)"/></th>
               @else
-              <td>{{round($ingr->sum)}} {{$ingr->unidad}}</td>
+              <th><input value="{{round($ingr->sum)}}" class="form-control" name="cantidad_usada[]" id="cant_usada_{{$i}}" onkeyup="calc({{$i}}, 1)"/></th>
               @endif
               <td>{{$ingr->uni_inv}}</td>
 

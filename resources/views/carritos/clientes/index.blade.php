@@ -15,7 +15,6 @@
             <th>Nombre y apellido</th>
             <th>Rut</th>
             <th>Contacto</th>
-            <th>Eventos</th>
             <th>E-mail</th>
             <th>Opciones</th>
           </thead>
@@ -24,11 +23,8 @@
             <td>{{$cli->nombre}} {{$cli->apellido}}</td>
             <td>{{$cli->rut}}</td>
             <td>{{$cli->contacto}}</td>
-            <td>num#</td>
             <td>{{$cli->mail}}</td>
             <td>
-              <a href=""><button class="btn btn-info">Editar</button></a>
-              <a href=""><button class="btn btn-info">Ver eventos</button></a>
               <a href="" data-target="#modal-delete-{{$cli->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
             </td>
           </tr>

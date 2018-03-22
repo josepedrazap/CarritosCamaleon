@@ -286,8 +286,10 @@ class EventosController extends Controller
     ->where('condicion', '=', '1')
     ->get();
     $ingredientes=DB::table('ingredientes')->get();
+    $extras=DB::table('selects_valores as sv')->where('sv.familia', '=', 'extras')->get();
+
     $clientes=DB::table('clientes')->get();
-    return view('carritos.eventos.cotizacion', ["productos"=>$productos, "ingredientes"=>$ingredientes, "clientes"=>$clientes]);
+    return view('carritos.eventos.cotizacion', ["productos"=>$productos, "extras"=>$extras, "ingredientes"=>$ingredientes, "clientes"=>$clientes]);
   }
 
   function destroy($id){

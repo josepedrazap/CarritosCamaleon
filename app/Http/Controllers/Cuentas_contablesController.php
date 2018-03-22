@@ -13,7 +13,12 @@ use Carbon\Carbon;
 
 
 class Cuentas_contablesController extends Controller
+
 {
+  public function __construct(){
+    $this->middleware('auth');
+    $this->middleware('admin');
+  }
     public function index(Request $request){
 
       //$query=trim($request->get('searchText'));

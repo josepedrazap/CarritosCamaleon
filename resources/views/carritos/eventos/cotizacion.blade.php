@@ -93,9 +93,9 @@ function addExtras(){
 
 }
 function llenar_select_extras(e, sv){
-  @foreach($ingredientes as $ing)
-    id = "{{$ing->id}}";
-    aux = "{{$ing->nombre}}";
+  @foreach($extras as $ext)
+    id = "{{$ext->id}}";
+    aux = "{{$ext->valor}}";
     $(sv).append('<option value="'+id+'">'+aux+'</option>');
   @endforeach
 }
@@ -177,6 +177,12 @@ function llenar_select_extras(e, sv){
         <div class="form-group">
           <label for="fecha_despacho">Hora despacho</label>
           <input type="datetime-local" name="fecha_despacho" class="form-control" placeholder="hora..." required>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="form-group">
+          <label for="comentarios">Descripción</label>
+          <textarea name="descripcion" class="form-control" rows="6" required placeholder="Descripción del gasto"></textarea>
         </div>
       </div>
     </div>

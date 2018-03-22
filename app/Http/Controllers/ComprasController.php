@@ -11,6 +11,10 @@ use DB;
 
 class ComprasController extends Controller
 {
+  public function __construct(){
+    $this->middleware('auth');
+    $this->middleware('admin');
+  }
     public function index(){
         $facturas = DB::table('documento_financiero as df')
         ->where('tipo_dato', '=', 'compra')

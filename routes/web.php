@@ -30,6 +30,8 @@ Route::get('/', function () {
   Route::get('carritos/ingredientes/cambiar_precio', 'IngredientesController@cambiar_precio');
 
   Route::get('registrar', 'AuxController@registrar');
+  Route::get('cambiar_contraseña', 'AuxController@cambiar_contraseña');
+
   //RUTAS DE PDF
 
 

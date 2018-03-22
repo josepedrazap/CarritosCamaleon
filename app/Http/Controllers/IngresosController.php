@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class IngresosController extends Controller
 {
-
+  public function __construct(){
+    $this->middleware('auth');
+    $this->middleware('admin');
+  }
       public function index(Request $request){
 
         if($request){
@@ -56,7 +59,7 @@ class IngresosController extends Controller
                                                  "cuentas"=>$cuentas, "id"=>$id]);
 
       }
-    
+
       public function store(Request $request){
         try{
           $id_evento_ = $request->get('id_evento_');
