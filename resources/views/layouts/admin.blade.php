@@ -150,7 +150,7 @@
             </li>
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-boxes"></i>
+                <i class="fa fa-dolly"></i>
                 <span>Compras y gastos</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
