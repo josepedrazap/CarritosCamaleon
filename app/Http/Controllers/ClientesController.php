@@ -24,8 +24,6 @@ class ClientesController extends Controller
       //->join('eventos as eve', 'eve.id_cliente', '=', 'cli.id')
       ->where('cli.nombre','LIKE','%'.$query.'%')
       ->orwhere('cli.apellido','LIKE','%'.$query.'%')
-      ->select('cli.id','cli.nombre', 'cli.apellido', 'cli.contacto', 'cli.mail')
-      ->groupBy('cli.id', 'cli.nombre', 'cli.apellido', 'cli.contacto', 'cli.mail')
       ->orderBy('cli.id','desc')
       ->paginate(7);
 
@@ -41,6 +39,7 @@ class ClientesController extends Controller
         $cliente->nombre = $request->get('nombre');
         $cliente->apellido = $request->get('apellido');
         $cliente->mail = $request->get('email');
+        $cliente->rut = $request->get('rut');
         $cliente->contacto = $request->get('contacto');
         $cliente->save();
     }catch(Exception $e){

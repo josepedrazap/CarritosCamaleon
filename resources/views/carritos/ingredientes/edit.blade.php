@@ -24,6 +24,8 @@ function calc(){
     @endif
   </div>
 </div>
+{!! Form::open(array('url'=>'carritos/ingredientes/cambiar_precio', 'method'=>'GET', 'autocomplete'=>'off', 'role'=>'search'))!!}
+    <input class="hidden" name="id" value="{{$id}}"/>
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
@@ -74,6 +76,7 @@ function calc(){
       </div>
     </div>
 
+{{Form::close()}}
 
 
 @endsection

@@ -23,14 +23,19 @@ Route::get('/', function () {
   Route::get('carritos/pagos/vertodos/{id}',  'PagosController@vertodos');
   Route::get('carritos/utilidad_costos/aprobar/{id}',  'Utilidad_costosController@aprobar');
   Route::get('carritos/utilidad_costos/aprobar_2/{id}',  'Utilidad_costosController@aprobar_2');
-
+  Route::get('carritos/ingresos/mostrar_ingresos', 'IngresosController@mostrar_ingresos');
   Route::get('carritos/utilidad_costos/eventos_aprobados',  'Utilidad_costosController@index_2');
   Route::get('carritos/utilidad_costos/ingresos',  'Utilidad_costosController@ingresos');
 
+  Route::get('carritos/ingredientes/cambiar_precio', 'IngredientesController@cambiar_precio');
+
   Route::get('registrar', 'AuxController@registrar');
   //RUTAS DE PDF
+
+
   Route::get('carritos/pdf/despacho_checklist/{id}','PDFController@despacho_checklist');
   Route::get('carritos/pdf/balance/{date_1}/{date_2}','PDFController@balance_pdf');
+  Route::get('carritos/pdf/balance_8_cols','PDFController@balance_8_cols');
 
   Route::get('carritos/eventos/cotizacion', 'EventosController@cotizacion');
   Route::get('carritos/gastos/resumen', 'GastosController@resumen');
@@ -56,6 +61,7 @@ Route::get('/', function () {
   Route::resource('registro', 'AuxController');
   Route::resource('carritos/utilidad_costos', 'Utilidad_costosController');
   Route::resource('carritos/cuentas_contables', 'Cuentas_contablesController');
+  Route::resource('carritos/ingresos', 'IngresosController');
 
 
   Auth::routes();

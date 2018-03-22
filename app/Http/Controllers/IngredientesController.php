@@ -32,6 +32,15 @@ class IngredientesController extends Controller
     public function create(){
       return view('carritos.ingredientes.create');
     }
+    public function cambiar_precio(Request $request){
+      $id = $request->get('id');
+      $ing_tmp = Ingredientes::findOrFail($id);
+      $ing_tmp->precio_bruto = $request->get('precio_bruto');
+      $ing_tmp->precio_liquido = $request->get('precio_liquido');
+      $ing_tmp->update();
+      return Redirect::to("carritos/ingredientes");
+
+    }
 
     function store(Request $request){
 
@@ -71,7 +80,7 @@ class IngredientesController extends Controller
       return view("carritos.ingredientes.show", ["ingrediente"=>Ingredientes::findOrFail($id)]);
     }
     function edit($id){
-      return view("carritos.ingredientes.edit", ["ingrediente"=>Ingredientes::findOrFail($id)]);
+      return view("carritos.ingredientes.edit", ["ingrediente"=>Ingredientes::findOrFail($id), "id"=>$id]);
     }
     function update(Request $request, $id){
       $ingrediente = Ingredientes::findOrFail($id);

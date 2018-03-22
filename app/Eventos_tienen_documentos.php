@@ -4,18 +4,15 @@ namespace CamaleonERP;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Gastos extends Model
+class Eventos_tienen_documentos extends Model
 {
-  protected $table = 'gastos';
+  protected $table = 'Eventos_tienen_documentos';
   protected $primaryKey = 'id';
   public $timestamp = 'false';
 
   protected $fillable = [
-    'descripcion',
-    'fecha',
-    'condicion',
-    'pagador',
-    'id_documento'
+    'id_evento',
+    'id_documento',
   ];
 
   protected $guarded = [

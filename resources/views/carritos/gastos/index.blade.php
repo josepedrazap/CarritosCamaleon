@@ -12,7 +12,7 @@
         <table class="table table-striped table-bordered table-condensed table-hover">
           <tr style="background-color:#ABEBC6">
             <th>Fecha</th>
-            <th>Tipo</th>
+
             <th>Monto</th>
             <th>Iva</th>
             <th>Monto final</th>
@@ -22,10 +22,10 @@
           @foreach($data as $dat)
           <tr>
             <td>{{$dat->fecha}}</td>
-            <td>{{$dat->tipo}}</td>
-            <td>$ {{$dat->monto_gasto}}</td>
+          
+            <td>$ {{$dat->monto_neto}}</td>
             <td>$ {{$dat->iva}}</td>
-            <td>$ {{$dat->valor_real}}</td>
+            <td>$ {{$dat->total}}</td>
             @if($dat->pagador == 'Empresa')
             <th style="color:blue">{{$dat->pagador}}</th>
             @else

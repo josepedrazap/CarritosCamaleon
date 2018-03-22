@@ -39,7 +39,14 @@
           <input type="text" name="apellido" class="form-control" placeholder="apellido..." required>
         </div>
       </div>
-
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <div class="form-group">
+          <label for="rut">Rut</label>
+          <input type="rut" name="rut" class="form-control" placeholder="rut..." required>
+        </div>
+      </div>
+    </div>
+      <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
         <label for="telefono">Teléfono</label>
         <div class="input-group">
@@ -53,6 +60,8 @@
           <input type="email" name="email" class="form-control" placeholder="e-mail..." required>
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="comentarios">Comentarios</label>

@@ -13,7 +13,7 @@ class ComprasController extends Controller
 {
     public function index(){
         $facturas = DB::table('documento_financiero as df')
-        ->where('tipo_dato', '=', 'factura_compra')
+        ->where('tipo_dato', '=', 'compra')
         ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
         ->select('df.id', 'tipo_documento', 'df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->groupBy('df.id', 'tipo_documento', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
@@ -60,7 +60,7 @@ class ComprasController extends Controller
         $fact_temp = new Documento_financiero;
         $fact_temp->id_tercero = $id_tercero;
         $fact_temp->tipo_tercero = 'prov';
-        $fact_temp->tipo_dato = 'factura_compra';
+        $fact_temp->tipo_dato = 'compra';
         $fact_temp->tipo_documento = $tipo_documento;
         $fact_temp->numero_documento = $numero_documento;
         $fact_temp->fecha_documento = $fecha_documento;

@@ -46,22 +46,46 @@ class Cuentas_contablesController extends Controller
       return view('carritos.cuentas_contables.create', ["tipos"=>$tipos, "prefijos"=>$prefijos]);
     }
 
-    public function balance (){
+    public function balance (Request $request){
+
+      $mes = $request->get('mes');
+      $año = $request->get('año');
+
+      if($año == 0){
+        return view('carritos.gastos.error');
+      }else if($mes == 0){
+        $date_1 = Carbon::create($año, 1, 1);
+        $date_2 = Carbon::create($año, 1, 1);
+        $date_2->addYear(1);
+        $date_1 = $date_1->format('Y-m-d');
+        $date_2 = $date_2->format('Y-m-d');
+      }else{
+        $date_1 = Carbon::create($año, $mes, 1);
+        $date_2 = Carbon::create($año, $mes, 1);
+        $date_2->addMonth();
+        $date_1 = $date_1->format('Y-m-d');
+        $date_2 = $date_2->format('Y-m-d');
+      }
+
         $data = DB::table('cuentas_contables as cc')
         ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
         ->select('nombre_cuenta', 'tipo', DB::raw('sum(debe) as debe'), DB::raw('sum(haber) as haber'))
         ->groupBy('nombre_cuenta', 'tipo')
+        ->orderBy('num_prefijo_abs', 'asc')
         ->get();
 
         $total_debe = DB::table('cuentas_contables as cc')
         ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
         ->sum('debe');
         $total_haber = DB::table('cuentas_contables as cc')
         ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
         ->sum('haber');
 
         return view('carritos.cuentas_contables.balance', ['data'=>$data, 'total_debe'=>$total_debe,
-                                                           'total_haber'=>$total_haber]);
+                                                           'total_haber'=>$total_haber, "date_1"=>$date_1, "date_2"=>$date_2]);
 
     }
     public function store(Request $request){

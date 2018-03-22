@@ -13,6 +13,7 @@
         <table class="table table-striped table-bordered table-condensed table-hover">
           <thead style="background-color:#ABEBC6">
             <th>Nombre y apellido</th>
+            <th>Rut</th>
             <th>Contacto</th>
             <th>Eventos</th>
             <th>E-mail</th>
@@ -21,6 +22,7 @@
           @foreach($clientes as $cli)
           <tr>
             <td>{{$cli->nombre}} {{$cli->apellido}}</td>
+            <td>{{$cli->rut}}</td>
             <td>{{$cli->contacto}}</td>
             <td>num#</td>
             <td>{{$cli->mail}}</td>

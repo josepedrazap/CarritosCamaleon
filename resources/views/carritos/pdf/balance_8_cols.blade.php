@@ -1,16 +1,8 @@
-@extends ('layouts.admin')
-@section('contenido')
+
   <div class="row">
     <div class="col-lg-9 col-md-9 col-sm-6">
-      <h3>Balance General correspondiente al período {{$date_1}} a {{$date_2}}</h3>
+      <h3>Balance General</h3>
     </div>
-  </div>
-  @include('carritos.cuentas_contables.search')
-
-  <div class="list-group">
-      <a href="/carritos/pdf/balance_8_cols" class="list-group-item list-group-item-success">
-        <strong>Presione aquí para obtener el balance en PDF</strong>
-      </a>
   </div>
   <?php
       $total_debe_2 = 0;
@@ -142,4 +134,3 @@
       </div>
     </div>
   </div>
-@endsection

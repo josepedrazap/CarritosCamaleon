@@ -31,7 +31,6 @@
             @endif
             <td></td>
             <td>
-              <a href="/carritos/productos/"><button class="btn btn-info">Editar</button></a>
               <a href="/carritos/pagos/vertodos/{{$tra->id}}"><button class="btn btn-info">Ver pagos</button></a>
               <a href="" data-target="#modal-delete-{{$tra->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
             </td>

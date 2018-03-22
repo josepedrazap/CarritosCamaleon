@@ -27,6 +27,28 @@ class PDFController extends Controller
 
       return $pdf->stream('reporte');
     }
+    public function balance_8_cols(){
+      $data = DB::table('cuentas_contables as cc')
+      ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+      ->select('nombre_cuenta', 'tipo', DB::raw('sum(debe) as debe'), DB::raw('sum(haber) as haber'))
+      ->groupBy('nombre_cuenta', 'tipo')
+      ->orderBy('num_prefijo_abs', 'asc')
+      ->get();
+
+      $total_debe = DB::table('cuentas_contables as cc')
+      ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+      ->sum('debe');
+      $total_haber = DB::table('cuentas_contables as cc')
+      ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+      ->sum('haber');
+
+      $v = 'carritos.pdf.balance_8_cols';
+      $view = \View::make($v, compact('data', 'total_debe', 'total_haber'))->render();
+      $pdf = \App::make('dompdf.wrapper');
+      $pdf->loadHTML($view);
+
+      return $pdf->stream('balance_general');
+    }
     public function balance_pdf($date_1, $date_2){
 
       $gastos_totales = DB::table('gastos') //suma gastos totales brutos
