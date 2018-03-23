@@ -32,6 +32,18 @@ class IngresosController extends Controller
           return view('carritos.ingresos.index', ["data"=>$data]);
         }
       }
+      public function show_2($id){
+        $factura = DB::table('documento_financiero as df')
+      
+        ->where('df.id', '=', $id)
+        ->get();
+        $cuentas = DB::table('cuentas_movimientos as cm')
+        ->join('cuentas_contables as cc', 'cc.id', '=', 'cm.id_cuenta')
+        ->where('cm.id_documento', '=', $id)
+        ->get();
+        return View('carritos.ingresos.ver', ["factura"=>$factura, "cuentas"=>$cuentas, "id"=>$id]);
+      }
+
       public function mostrar_ingresos(){
         $data=DB::table('documento_financiero as df')
         ->where('df.tipo_dato', '=', 'venta')
@@ -40,8 +52,8 @@ class IngresosController extends Controller
         ->join('clientes as cli', 'cli.id', '=', 'df.id_tercero')
         ->join('Eventos_tienen_documentos as etd', 'etd.id_documento', '=', 'df.id')
         ->join('Eventos as eve', 'eve.id', '=', 'etd.id_evento')
-        ->select('numero_documento', 'eve.id','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
-        ->groupBy('numero_documento', 'eve.id','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
+        ->select('numero_documento', 'df.id as id_doc','eve.id as id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
+        ->groupBy('numero_documento', 'id_doc', 'id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
         ->get();
 
         return view('carritos.ingresos.mostrar_ingresos', ["data"=>$data]);

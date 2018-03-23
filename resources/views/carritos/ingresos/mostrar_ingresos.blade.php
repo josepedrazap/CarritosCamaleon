@@ -25,7 +25,7 @@
           </thead>
           @foreach($data as $dat)
           <tr>
-            <td># {{$dat->id}}</td>
+            <td># {{$dat->id_eve}}</td>
             <td>{{$dat->fecha_documento}}</td>
             <td>{{$dat->numero_documento}}</td>
             <td>{{$dat->tipo_documento}}</td>
@@ -34,6 +34,7 @@
             <th>$ {{$dat->iva}}</th>
             <th>$ {{$dat->total}}</th>
             <th>
+              <a href="/carritos/ingresos/show_2/{{$dat->id_doc}}"><button class="btn btn-info">Ver</button></a>
               <div class="btn-group">
                   <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Información <span class="caret"></span>

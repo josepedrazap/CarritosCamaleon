@@ -27,23 +27,27 @@ class PDFController extends Controller
 
       return $pdf->stream('reporte');
     }
-    public function balance_8_cols(){
-      $data = DB::table('cuentas_contables as cc')
-      ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
-      ->select('nombre_cuenta', 'tipo', DB::raw('sum(debe) as debe'), DB::raw('sum(haber) as haber'))
-      ->groupBy('nombre_cuenta', 'tipo')
-      ->orderBy('num_prefijo_abs', 'asc')
-      ->get();
+    public function balance_8_cols($date_1, $date_2){
 
-      $total_debe = DB::table('cuentas_contables as cc')
-      ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
-      ->sum('debe');
-      $total_haber = DB::table('cuentas_contables as cc')
-      ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
-      ->sum('haber');
+        $data = DB::table('cuentas_contables as cc')
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
+        ->select('nombre_cuenta', 'tipo', DB::raw('sum(debe) as debe'), DB::raw('sum(haber) as haber'))
+        ->groupBy('nombre_cuenta', 'tipo')
+        ->orderBy('num_prefijo_abs', 'asc')
+        ->get();
+
+        $total_debe = DB::table('cuentas_contables as cc')
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
+        ->sum('debe');
+        $total_haber = DB::table('cuentas_contables as cc')
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
+        ->sum('haber');
 
       $v = 'carritos.pdf.balance_8_cols';
-      $view = \View::make($v, compact('data', 'total_debe', 'total_haber'))->render();
+      $view = \View::make($v, compact('data', 'total_debe', 'total_haber', 'date_1', 'date_2'))->render();
       $pdf = \App::make('dompdf.wrapper');
       $pdf->loadHTML($view);
 

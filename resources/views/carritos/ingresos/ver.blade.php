@@ -3,7 +3,7 @@
 @section('contenido')
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
-      <h3>Facturas de compra número {{$factura[0]->numero_documento}}</h3>
+      <h3>Ingresos documento #{{$factura[0]->numero_documento}}</h3>
     </div>
   </div>
   <hr></hr>

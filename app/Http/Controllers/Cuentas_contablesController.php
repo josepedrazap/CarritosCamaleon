@@ -57,7 +57,7 @@ class Cuentas_contablesController extends Controller
       $año = $request->get('año');
 
       if($año == 0){
-        return view('carritos.gastos.error');
+        return view('carritos.cuentas_contables.error');
       }else if($mes == 0){
         $date_1 = Carbon::create($año, 1, 1);
         $date_2 = Carbon::create($año, 1, 1);

@@ -24,6 +24,8 @@ Route::get('/', function () {
   Route::get('carritos/utilidad_costos/aprobar/{id}',  'Utilidad_costosController@aprobar');
   Route::get('carritos/utilidad_costos/aprobar_2/{id}',  'Utilidad_costosController@aprobar_2');
   Route::get('carritos/ingresos/mostrar_ingresos', 'IngresosController@mostrar_ingresos');
+  Route::get('carritos/ingresos/show_2/{id}', 'IngresosController@show_2');
+
   Route::get('carritos/utilidad_costos/eventos_aprobados',  'Utilidad_costosController@index_2');
   Route::get('carritos/utilidad_costos/ingresos',  'Utilidad_costosController@ingresos');
 
@@ -37,7 +39,7 @@ Route::get('/', function () {
 
   Route::get('carritos/pdf/despacho_checklist/{id}','PDFController@despacho_checklist');
   Route::get('carritos/pdf/balance/{date_1}/{date_2}','PDFController@balance_pdf');
-  Route::get('carritos/pdf/balance_8_cols','PDFController@balance_8_cols');
+  Route::get('carritos/pdf/balance_8_cols/{date_1}/{date_2}','PDFController@balance_8_cols');
 
   Route::get('carritos/eventos/cotizacion', 'EventosController@cotizacion');
   Route::get('carritos/gastos/resumen', 'GastosController@resumen');

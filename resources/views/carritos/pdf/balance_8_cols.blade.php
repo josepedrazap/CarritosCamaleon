@@ -1,10 +1,12 @@
 
   <div class="row">
     <div class="col-lg-9 col-md-9 col-sm-6">
-      <h3>Balance General</h3>
+        <h3>Balance General correspondiente al período {{$date_1}} a {{$date_2}}</h3>
     </div>
   </div>
   <?php
+      $total_debe_1 = 0;
+      $total_haber_1 = 0;
       $total_debe_2 = 0;
       $total_haber_2 = 0;
       $total_debe_3 = 0;
@@ -36,62 +38,66 @@
 
           @foreach($data as $dat)
           <tr>
-
             <td>{{$dat->nombre_cuenta}}</td>
-
-            <?php
-              $total = $dat->debe - $dat->haber;
-            ?>
-            @if($total > 0)
-              <td>{{$total}}</td>
-              <td>0</td>
-              <?php $total_debe_2 += $total; ?>
-            @elseif($total < 0)
-              <td>0</td>
-              <td>{{$total*(-1)}}</td>
-              <?php $total_haber_2 += $total*(-1); ?>
-            @else
-              <td>0</td>
-              <td>0</td>
-            @endif
-
-
             <td>{{$dat->debe}}</td>
             <td>{{$dat->haber}}</td>
-            @if($dat->tipo == 'ACTIVO' || $dat->tipo == 'PASIVO')
+
             <?php
-              $total = $dat->debe - $dat->haber;
+              $total_1 = $dat->debe - $dat->haber;
             ?>
-            @if($total > 0)
-              <td>{{$total}}</td>
-              <td>0</td>
-              <?php $total_debe_2 += $total; ?>
-            @elseif($total < 0)
-              <td>0</td>
-              <td>{{$total*(-1)}}</td>
-              <?php $total_haber_2 += $total*(-1); ?>
+            @if($total_1 > 0)
+              <td>{{$total_1}}</td>
+              <td></td>
+              <?php $total_debe_1 += $total_1; ?>
+            @elseif($total_1 < 0)
+              <td></td>
+              <td>{{$total_1*(-1)}}</td>
+              <?php $total_haber_1 += $total_1*(-1); ?>
             @else
               <td>0</td>
               <td>0</td>
-            @endif
             @endif
 
-            @if($dat->tipo == 'PERDIDA' || $dat->tipo == 'GANANCIA')
+            @if($dat->tipo == 'ACTIVO' || $dat->tipo == 'PASIVO')
             <?php
-              $total = $dat->debe - $dat->haber;
+              $total_2 = $dat->debe - $dat->haber;
             ?>
-            @if($total > 0)
-              <td>{{$total}}</td>
-              <td>0</td>
-              <?php $total_debe_3 += $total; ?>
-            @elseif($total < 0)
-              <td>0</td>
-              <td>{{$total*(-1)}}</td>
-              <?php $total_haber_2 += $total*(-1); ?>
+            @if($total_2 > 0)
+              <td>{{$total_2}}</td>
+              <td></td>
+              <?php $total_debe_2 += $total_2; ?>
+            @elseif($total_2 < 0)
+              <td></td>
+              <td>{{$total_2*(-1)}}</td>
+              <?php $total_haber_2 += $total_2*(-1); ?>
             @else
               <td>0</td>
               <td>0</td>
             @endif
+            @else
+            <td></td>
+            <td></td>
+            @endif
+
+            @if($dat->tipo == 'GANANCIA' || $dat->tipo == 'PERDIDA')
+            <?php
+              $total_3 = $dat->debe - $dat->haber;
+            ?>
+            @if($total_3 > 0)
+              <td>{{$total_3}}</td>
+              <td></td>
+              <?php $total_debe_3 += $total_3; ?>
+            @elseif($total_3 < 0)
+              <td></td>
+              <td>{{$total_3*(-1)}}</td>
+              <?php $total_haber_3 += $total_3*(-1); ?>
+            @else
+              <td>0</td>
+              <td>0</td>
+            @endif
+            @else
+            <td></td>
+            <td></td>
             @endif
 
           </tr>
@@ -101,8 +107,9 @@
             <th>Totales</th>
             <th>{{$total_debe}}</th>
             <th>{{$total_haber}}</th>
-            <th>{{$total_debe}}</th>
-            <th>{{$total_haber}}</th>
+            <th>{{$total_debe_1}}</th>
+            <th>{{$total_haber_1}}</th>
+
             <th>{{$total_debe_2}}</th>
             <th>{{$total_haber_2}}</th>
             <th>{{$total_debe_3}}</th>
@@ -123,12 +130,12 @@
           <th>Totales iguales</th>
           <th>{{$total_debe}}</th>
           <th>{{$total_haber}}</th>
-          <th>{{$total_debe}}</th>
-          <th>{{$total_haber}}</th>
+          <th>{{$total_debe_1}}</th>
+          <th>{{$total_haber_1}}</th>
           <th>{{$total_debe_2}}</th>
           <th>{{$total_debe_2}}</th>
           <th>{{$total_haber_3}}</th>
-          <th></th>
+          <th>{{$total_haber_3}}</th>
         </tr>
         </table>
       </div>
