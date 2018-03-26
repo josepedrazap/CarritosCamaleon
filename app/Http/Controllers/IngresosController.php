@@ -50,8 +50,8 @@ class IngresosController extends Controller
         //->join('cuentas_movimientos as cm', 'cm.id_documento', '=', 'df.id')
         //->join('cuentas_contables as cc', 'cc.id', '=', 'cm.id_cuenta')
         ->join('clientes as cli', 'cli.id', '=', 'df.id_tercero')
-        ->join('Eventos_tienen_documentos as etd', 'etd.id_documento', '=', 'df.id')
-        ->join('Eventos as eve', 'eve.id', '=', 'etd.id_evento')
+        ->join('eventos_tienen_documentos as etd', 'etd.id_documento', '=', 'df.id')
+        ->join('eventos as eve', 'eve.id', '=', 'etd.id_evento')
         ->select('numero_documento', 'df.id as id_doc','eve.id as id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
         ->groupBy('numero_documento', 'id_doc', 'id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
         ->get();

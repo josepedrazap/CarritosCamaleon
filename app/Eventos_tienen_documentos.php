@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Eventos_tienen_documentos extends Model
 {
-  protected $table = 'Eventos_tienen_documentos';
+  protected $table = 'eventos_tienen_documentos';
   protected $primaryKey = 'id';
   public $timestamp = 'false';
 
