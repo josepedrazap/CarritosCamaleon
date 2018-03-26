@@ -28,6 +28,7 @@ class MercaderiaProxEventosController extends Controller
       ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
       ->whereBetween('eve.fecha_hora', array($date_1, $date_2))
       ->where('eve.condicion', '=', '2')
+      ->where('eve.aprobado', '=', '0')
       ->select('ingr.nombre as nombre', 'ingr.inventareable as inventareable', 'inv.cantidad as stock', 'pti.unidad as unidad', DB::raw('sum(porcion*etp.cantidad) as sum'))
       ->groupBy('nombre', 'unidad', 'inventareable', 'stock')
       ->orderBy('ingr.inventareable', 'desc')
