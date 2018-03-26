@@ -182,7 +182,7 @@ function llenar_select_extras(e, sv){
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="comentarios">Descripción</label>
-          <textarea name="descripcion" class="form-control" rows="6" required placeholder="Descripción del gasto"></textarea>
+          <textarea name="descripcion" class="form-control" rows="6" required placeholder="Descripción del evento"></textarea>
         </div>
       </div>
 

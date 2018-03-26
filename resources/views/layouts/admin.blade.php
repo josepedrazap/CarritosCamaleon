@@ -156,8 +156,6 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/carritos/compras/create"><i class="far fa-circle"></i> Realizar compra</a></li>
-                <li><a href="/carritos/compras"><i class="far fa-circle"></i> Ver compras</a></li>
-                <li><a href="/carritos/gastos?año=1"><i class="far fa-circle"></i> Ver gastos</a></li>
                 <li><a href="/carritos/gastos/create"><i class="far fa-circle"></i> Ingresar gasto</a></li>
               </ul>
             </li>
@@ -170,7 +168,6 @@
               <ul class="treeview-menu">
                 <li><a href="/carritos/utilidad_costos"><i class="far fa-circle"></i> Aprobar eventos pendientes</a></li>
                 <li><a href="/carritos/utilidad_costos/eventos_aprobados"><i class="far fa-circle"></i> Cifras eventos aprobados</a></li>
-                <li><a href="/carritos/ingresos/mostrar_ingresos"><i class="far fa-circle"></i> Ver ingresos</a></li>
                 <li><a href="/carritos/ingresos"><i class="far fa-circle"></i> Facturar eventos aprobados</a></li>
 
               </ul>
@@ -183,7 +180,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/carritos/cuentas_contables"><i class="far fa-circle"></i> Cuentas</a></li>
-                <li><a href=""><i class="far fa-circle"></i> Boletas y facturas</a></li>
+                <li><a href="/carritos/libros_contables"><i class="far fa-circle"></i> Libros Contables</a></li>
                 <li><a href="/carritos/pagos"><i class="far fa-circle"></i> Pagos pendientes</a></li>
                 <li><a href="/carritos/cuentas_contables/balance?año=1"><i class="far fa-circle"></i> Resumen y balance</a></li>
               </ul>

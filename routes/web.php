@@ -33,6 +33,10 @@ Route::get('/', function () {
 
   Route::get('carritos/libros_contables/libro_diario', 'LibrosContablesController@LibroDiario');
   Route::get('carritos/libros_contables/libro_mayor', 'LibrosContablesController@LibroMayor');
+  Route::get('carritos/libros_contables/libro_compras', 'LibrosContablesController@LibroCompras');
+  Route::get('carritos/libros_contables/libro_ventas', 'LibrosContablesController@LibroVentas');
+
+  Route::get('carritos/libros_contables', 'LibrosContablesController@index');
 
   Route::get('registrar', 'AuxController@registrar');
   Route::get('cambiar_contraseña', 'AuxController@cambiar_contraseña');

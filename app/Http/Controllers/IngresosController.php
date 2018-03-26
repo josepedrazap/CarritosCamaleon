@@ -34,7 +34,7 @@ class IngresosController extends Controller
       }
       public function show_2($id){
         $factura = DB::table('documento_financiero as df')
-      
+
         ->where('df.id', '=', $id)
         ->get();
         $cuentas = DB::table('cuentas_movimientos as cm')
@@ -54,6 +54,7 @@ class IngresosController extends Controller
         ->join('eventos as eve', 'eve.id', '=', 'etd.id_evento')
         ->select('numero_documento', 'df.id as id_doc','eve.id as id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
         ->groupBy('numero_documento', 'id_doc', 'id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
+        ->orderBy('id_doc', 'asc')
         ->get();
 
         return view('carritos.ingresos.mostrar_ingresos', ["data"=>$data]);

@@ -2,7 +2,7 @@
 @section('contenido')
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
-      <h3>Ingresos por eventos</h3>
+      <h3>Libro de Ventas</h3>
 
     </div>
   </div>
