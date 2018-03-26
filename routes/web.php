@@ -32,6 +32,7 @@ Route::get('/', function () {
   Route::get('carritos/ingredientes/cambiar_precio', 'IngredientesController@cambiar_precio');
 
   Route::get('carritos/libros_contables/libro_diario', 'LibrosContablesController@LibroDiario');
+  Route::get('carritos/libros_contables/libro_mayor', 'LibrosContablesController@LibroMayor');
 
   Route::get('registrar', 'AuxController@registrar');
   Route::get('cambiar_contraseña', 'AuxController@cambiar_contraseña');
