@@ -1,22 +1,4 @@
-@extends ('layouts.admin')
-@section('contenido')
-  <div class="row">
-    <div class="col-lg-9 col-md-9 col-sm-6">
-      <h3>Balance General correspondiente al período {{$date_1}} a {{$date_2}}</h3>
-    </div>
-  </div>
-  @include('carritos.cuentas_contables.search')
 
-  <div class="list-group">
-      <a href="/carritos/pdf/balance_8_cols/{{$date_1}}/{{$date_2}}" class="list-group-item list-group-item-success">
-        <strong>Presione aquí para obtener el balance en PDF</strong>
-      </a>
-  </div>
-  <div class="list-group">
-      <a href="/carritos/pdf/balance_excel/{{$date_1}}/{{$date_2}}" class="list-group-item list-group-item-success">
-        <strong>Presione aquí para obtener el balance en Excel</strong>
-      </a>
-  </div>
   <?php
       $total_debe_1 = 0;
       $total_haber_1 = 0;
@@ -25,11 +7,11 @@
       $total_debe_3 = 0;
       $total_haber_3 = 0;
    ?>
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered table-condensed table-hover">
-          <tr style="background-color:#ABEBC6">
+  <div>
+    <div>
+      <div>
+        <table>
+          <tr>
             <th>Detalle</th>
             <th></th>
             <th></th>
@@ -37,7 +19,7 @@
             <th colspan="2">Inventario</th>
             <th colspan="2">Resultados</th>
           </tr>
-          <tr style="background-color:#ABEBC6">
+          <tr>
             <th>Cuentas</th>
             <th>Débitos</th>
             <th>Créditos</th>
@@ -154,4 +136,3 @@
       </div>
     </div>
   </div>
-@endsection

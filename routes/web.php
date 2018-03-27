@@ -14,7 +14,6 @@
 Route::get('/', function () {
     return view('auth/login');
 });
-
   Route::get('carritos/extras/vehiculos',  'AuxController@vehiculos');
   Route::get('carritos/extras/eliminar_vehiculo/{id}',  'AuxController@eliminar_vehiculo');
   Route::view('carritos/extras/calendario', 'carritos.extras.calendario ');
@@ -47,6 +46,7 @@ Route::get('/', function () {
   Route::get('carritos/pdf/despacho_checklist/{id}','PDFController@despacho_checklist');
   Route::get('carritos/pdf/balance/{date_1}/{date_2}','PDFController@balance_pdf');
   Route::get('carritos/pdf/balance_8_cols/{date_1}/{date_2}','PDFController@balance_8_cols');
+  Route::get('carritos/pdf/balance_excel/{date_1}/{date_2}','Cuentas_contablesController@balance_excel');
 
   Route::get('carritos/eventos/cotizacion', 'EventosController@cotizacion');
   Route::get('carritos/gastos/resumen', 'GastosController@resumen');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use CamaleonERP\Http\Requests\EventosFormRequest;
 use CamaleonERP\Cuentas_contables;
+use Maatwebsite\Excel\Facades\Excel;
 
 use DB;
 
@@ -146,5 +147,40 @@ class Cuentas_contablesController extends Controller
       }
       return Redirect::to('carritos/cuentas_contables');
 
+    }
+
+    public function balance_excel ($date_1, $date_2){
+
+        $total_debe = DB::table('cuentas_contables as cc')
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
+        ->sum('debe');
+        $total_haber = DB::table('cuentas_contables as cc')
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
+        ->sum('haber');
+
+        $data = DB::table('cuentas_contables as cc')
+        ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
+        ->whereBetween('fecha', array($date_1, $date_2))
+        ->select('nombre_cuenta', 'tipo', DB::raw('sum(debe) as debe'), DB::raw('sum(haber) as haber'))
+        ->groupBy('nombre_cuenta', 'tipo')
+        ->orderBy('num_prefijo_abs', 'asc')
+        ->get();
+
+        $balance = "balance_periodo_".$date_1." a ".$date_2;
+
+
+ 	     Excel::create($balance, function($excel) use ($data, $total_debe, $total_haber) {
+
+ 	         $excel->sheet('Blance', function($sheet) use ($data, $total_debe, $total_haber) {
+ 	             $sheet->loadView('carritos.aux_views.1')
+ 	             ->with('data', $data)
+               ->with('total_debe', $total_debe)
+               ->with('total_haber', $total_haber);
+ 	             $sheet->setOrientation('landscape');
+ 	         });
+
+ 	     })->export('xlsx');
     }
 }
