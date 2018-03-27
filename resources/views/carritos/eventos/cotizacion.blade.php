@@ -127,7 +127,7 @@ function llenar_select_extras(e, sv){
     </div>
 
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-9">
           <div class="form-group">
             <label for="nombre_cliente">Cliente</label>
             <select onchange="cargar_cliente()" id="cliente" class="form-control selectpicker" name="cliente" data-live-search="true">
@@ -143,46 +143,46 @@ function llenar_select_extras(e, sv){
             <a href="/carritos/clientes/create"><button type="button" class="btn btn-info">Nuevo</button></a>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <div class="form-group">
             <label for="nombre_cliente">Nombre cliente</label>
             <input type="text" name="nombre_cliente" id="nombre_cliente" class="form-control" disabled placeholder="nombre...">
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
           <div class="form-group">
             <label for="telefono_cliente">Teléfono</label>
             <input type="tel" name="telefono_cliente" id="telefono_cliente" disabled class="form-control" placeholder="+569...">
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
           <div class="form-group">
             <label for="email_cliente">E-mail</label>
             <input type="text" name="email_cliente" id="email_cliente" disabled class="form-control" placeholder="e-mail...">
           </div>
         </div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="direccion_cliente">Dirección del evento</label>
           <input type="text" name="direccion_cliente" required class="form-control" placeholder="dirección...">
         </div>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="fecha_cliente">Fecha y hora</label>
           <input type="datetime-local" name="fecha_cliente" class="form-control" placeholder="fecha..." required>
         </div>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="fecha_despacho">Hora despacho</label>
           <input type="datetime-local" name="fecha_despacho" class="form-control" placeholder="hora..." required>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
           <label for="comentarios">Descripción</label>
-          <textarea name="descripcion" class="form-control" rows="6" required placeholder="Descripción del gasto"></textarea>
+          <textarea name="descripcion" class="form-control" rows="6" required placeholder="Descripción cotización"></textarea>
         </div>
       </div>
     </div>
