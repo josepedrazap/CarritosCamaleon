@@ -172,8 +172,6 @@ class Cuentas_contablesController extends Controller
 
         $balance = "balance_periodo_".$date_1." a ".$date_2;
 
-        return view('carritos.cuentas_contables.error');
-
  	     Excel::create($balance, function($excel) use ($data, $total_debe, $total_haber) {
 
  	         $excel->sheet('Blance', function($sheet) use ($data, $total_debe, $total_haber) {
