@@ -55,7 +55,7 @@ function addCocinero(){
 
         var div = document.createElement('div');
         div.setAttribute('class', 'form-inline');
-            div.innerHTML ='<div id="tra_'+a+'" style="clear:both" class="trabajador_'+a+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select'+a+'" class="form-control" name="trabajador[]"></select></div>';
+            div.innerHTML ='<div id="tra_'+a+'" style="clear:both" class="trabajador_'+a+' col-lg-6 col-md-6 col-sm-6 col-xs-12"><select id="select'+a+'" class="form-control" name="trabajador[]"></select></div>';
             document.getElementById('trabajadores').appendChild(div);
 
             sv = "#select"+a;
@@ -319,7 +319,7 @@ function calculo_total_productos(){
 
     <div class="row">
       <hr></hr>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
         <h4>Asignar cocineros</h4>
         <input type="button" class="btn btn-success" onClick="addCocinero()" value="+ Agregar cocinero" />

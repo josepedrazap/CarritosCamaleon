@@ -136,8 +136,8 @@ function ocultar_buttons(){
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <label for="fecha">Tipo de documento</label>
           <input name="tipo_documento" value="Boleta" readonly="readonly" class="form-control">
-
         </div>
+      </div>
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <label for="fecha">Número de Boleta</label>
           <div class="form-group">
