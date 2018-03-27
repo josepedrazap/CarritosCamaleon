@@ -63,7 +63,7 @@ function addProducto(){
 
         var div = document.createElement('div');
         div.setAttribute('class', 'form-inline');
-            div.innerHTML ='<div id="prod_'+a+'" style="clear:both" class="producto_'+a+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select'+a+'" class="form-control" name="producto[]"></select></div><div id="prod_cant_'+a+'" class="producto_'+a+' col-md-3"><input required class="form-control" name="cant_producto[]" type="number"/></div>';
+            div.innerHTML ='<div id="prod_'+a+'" class="producto_'+a+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select'+a+'" class="form-control" name="producto[]"></select></div><div id="prod_cant_'+a+'" class="producto_'+a+' col-md-3"><input required class="form-control" name="cant_producto[]" type="number"/></div>';
             document.getElementById('productos').appendChild(div);
             eval();
             sv = "#select"+a;
