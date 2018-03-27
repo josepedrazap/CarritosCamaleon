@@ -45,13 +45,13 @@ class PDFController extends Controller
         ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
         ->whereBetween('fecha', array($date_1, $date_2))
         ->sum('haber');
-
+      $balance_nom ="balance_periodo_".$date_1." a ".$date_2;
       $v = 'carritos.pdf.balance_8_cols';
       $view = \View::make($v, compact('data', 'total_debe', 'total_haber', 'date_1', 'date_2'))->render();
       $pdf = \App::make('dompdf.wrapper');
       $pdf->loadHTML($view);
 
-      return $pdf->stream('balance_general');
+      return $pdf->stream($balance_nom);
     }
     public function balance_pdf($date_1, $date_2){
 
