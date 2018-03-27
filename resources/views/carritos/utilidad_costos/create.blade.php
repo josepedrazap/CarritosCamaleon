@@ -169,42 +169,42 @@ var haber_sum = 0;
 </div>
 <hr></hr>
 <div class="row">
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Precio del evento">Precio del evento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->precio_evento}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Iva ingredientes">IVA ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{$total * 0.19}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">IVA del evento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->precio_evento * 0.19}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">IVA ajustado</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" readonly="readonly" id="IVA_ajustado" value="{{$eventos_detalle[0]->precio_evento * 0.19 - $total*0.19}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Utilidad final">Utilidad final</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 - $total - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">Porcentaje de ganancia</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
@@ -214,7 +214,7 @@ var haber_sum = 0;
 </div>
 <hr></hr>
 
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <div class="form-group">
       <a href=""><button class="btn btn-primary" type="submit">Aprobar</button></a>
     </div>
