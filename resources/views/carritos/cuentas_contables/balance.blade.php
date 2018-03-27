@@ -13,7 +13,7 @@
       </a>
   </div>
   <div class="list-group">
-      <a href="/carritos/pdf/balance_excel/{{$date_1}}/{{$date_2}}" class="list-group-item list-group-item-success">
+      <a href="/carritos/excel/balance_excel/{{$date_1}}/{{$date_2}}" class="list-group-item list-group-item-success">
         <strong>Presione aquí para obtener el balance en Excel</strong>
       </a>
   </div>
