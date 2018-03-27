@@ -138,28 +138,28 @@ var haber_sum = 0;
 </div>
 <hr></hr>
 <div class="row">
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Costo en ingredientes">Costo en ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" id="costo_ingr_total" readonly="readonly" name="costo_ingr_total" value="{{$total}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Costo en cocineros">Costo en cocineros</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->pago_cocineros}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Costo en extras">Costo en extras</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" name="costo_extras" readonly="readonly" id="total_extra" value="{{$total_ext}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Costo total del evento">Costo total del evento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
