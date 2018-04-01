@@ -14,7 +14,9 @@ class Eventos_costo_ingredientes extends Model
     'id_evento',
     'id_ingrediente',
     'precio_bruto',
-    'costo_total'
+    'costo_total',
+    'cantidad',
+    'unidad'
   ];
 
   protected $guarded = [

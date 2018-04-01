@@ -20,6 +20,7 @@ class Eventos_detalle extends Model
     'total_ingredientes_iva',
     'utilidad_final',
     'costo_final',
+    
     'total_productos',
     'total_productos_iva'
   ];

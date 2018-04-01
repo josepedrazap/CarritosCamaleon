@@ -52,10 +52,10 @@ function comprobar(){
   }
   if($("#total_final").val() == $("#total_debe").val() && $("#total_final").val() == $("#total_haber").val()) {
     $("#total_final").css("background-color", "#CEF6CE");
-    mostrar_buttons();
+
   }else{
     $("#total_final").css("background-color", "#F6CED8");
-    ocultar_buttons();
+
   }
 
 }
@@ -175,7 +175,7 @@ function ocultar_buttons(){
   </div>
 </div>
 <hr></hr>
-
+<h4>Ingreso</h4>
 <div class="row">
   <div class="panel panel-primary">
     <div class="panel-body">
@@ -245,6 +245,7 @@ function ocultar_buttons(){
     </div>
   </div>
 </div>
+@include('carritos.ingresos.tabla_costos')
 <div class="row" id="save" hidden>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
     <div class="form-group">

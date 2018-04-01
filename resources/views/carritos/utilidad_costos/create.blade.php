@@ -74,9 +74,14 @@ var haber_sum = 0;
               @if($ingr->unidad == 'gramos')
               <th><input value="{{round($ingr->sum/1000,1)}}" class="form-control" name="cantidad_usada[]" id="cant_usada_{{$i}}" onkeyup="calc({{$i}}, 1)"/></th>
               @else
-              <th><input value="{{round($ingr->sum)}}" class="form-control" name="cantidad_usada[]" id="cant_usada_{{$i}}" onkeyup="calc({{$i}}, 1)"/></th>
+              <th>
+                <input value="{{round($ingr->sum)}}" class="form-control" name="cantidad_usada[]" id="cant_usada_{{$i}}" onkeyup="calc({{$i}}, 1)"/>
+              </th>
               @endif
-              <td>{{$ingr->uni_inv}}</td>
+              <td>
+                {{$ingr->uni_inv}}
+                <input value="{{$ingr->uni_inv}}" class="hidden" name="unidades[]"/>
+              </td>
 
               <th>
                 <input class="form-control hidden" name="id_ingr[]" value="{{$ingr->id_ingr}}">

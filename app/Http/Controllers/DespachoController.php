@@ -181,7 +181,7 @@ class DespachoController extends Controller
                 $ete_temp->update();
                 $cont++;
               }
-              
+
         }
         DB::commit();
 

@@ -53,7 +53,7 @@ class Utilidad_costosController extends Controller
         ->join('eventos_tienen_productos as etp', 'etp.id_evento', '=', 'eventos.id')
         ->join('productos as prod', 'prod.id', '=', 'etp.id_producto')
         ->whereIn('eventos.condicion', array(2, 3))
-        ->where('eventos.aprobado', '=', 1)
+        ->whereIn('eventos.aprobado', array(2, 3))
         ->orderBy('eventos.id','desc')
         ->select('eventos.id', 'ed.costo_final','etp.cantidad', 'etp.precio_a_cobrar','eventos.nombre_cliente', 'eventos.condicion', 'eventos.nombre_cliente', 'eventos.fecha_hora', 'eventos.direccion', 'ed.precio_evento', 'prod.nombre')
         ->groupBy('eventos.id', 'ed.costo_final','etp.cantidad','etp.precio_a_cobrar', 'eventos.nombre_cliente', 'eventos.condicion', 'eventos.nombre_cliente', 'eventos.fecha_hora', 'eventos.direccion', 'ed.precio_evento', 'prod.nombre')
@@ -178,16 +178,9 @@ class Utilidad_costosController extends Controller
 
     public function aprobar_2($id){
 
-      $ingredientes=DB::table('productos as prod')
-      ->join('productos_tienen_ingredientes as pti', 'prod.id', '=', 'pti.id_producto')
-      ->join('ingredientes as ingr', 'pti.id_ingrediente', '=', 'ingr.id')
-      ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
-      ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
-      ->join('eventos_costo_ingredientes as ect', 'ect.id_ingrediente', '=', 'ingr.id')
-      ->where('ect.id_evento', '=', $id)
-      ->where('etp.id_evento', '=', $id)
-      ->select('ingr.nombre as nombre', 'ect.precio_bruto as precio_bruto', 'ingr.inventareable','pti.unidad as unidad', 'ingr.unidad as uni_inv','inv.cantidad as stock','ingr.id as id_ingr', DB::raw('sum(porcion*etp.cantidad) as sum'))
-      ->groupBy('nombre', 'ingr.inventareable', 'precio_bruto', 'unidad', 'id_ingr', 'stock', 'uni_inv')
+      $ingredientes_tmp = DB::table('eventos_costo_ingredientes as eci')
+      ->join('ingredientes as ingr', 'ingr.id', '=', 'eci.id_ingrediente')
+      ->where('eci.id_evento', '=', $id)
       ->get();
 
       $ingredientes_num=DB::table('productos as prod')
@@ -214,7 +207,7 @@ class Utilidad_costosController extends Controller
 
 
       return view('carritos.utilidad_costos.create_2', ["id"=>$id, "eventos_detalle"=>$eventos_detalle,
-                                                    "ingredientes"=>$ingredientes, "extras_num"=>$extras_num,
+                                                    "ingredientes_tmp"=>$ingredientes_tmp, "extras_num"=>$extras_num,
                                                     "ingredientes_num"=>$ingredientes_num, "extras"=>$extras,
                                                     ]);
     }
@@ -233,6 +226,8 @@ class Utilidad_costosController extends Controller
 
         $id_ext = $request->get('id_ext');
         $costo_ext = $request->get('costo_ext');
+        $cantidad_usada = $request->get('cantidad_usada');
+        $unidades = $request->get('unidades');
 
         $evento_temp=Eventos::findOrFail($request->id_evento_);
         $evento_temp->aprobado = 1;
@@ -259,6 +254,9 @@ class Utilidad_costosController extends Controller
           $eve_c_ingr->id_evento = $request->id_evento_;
           $eve_c_ingr->costo_total = $costos[$cont];
           $eve_c_ingr->precio_bruto = $precio_bruto_ingr[$cont];
+          $eve_c_ingr->cantidad = $cantidad_usada[$cont];
+
+          $eve_c_ingr->unidad = $unidades[$cont];
           $eve_c_ingr->save();
           $cont++;
         }

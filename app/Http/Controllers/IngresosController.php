@@ -63,13 +63,23 @@ class IngresosController extends Controller
         $eventos_detalle = DB::table('eventos_detalle as ed')
         ->where('ed.id_evento', '=', $id)
         ->get();
+        $eci = DB::table('eventos_costo_ingredientes as eci')
+        ->join('ingredientes as ingr', 'ingr.id', '=', 'eci.id_ingrediente')
+        ->where('eci.id_evento', '=', $id)
+        ->get();
+        $extras=DB::table('eventos_tienen_extras as ete')
+        ->join('selects_valores as sv', 'sv.id', '=', 'ete.id_extra')
+        ->where('id_evento', '=', $id)
+        ->select('ete.costo', 'sv.valor', 'ete.id as id_ete')
+        ->groupBy('ete.costo', 'sv.valor', 'id_ete')
+        ->get();
         $cuentas = DB::table('cuentas_contables as cc')
         ->get();
         $evento=Eventos::findOrFail($id);
         $cliente=Clientes::findOrFail($evento->id_cliente);
 
         return view('carritos.ingresos.create', ["eventos_detalle"=>$eventos_detalle, "cliente"=>$cliente,
-                                                 "cuentas"=>$cuentas, "id"=>$id]);
+                                                 "cuentas"=>$cuentas, "id"=>$id, "eci"=>$eci, "extras"=>$extras]);
 
       }
 
@@ -90,6 +100,11 @@ class IngresosController extends Controller
           $debe_cuenta = $request->get('debe_cuenta');
           $haber_cuenta = $request->get('haber_cuenta');
           $glosa_cuenta = $request->get('glosa_cuenta');
+
+          $id_cuenta_c = $request->get('id_cuenta_c');
+          $debe_cuenta_c = $request->get('debe_cuenta_c');
+          $haber_cuenta_c = $request->get('haber_cuenta_c');
+          $glosa_cuenta_c = $request->get('glosa_cuenta_c');
 
           $fact_temp = new Documento_financiero;
           $fact_temp->id_tercero = $id_tercero;
@@ -132,6 +147,33 @@ class IngresosController extends Controller
 
             $cmf_temp->save();
             $cont++;
+          }
+          $cont = 0;
+          while($cont < count($id_cuenta_c)){
+
+            $cmf_temp = new Cuentas_movimientos;
+            $cmf_temp->id_cuenta = $id_cuenta_c[$cont];
+            $cmf_temp->id_documento = $fact_temp->id;
+            if($debe_cuenta_c[$cont] != ''){
+                  $cmf_temp->debe =  $debe_cuenta_c[$cont];
+            }else{
+                  $cmf_temp->debe = 0;
+            }
+            if($haber_cuenta_c[$cont] != ''){
+                  $cmf_temp->haber = $haber_cuenta_c[$cont];
+            }else{
+                  $cmf_temp->haber = 0;
+            }
+            if($glosa_cuenta_c[$cont] != ''){
+                  $cmf_temp->glosa = $glosa_cuenta_c[$cont];
+            }else{
+                  $cmf_temp->glosa = '';
+            }
+            $cmf_temp->fecha = $fecha_documento;
+
+            $cmf_temp->save();
+            $cont++;
+            DB::commit();
           }
 
         }catch(Exception $e){
