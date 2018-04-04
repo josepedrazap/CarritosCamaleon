@@ -52,10 +52,10 @@ function comprobar(){
   }
   if($("#total_final").val() == $("#total_debe").val() && $("#total_final").val() == $("#total_haber").val()) {
     $("#total_final").css("background-color", "#CEF6CE");
-
+    mostrar_buttons();
   }else{
     $("#total_final").css("background-color", "#F6CED8");
-
+    ocultar_buttons();
   }
 
 }

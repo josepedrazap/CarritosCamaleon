@@ -32,7 +32,7 @@ function addCuentas_c(){
     }
     document.getElementById('total_debe_c').value = parseFloat(debe_sum_c);
     document.getElementById('total_haber_c').value = parseFloat(haber_sum_c);
-    comprobar_c();
+    //comprobar_c();
 
   }else{
     alert("Faltan campos por rellenar");

@@ -32,20 +32,7 @@ class AuxController extends Controller{
     }
 
     function store(UserFormRequest $request){
-      return view('carritos.aux_views.succes', ["resultado" => 0]);
 
-      if($request->get('reset') == 1){
-        try{
-          $user = User::findOrFail($request->get('id'));
-          $user->password = bcrypt($request->get('password'));
-          $user->update();
-          DB::commit();
-          return view('carritos.aux_views.succes', ["resultado" => 1, "user"=>$user]);
-
-        }catch(Exception $e){
-          return view('carritos.aux_views.succes', ["resultado" => 0]);
-        }
-      }else{
         try{
           $user = new User;
           $user->name = $request->get('name');
@@ -58,7 +45,6 @@ class AuxController extends Controller{
         }catch(Exception $e){
           return view('carritos.aux_views.succes', ["resultado" => 0]);
         }
-      }
 
 
     }
