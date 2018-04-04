@@ -164,8 +164,8 @@ function ocultar_buttons_c(){
         @foreach($extras as $ext)
 
         <tr>
-          <td>{{$ete->valor}}</td>
-          <td>{{$ete->costo}}</td>
+          <td>{{$ext->valor}}</td>
+          <td>{{$ext->costo}}</td>
         </tr>
 
         @endforeach
