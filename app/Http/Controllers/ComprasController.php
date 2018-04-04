@@ -47,6 +47,8 @@ class ComprasController extends Controller
     }
 
     public function store(Request $request){
+      DB::beginTransaction();
+
       try{
         $id_tercero = $request->get('id_proveedor');
         $tipo_documento = $request->get('tipo_documento');
@@ -99,6 +101,7 @@ class ComprasController extends Controller
           $cmf_temp->save();
           $cont++;
         }
+        DB::commit();
 
       }catch(Exception $e){
         DB::rollback();

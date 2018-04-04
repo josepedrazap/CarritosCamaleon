@@ -95,6 +95,7 @@ class Cuentas_contablesController extends Controller
 
     }
     public function store(Request $request){
+      DB::beginTransaction();
 
       try{
         $nombre = $request->get('nombre');
@@ -141,7 +142,7 @@ class Cuentas_contablesController extends Controller
 
         $cuenta_temp->save();
 
-
+        DB::commit();
       }catch(Exception $e){
         DB::rollback();
       }
@@ -150,9 +151,7 @@ class Cuentas_contablesController extends Controller
     }
 
     public function balance_excel ($date_1, $date_2){
-
-
-
+      
         $total_debe = DB::table('cuentas_contables as cc')
         ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
         ->whereBetween('fecha', array($date_1, $date_2))

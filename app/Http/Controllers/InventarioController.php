@@ -39,10 +39,10 @@ class InventarioController extends Controller
       return view('carritos.inventario.create', ["items"=>$items]);
   }
   function store(Request $request){
+    DB::beginTransaction();
 
     try{
 
-      DB::beginTransaction();
 
       $iditem = $request->get('iditem');
       $cantidaditem = $request->get('cantidaditem');

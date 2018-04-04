@@ -109,9 +109,9 @@ class DespachoController extends Controller
     }
 
     public function store(Request $request){
-
+      DB::beginTransaction();
       try{
-        DB::beginTransaction();
+
 
         $id = $request->id_evento_;
         $eventos = Eventos::findOrFail($id);

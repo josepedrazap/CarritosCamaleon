@@ -211,9 +211,51 @@ class Utilidad_costosController extends Controller
                                                     "ingredientes_num"=>$ingredientes_num, "extras"=>$extras,
                                                     ]);
     }
+    public function aprobar_3($id){
+
+      $cuentas = DB::table('cuentas_contables')
+      ->get();
+
+      $ingredientes=DB::table('productos as prod')
+      ->join('productos_tienen_ingredientes as pti', 'prod.id', '=', 'pti.id_producto')
+      ->join('ingredientes as ingr', 'pti.id_ingrediente', '=', 'ingr.id')
+      ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
+      ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
+      ->where('etp.id_evento', '=', $id)
+      ->select('ingr.nombre as nombre', 'ingr.precio_bruto','ingr.inventareable' ,'pti.unidad as unidad', 'ingr.unidad as uni_inv','inv.cantidad as stock','ingr.id as id_ingr', DB::raw('sum(porcion*etp.cantidad) as sum'))
+      ->groupBy('nombre', 'ingr.inventareable', 'ingr.precio_bruto','unidad', 'id_ingr', 'stock', 'uni_inv')
+      ->get();
+
+      $extras=DB::table('eventos_tienen_extras as ete')
+      ->join('selects_valores as sv', 'sv.id', '=', 'ete.id_extra')
+      ->where('id_evento', '=', $id)
+      ->select('ete.precio', 'sv.valor', 'ete.id as id_ete')
+      ->groupBy('ete.precio', 'sv.valor', 'id_ete')
+      ->get();
+
+      $ingredientes_num=DB::table('productos as prod')
+      ->join('productos_tienen_ingredientes as pti', 'prod.id', '=', 'pti.id_producto')
+      ->join('ingredientes as ingr', 'pti.id_ingrediente', '=', 'ingr.id')
+      ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
+      ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
+      ->where('etp.id_evento', '=', $id)
+      ->count('etp.id');
+
+      $extras_num=DB::table('eventos_tienen_extras as ext')
+      ->where('id_evento', '=', $id)
+      ->count('id_evento');
+
+      $eventos_detalle=DB::table('eventos_detalle as ed')
+      ->where('ed.id_evento', '=', $id)
+      ->get();
+
+      return view('carritos.utilidad_costos.create', ["id"=>$id, "eventos_detalle"=>$eventos_detalle,
+                                                    "ingredientes"=>$ingredientes, "ingredientes_num"=>$ingredientes_num,
+                                                    "extras"=>$extras, "extras_num"=>$extras_num, "cuentas"=>$cuentas]);
+    }
 
     public function store(Request $request){
-
+      DB::beginTransaction();
       try{
         $costos = $request->get('costo_ingr');
         $id_ingr = $request->get('id_ingr');
@@ -289,7 +331,7 @@ class Utilidad_costosController extends Controller
         $inv_temp->update();
         $cont++;
       }
-      DB::commit();
+        DB::commit();
       }catch(Exception $e){
         DB::rollback();
       }

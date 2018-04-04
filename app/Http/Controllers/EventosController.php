@@ -110,7 +110,7 @@ class EventosController extends Controller
   }
 
   function store(EventosFormRequest $request){
-
+    DB::beginTransaction();
     try{
 
       $id_cliente = $request->get('cliente');
@@ -163,6 +163,7 @@ class EventosController extends Controller
                 $i++;
             }
         }
+      DB::commit();
     }catch(Exception $e){
       DB::rollback();
     }

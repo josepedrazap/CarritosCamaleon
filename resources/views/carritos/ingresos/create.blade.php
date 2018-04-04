@@ -247,7 +247,7 @@ function ocultar_buttons(){
 </div>
 @include('carritos.ingresos.tabla_costos')
 <div class="row" id="save" hidden>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <div class="form-group">
       <a href=""><button class="btn btn-primary" type="submit">Aprobar</button></a>
     </div>

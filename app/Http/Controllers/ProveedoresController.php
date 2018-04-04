@@ -31,6 +31,7 @@ class ProveedoresController extends Controller
     return view('carritos.proveedores.create');
   }
   public function store(Request $request){
+    DB::beginTransaction();
     try{
         $prov_temp = new Proveedores;
         $prov_temp->nombre = $request->get('nombre');
@@ -39,6 +40,7 @@ class ProveedoresController extends Controller
         $prov_temp->telefono = $request->get('telefono');
         $prov_temp->descripcion = $request->get('descripcion');
         $prov_temp->save();
+        DB::commit();
     }catch(Exception $e){
         DB::rollback();
     }

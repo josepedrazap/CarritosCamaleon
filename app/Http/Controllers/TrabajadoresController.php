@@ -41,7 +41,7 @@ class TrabajadoresController extends Controller
   }
 
   function store(TrabajadoresFormRequest $request){
-
+    DB::beginTransaction();
     try{
       $trabajador = new Trabajadores;
       $trabajador->nombre = $request->get('nombre_trabajador');
@@ -66,7 +66,7 @@ class TrabajadoresController extends Controller
         $trab_detalle->descripcion = "Sin descripción.";
       }
       $trab_detalle->save();
-
+      DB::commit();
     }catch(Exception $e){
         DB::rollback();
     }

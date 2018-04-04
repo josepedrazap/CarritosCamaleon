@@ -84,6 +84,7 @@ class IngresosController extends Controller
       }
 
       public function store(Request $request){
+        DB::beginTransaction();
         try{
           $id_evento_ = $request->get('id_evento_');
           $evento_tmp=Eventos::findOrFail($id_evento_);
@@ -173,9 +174,9 @@ class IngresosController extends Controller
 
             $cmf_temp->save();
             $cont++;
-            DB::commit();
-          }
 
+          }
+          DB::commit();
         }catch(Exception $e){
           DB::rollback();
         }

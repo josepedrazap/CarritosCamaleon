@@ -43,7 +43,7 @@ class IngredientesController extends Controller
     }
 
     function store(Request $request){
-
+      DB::beginTransaction();
       try{
         $ingrediente = new Ingredientes;
         $ingrediente->nombre = $request->get('nombre');
@@ -68,7 +68,7 @@ class IngredientesController extends Controller
         $inventario->unidad = $ingrediente->unidad;
         $inventario->cantidad = 0;
         $inventario->save();
-
+        DB::commit();
       }catch(Exception $e){
         BD::rollback();
       }

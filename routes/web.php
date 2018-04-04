@@ -22,6 +22,8 @@ Route::get('/', function () {
   Route::get('carritos/pagos/vertodos/{id}',  'PagosController@vertodos');
   Route::get('carritos/utilidad_costos/aprobar/{id}',  'Utilidad_costosController@aprobar');
   Route::get('carritos/utilidad_costos/aprobar_2/{id}',  'Utilidad_costosController@aprobar_2');
+  Route::get('carritos/utilidad_costos/aprobar_3/{id}',  'Utilidad_costosController@aprobar_3');
+
   Route::get('carritos/ingresos/mostrar_ingresos', 'IngresosController@mostrar_ingresos');
   Route::get('carritos/ingresos/show_2/{id}', 'IngresosController@show_2');
 
@@ -38,7 +40,7 @@ Route::get('/', function () {
   Route::get('carritos/libros_contables', 'LibrosContablesController@index');
 
   Route::get('registrar', 'AuxController@registrar');
-  Route::get('cambiar_contraseña', 'AuxController@cambiar_contraseña');
+  Route::get('cambiar_contraseña', 'ResetpassController@cambiar_contraseña');
 
   //RUTAS DE PDF
 
@@ -55,6 +57,8 @@ Route::get('/', function () {
   Route::get('carritos/ingredientes/update_precio/{bruto}/{liquido}/{iva}', 'IngredientesController@update_precio');
   //Route::get('carritos/compras/ver/{id}', 'ComprasController@ver');
   Route::get('carritos/cuentas_contables/balance', 'Cuentas_contablesController@balance');
+
+  Route::resource('carritos/reset', 'ResetpassController');
 
   Route::resource('carritos/compras', 'ComprasController');
   Route::resource('carritos/ingredientes', 'IngredientesController');

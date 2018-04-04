@@ -4,6 +4,7 @@
 <script>
 a = 0;
 e = 0;
+var seguridad = 0;
 
 function eval(i, v){
   if($("#_"+i).val() == ""){
@@ -48,7 +49,17 @@ function eliminar_coc(){
     $(sv).remove();
     suma_cocinero(0);
     a--;
+    seguridad = seguridad - 1;
   }
+  mostrar_ocultar_buttons(seguridad);
+
+}
+function mostrar_ocultar_buttons(s){
+    if(s > 0){
+        $("#save").show();
+    }else{
+        $("#save").hide();
+    }
 }
 function addCocinero(){
       a++;
@@ -59,8 +70,10 @@ function addCocinero(){
             document.getElementById('trabajadores').appendChild(div);
 
             sv = "#select"+a;
+            seguridad = seguridad + 1;
             llenar_select_trabajadores(a,sv);
             suma_cocinero(1);
+            mostrar_ocultar_buttons(seguridad);
 
 }
 function llenar_select_trabajadores(a, sv){
@@ -355,9 +368,11 @@ function calculo_total_productos(){
       </div>
       </div>
     </div>
-      <div class="form-group ">
+      <div class="row" id="save" hidden>
         <hr></hr>
         <input name="_token value={{csrf_token()}}" type="hidden"></input>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
         @if($evento[0]->condicion == 4)
         <button class="btn btn-primary" type="submit">Terminar cotización</button>
         @else
@@ -365,5 +380,7 @@ function calculo_total_productos(){
         @endif
         <button class="btn btn-danger" type="reset">Limpiar campos</button>
       </div>
+      </div>
+
 {!!Form::close()!!}
 @endsection

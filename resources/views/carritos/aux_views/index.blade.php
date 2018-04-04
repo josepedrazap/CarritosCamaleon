@@ -4,7 +4,7 @@
   <div class="col-lg-9 col-md-9 col-sm-6">
     <h3>Usuarios del sistema
       <a href="registrar"><button class="btn btn-success">Registrar usuario</button></a>
-      <a href="cambiar_contraseña"><button class="btn btn-info">Cambiar contraseña usuario</button></a>
+      <a href="carritos/reset/create"><button class="btn btn-info">Cambiar contraseña usuario</button></a>
     </h3>
 
   </div>

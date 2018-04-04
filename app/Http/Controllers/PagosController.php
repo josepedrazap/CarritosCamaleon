@@ -42,18 +42,24 @@ class PagosController extends Controller
   }
 
   function store(Request $request){
-
-    $id_pago = $request->get('id_pago');
-    $cont = 0;
-    while($cont < count($id_pago)){
-      $id = $id_pago[$cont];
-      if($request->get($id)){
-        $ett=Eventos_tienen_trabajadores::findOrFail($id);
-        $ett->estado = 2;
-        $ett->update();
+    DB::beginTransaction();
+    try{
+      $id_pago = $request->get('id_pago');
+      $cont = 0;
+      while($cont < count($id_pago)){
+        $id = $id_pago[$cont];
+        if($request->get($id)){
+          $ett=Eventos_tienen_trabajadores::findOrFail($id);
+          $ett->estado = 2;
+          $ett->update();
+        }
+          $cont++;
       }
-        $cont++;
+      DB::commit();
+    }catch(Exception $e){
+      DB::rollback();
     }
+
     return Redirect::to("carritos/pagos");
   }
 

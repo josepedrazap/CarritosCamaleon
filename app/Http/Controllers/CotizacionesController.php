@@ -76,6 +76,7 @@ class CotizacionesController extends Controller
   }
 
   function store(EventosFormRequest $request){
+    DB::beginTransaction();
 
     try{
 
@@ -118,6 +119,7 @@ class CotizacionesController extends Controller
                 $i++;
             }
         }
+        DB::commit();
     }catch(Exception $e){
       DB::rollback();
     }

@@ -182,6 +182,7 @@ class GastosController extends Controller
 
   }
   function store(Request $request){
+    DB::beginTransaction();
     try{
       $id_tercero = -1;
       $tipo_documento = "Boleta";
@@ -245,7 +246,7 @@ class GastosController extends Controller
         $cmf_temp->save();
         $cont++;
       }
-
+      DB::commit();
     }catch(Exception $e){
       DB::rollback();
     }

@@ -34,6 +34,7 @@ class ClientesController extends Controller
     return view('carritos.clientes.create');
   }
   public function store(Request $request){
+    DB::beginTransaction();
     try{
         $cliente = new Clientes;
         $cliente->nombre = $request->get('nombre');
@@ -42,6 +43,7 @@ class ClientesController extends Controller
         $cliente->rut = $request->get('rut');
         $cliente->contacto = $request->get('contacto');
         $cliente->save();
+        DB::commit();
     }catch(Exception $e){
         DB::rollback();
     }

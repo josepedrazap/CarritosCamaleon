@@ -52,7 +52,7 @@ class ProductosController extends Controller
     }
 
     function store(ProductosFormRequest $request){
-
+      DB::beginTransaction();
       try{
         $producto = new Productos;
         $producto->nombre = $request->get('nombre_producto');
@@ -78,7 +78,7 @@ class ProductosController extends Controller
             $prod_t_ingr->save();
           $i++;
         }
-
+        DB::commit();
       }catch(Exception $e){
         DB::rollback();
       }

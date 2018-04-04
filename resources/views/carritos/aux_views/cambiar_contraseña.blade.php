@@ -7,8 +7,8 @@
                 <div class="panel-heading">Cambiar Password</div>
 
                 <div class="panel-body">
-                  <form class="form-horizontal" method="POST" action="{{ url('registro') }}">
-                        {{ csrf_field() }}
+                  {!!Form::open(array('url'=>'carritos/reset','method'=>'POST','autocomplete'=>'off'))!!}
+                  {{Form::Token()}}
                         <input class="hidden" name="name" value="{{Auth::user()->name}}"/>
                         <input class="hidden" name="reset" value="1"/>
                         <input class="hidden" name="id" value="{{Auth::user()->id}}"/>
@@ -57,7 +57,8 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                        {!!Form::close()!!}
+
                 </div>
             </div>
         </div>

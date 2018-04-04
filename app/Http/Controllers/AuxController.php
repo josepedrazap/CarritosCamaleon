@@ -32,6 +32,7 @@ class AuxController extends Controller{
     }
 
     function store(UserFormRequest $request){
+      DB::beginTransaction();
 
         try{
           $user = new User;
@@ -43,6 +44,7 @@ class AuxController extends Controller{
           return view('carritos.aux_views.succes', ["resultado" => 1, "user"=>$user]);
           DB::commit();
         }catch(Exception $e){
+          DB::rollback();
           return view('carritos.aux_views.succes', ["resultado" => 0]);
         }
 

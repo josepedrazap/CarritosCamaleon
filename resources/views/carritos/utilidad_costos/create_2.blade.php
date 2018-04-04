@@ -124,7 +124,7 @@
     <label for="IVA del evento">Porcentaje de ganancia</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="">
+      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{100 * $eventos_detalle[0]->utilidad_final/$eventos_detalle[0]->precio_evento}}">
     </div>
   </div>
 </div>
