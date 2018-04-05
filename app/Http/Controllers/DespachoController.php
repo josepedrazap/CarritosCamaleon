@@ -136,6 +136,7 @@ class DespachoController extends Controller
         $pago_cocineros = $request->get('pago_cocinero');
         $prod_iva_sum = $request->get('iva_sum');
         $prod_total_sum = $request->get('total_sum');
+        $pago_cocineros = $request->get('monto_cocineros');
 
         $eve_det = new Eventos_detalle;
         $eve_det->id_evento = $id;
@@ -155,7 +156,7 @@ class DespachoController extends Controller
         while($cont < count($trabajadores) && $eventos->condicion == 2){
           $trab = new Eventos_tienen_trabajadores;
           $trab->id_trabajador = $trabajadores[$cont];
-          $trab->monto = 20000;
+          $trab->monto = $pago_cocineros;
           $trab->estado = 1;
           $trab->id_evento = $id;
           $trab->save();
