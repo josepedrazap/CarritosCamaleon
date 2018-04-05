@@ -338,7 +338,7 @@ function calculo_total_productos(){
           <input class="form-control" name="monto_cocineros" type="number" placeholder="$20000" required/>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
         <h4>Asignar cocineros</h4>
         <input type="button" class="btn btn-success" onClick="addCocinero()" value="+ Agregar cocinero" />
