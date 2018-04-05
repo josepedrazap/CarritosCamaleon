@@ -6,7 +6,6 @@
         <table class="table table-striped table-bordered table-condensed table-hover">
           <thead style="background-color:#ABEBC6">
             <th>id evento</th>
-            <th>Estado</th>
             <th>Fecha y hora</th>
             <th>Dirección</th>
             <th>Contacto</th>
@@ -16,7 +15,6 @@
           @if($eve->condicion != 0)
           <tr>
             <td>{{$eve->id}}</td>
-            <td style="color:blue"> <strong>Cotización</strong></td>
             <td>{{$eve->fecha_hora}}</td>
             <td>{{$eve->direccion}}</td>
             @if($eve->contacto[0] == '+' && $eve->contacto[1] == 5 && $eve->contacto[2] == 6 && $eve->contacto[3] == 9 && strlen($eve->contacto) >= 11)

@@ -36,6 +36,7 @@ class ClientesController extends Controller
   public function ver_eventos($id){
     $eventos = DB::table('eventos as eve')
     ->where('eve.id_cliente', '=', $id)
+    ->whereIn('eve.condicion', array(2,3))
     ->get();
     return view('carritos.clientes.ver_eventos', ["eventos"=>$eventos]);
   }
