@@ -24,6 +24,8 @@ Route::get('/', function () {
   Route::get('carritos/utilidad_costos/aprobar_2/{id}',  'Utilidad_costosController@aprobar_2');
   Route::get('carritos/utilidad_costos/aprobar_3/{id}',  'Utilidad_costosController@aprobar_3');
 
+  Route::get('carritos/clientes/ver_eventos/{id}',  'ClientesController@ver_eventos');
+
   Route::get('carritos/ingresos/mostrar_ingresos', 'IngresosController@mostrar_ingresos');
   Route::get('carritos/ingresos/show_2/{id}', 'IngresosController@show_2');
 

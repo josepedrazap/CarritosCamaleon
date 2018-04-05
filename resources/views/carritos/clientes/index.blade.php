@@ -25,6 +25,8 @@
             <td>{{$cli->contacto}}</td>
             <td>{{$cli->mail}}</td>
             <td>
+              <a href="/carritos/clientes/ver_eventos/{{$cli->id}}"><button class="btn btn-info">ver eventos</button></a>
+
               <a href="" data-target="#modal-delete-{{$cli->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
             </td>
           </tr>

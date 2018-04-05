@@ -33,6 +33,12 @@ class ClientesController extends Controller
   public function create(){
     return view('carritos.clientes.create');
   }
+  public function ver_eventos($id){
+    $eventos = DB::table('eventos as eve')
+    ->where('eve.id_cliente', '=', $id)
+    ->get();
+    return view('carritos.clientes.ver_eventos', ["eventos"=>$eventos]);
+  }
   public function store(Request $request){
     DB::beginTransaction();
     try{
