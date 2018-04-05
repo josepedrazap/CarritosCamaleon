@@ -355,7 +355,7 @@ function calculo_total_productos(){
 
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
-            <h4>Costo total y extras</h4>
+            <h4>Costo total</h4>
         </div>
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-hover">
