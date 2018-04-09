@@ -9,6 +9,7 @@ use CamaleonERP\Eventos;
 use CamaleonERP\Eventos_tienen_productos;
 use CamaleonERP\Eventos_tienen_trabajadores;
 use CamaleonERP\Eventos_tienen_extras;
+use CamaleonERP\Eventos_tienen_ingr_extras;
 use CamaleonERP\Eventos_detalle;
 use CamaleonERP\Inventario;
 
@@ -44,6 +45,17 @@ class DespachoController extends Controller
       $evento=DB::table('eventos')
       ->where('eventos.id', '=', $id)
       ->paginate(7);
+
+      $ingr_extras=DB::table('ingredientes as ingr')
+      ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
+      ->where('etie.id_evento', '=', $id)
+      ->select('ingr.nombre', 'etie.cantidad', 'etie.id')
+      ->get();
+
+      $num_ingr_ext=DB::table('ingredientes as ingr')
+      ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
+      ->where('etie.id_evento', '=', $id)
+      ->count();
 
       $productos=DB::table('productos as prod')
       ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
@@ -101,7 +113,8 @@ class DespachoController extends Controller
                                                "productos"=>$productos, "extras"=>$extras,
                                                "trabajadores"=>$trabajadores, "base" => $base,
                                                "total"=>$total, "num_prod" => $num_prod,
-                                               "pago_cocinero"=>20000, "i_ingr" => $i_ingr, "num_ext"=>$num_ext]);
+                                               "pago_cocinero"=>20000, "i_ingr" => $i_ingr, "num_ext"=>$num_ext,
+                                               "ingr_extras"=>$ingr_extras, "num_ingr_ext"=>$num_ingr_ext]);
     }
 
     public function edit($id){
@@ -184,6 +197,20 @@ class DespachoController extends Controller
               }
 
         }
+        if($request->get('id_etie')){
+              $id_eties = $request->get('id_etie');
+              $precio_real_ingr_ext = $request->get('precio_ingr_extra');
+              $cont = 0;
+              while($cont < count($id_eties)){
+                $id_temp = $id_eties[$cont];
+                $etie_temp = Eventos_tienen_ingr_extras::findOrFail($id_temp);
+                $etie_temp->precio = $precio_real_ingr_ext[$cont];
+                $etie_temp->update();
+                $cont++;
+              }
+
+        }
+
         DB::commit();
 
       }catch(Exception $e){

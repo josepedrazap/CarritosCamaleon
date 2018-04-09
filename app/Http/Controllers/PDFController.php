@@ -124,6 +124,17 @@ class PDFController extends Controller
       ->where('eventos.id', '=', $id)
       ->get();
 
+      $ingr_extras=DB::table('ingredientes as ingr')
+      ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
+      ->where('etie.id_evento', '=', $id)
+      ->select('ingr.nombre', 'etie.cantidad', 'etie.id')
+      ->get();
+
+      $num_ingr_ext=DB::table('ingredientes as ingr')
+      ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
+      ->where('etie.id_evento', '=', $id)
+      ->count();
+
       $productos=DB::table('productos as prod')
       ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
       ->where('etp.id_evento', '=', $id)
@@ -154,7 +165,7 @@ class PDFController extends Controller
       ->get();
 
       $v = 'carritos.pdf.despacho_checklist';
-      $view = \View::make($v, compact('evento', 'ingredientes', 'productos', 'base', 'extras'))->render();
+      $view = \View::make($v, compact('evento', 'num_ingr_ext','ingredientes', 'productos', 'base', 'extras', 'ingr_extras'))->render();
       $pdf = \App::make('dompdf.wrapper');
       $pdf->loadHTML($view);
 

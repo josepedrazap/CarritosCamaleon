@@ -10,6 +10,7 @@ use CamaleonERP\Eventos;
 use CamaleonERP\Clientes;
 use CamaleonERP\Eventos_tienen_productos;
 use CamaleonERP\Eventos_tienen_extras;
+use CamaleonERP\Eventos_tienen_ingr_extras;
 use Illuminate\Support\Facades\Input;
 use Barryvdh\DomPDF\Facade as PDF;
 
@@ -102,14 +103,18 @@ class EventosController extends Controller
         $productos=DB::table('productos')
         ->where('condicion', '=', '1')
         ->get();
-        $ingredientes=DB::table('ingredientes')->get();
+        $ingredientes=DB::table('ingredientes as ingr')
+        ->where('ingr.condicion', '=', '1')
+        ->orderBy('ingr.tipo', 'desc')
+        ->get();
+
         $extras=DB::table('selects_valores as sv')->where('sv.familia', '=', 'extras')->get();
         $clientes=DB::table('clientes')->get();
         return view('carritos.eventos.create', ["extras"=>$extras, "productos"=>$productos,
                                                 "ingredientes"=>$ingredientes, "clientes"=>$clientes]);
   }
 
-  function store(EventosFormRequest $request){
+  function store(Request $request){
     DB::beginTransaction();
     try{
 
@@ -121,24 +126,29 @@ class EventosController extends Controller
       $evento->contacto = $cliente->contacto;
       $evento->aprobado = 0;
 
-      if($request->get('condicion') == 1){
-        $evento->condicion = 1;
-      }
-      if($request->get('condicion') == 4){
-        $evento->condicion = 4;
-      }
-
       $evento->id_cliente = $id_cliente;
       $evento->direccion = $request->get('direccion_cliente');
       $evento->fecha_hora = $request->get('fecha_cliente');
       $evento->fecha_despacho = $request->get('fecha_despacho');
       $evento->descripcion = $request->get('descripcion');
-      $evento->save();
-
 
       $i = 0;
       $productos = $request->get('producto');
       $cantidad_p = $request->get('cant_producto');
+
+
+      if($request->get('condicion') == 1){
+            $evento->condicion = 1;
+      }
+      if($request->get('condicion') == 4){
+        $evento->id_cliente = $id_cliente;
+        $evento->direccion = "0";
+        $evento->fecha_hora = Carbon::now();
+        $evento->fecha_despacho = Carbon::now();
+        $evento->descripcion = "0";
+        $evento->condicion = 4;
+      }
+      $evento->save();
 
       while($i < count($productos)){
                 $eve_t_prod = new Eventos_tienen_productos;
@@ -163,6 +173,21 @@ class EventosController extends Controller
                 $i++;
             }
         }
+        if($request->get('extra_ingr')){
+              $i = 0;
+              $extras_ingr = $request->get('extra_ingr');
+              $cant_extra_ingr = $request->get('cant_ingr');
+              while($i < count($extras_ingr)){
+                  $eve_t_ingr_ext = new Eventos_tienen_ingr_extras;
+                  $eve_t_ingr_ext->id_evento = $evento->id;
+                  $eve_t_ingr_ext->id_extra = $extras_ingr[$i];
+                  $eve_t_ingr_ext->cantidad = $cant_extra_ingr[$i];
+                  $eve_t_ingr_ext->precio = 0;
+                  $eve_t_ingr_ext->costo = 0;
+                  $eve_t_ingr_ext->save();
+                  $i++;
+              }
+          }
       DB::commit();
     }catch(Exception $e){
       DB::rollback();
@@ -268,7 +293,7 @@ class EventosController extends Controller
 
   function edit($id){
 
-    return view("carritos.eventos.edit", ["producto"=>Productos::findOrFail($id)]);
+    //return view("carritos.eventos.edit", ["producto"=>Productos::findOrFail($id)]);
   }
 
   function update(EventosRequest $request, $id){

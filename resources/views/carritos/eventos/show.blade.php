@@ -70,33 +70,20 @@
         <thead style="background-color:#F1948A">
           <th>Productos</th>
           <th>Cantidad</th>
-          <th>Precio costo</th>
-          <th>Total costo</th>
-          <th>Precio neto</th>
-          <th>IVA por pagar</th>
+          <th>Precio bruto unidad</th>
+          <th>Precio líquido unidad</th>
+          <th>IVA</th>
           <th>Total</th>
         </thead>
-        <tfoot>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th><h4><strong>Total:</strong></h4></th>
-          @if($evento[0]->condicion == 2)
-          <th><input class="form-control" readonly="readonly" value="{{$evento_detalle[0]->total_productos_iva}}"></th>
-          <th><input class="form-control" readonly="readonly" value="{{$evento_detalle[0]->total_productos}}"></th>
-          @endif
-        </tfoot>
-
         <?php $i = 0 ?>
 
         @foreach($productos as $prod)
         <tr>
           <td>{{$prod->nombre}}</td>
           <td><input class="form-control" id="cant_prod_{{$i}}" value="{{$prod->cantidad}}" readonly="readonly"></td>
-          <td>${{$prod->precio}}</td>
-          <td>${{$prod->precio * $prod->cantidad}}</td>
           <th><input readonly="readonly" class="form-control" value="{{$prod->precio_a_cobrar}}"></th>
+          <th><input readonly="readonly" class="form-control" value="{{$prod->precio_a_cobrar - $prod->precio_a_cobrar*0.19}}"></th>
+
           <th><input readonly="readonly" class="form-control" value="{{$prod->precio_a_cobrar * 0.19 * $prod->cantidad}}"></th>
           <th><input readonly="readonly" class="form-control" value="{{$prod->precio_a_cobrar * $prod->cantidad}}"></th>
         </tr>
@@ -105,10 +92,40 @@
       </table>
     </div>
   </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <hr></hr>
+      <h4>Ingredientes totales del evento</h4>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-condensed table-hover">
+          <thead style="background-color:#7DCEA0">
+            <th>Ingredientes</th>
+            <th>Cantidad sugerida</th>
+          </thead>
+          @foreach($ingredientes as $ingr)
+          <tr>
+            <td>{{$ingr->nombre}}</td>
+            @if($ingr->unidad == "gramos" || $ingr->unidad == "unidad")
+            @if($ingr->unidad == "gramos")
+            <td>{{$ingr->sum / 1000}} kg</td>
+            @endif
+            @if($ingr->unidad == "unidad")
+            <td>{{round($ingr->sum)}} unidades</td>
+            @endif
+            @else
+            <td>{{$ingr->sum}} unidades</td>
+            @endif
+
+          </tr>
+          @endforeach
+        </table>
+      </div>
+    </div>
+
   <div class="col-lg-6 col-md-6 col-sm-6">
     <hr></hr>
     <h4>Implementos necesarios</h4>
-
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead style= "background-color:#7FB3D5">
@@ -127,7 +144,6 @@
   <div class="col-lg-6 col-md-6 col-sm-6">
     <hr></hr>
     <h4>Extras del evento</h4>
-
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead style="background-color:#F9E79F">
@@ -146,54 +162,21 @@
 </div>
 
 
-<div class="row">
-  <div class="col-lg-12 col-md-12 col-sm-12">
-    <hr></hr>
-    <h4>Ingredientes totales del evento</h4>
 
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered table-condensed table-hover">
-        <thead style="background-color:#7DCEA0">
-          <th>Ingredientes</th>
-          <th>Cantidad sugerida</th>
-          <th>Unidades</th>
-        </thead>
-        @foreach($ingredientes as $ingr)
-        <tr>
-          <td>{{$ingr->nombre}}</td>
-          @if($ingr->unidad == "gramos" || $ingr->unidad == "unidad")
-          @if($ingr->unidad == "gramos")
-          <td>{{$ingr->sum / 1000}} kg</td>
-          @endif
-          @if($ingr->unidad == "unidad")
-          <td>{{round($ingr->sum)}} unidades</td>
-          @endif
-          @else
-          <td>{{$ingr->sum}} unidades</td>
-          @endif
-          <td>{{$ingr->unidad}}</td>
-        </tr>
-        @endforeach
-      </table>
-    </div>
-  </div>
-</div>
 
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6">
 
-  <h4>Costos del evento</h4>
+  <h4>Totales</h4>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead style="background-color:#D2B4DE">
-          <th>Gasto en extras</th>
-
+          <th>Iva</th>
           <th>Precio evento</th>
         </thead>
         <tr>
-          <td><input name="extra_movil" class="form-control" value="{{$evento_detalle[0]->gasto_extra}}"></td>
-
-          <td><input name="total_final" class="form-control" value="{{$evento_detalle[0]->precio_evento}}"></td>
+          <th><input class="form-control" readonly="readonly" value="{{$evento_detalle[0]->total_productos_iva}}"></th>
+          <th><input class="form-control" readonly="readonly" value="{{$evento_detalle[0]->total_productos}}"></th>
         </tr>
       </table>
     </div>

@@ -89,6 +89,23 @@
   @endforeach
 </table>
 <hr></hr>
+<h3>Ingredientes extras</h3>
+<table>
+	<tr>
+    <th>Ingrediente</th>
+		<th>Cantidad</th>
+    <th>Check</th>
+	</tr>
+  @foreach($ingr_extras as $ext)
+  <tr>
+    <td>{{$ext->nombre}}</td>
+		<td>{{$ext->cantidad}}</td>
+    <td>_____</td>
+  </tr>
+  @endforeach
+</table>
+
+<hr></hr>
 <h3>Utencilios</h3>
 <table>
 	<tr>

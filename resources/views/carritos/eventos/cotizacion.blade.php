@@ -5,8 +5,10 @@
 
 a = 0;
 e = 0;
+u = 0;
 aux_1 = 0;
 aux_2 = 0;
+aux_3 = 0;
 function eval(){
     $("#save").show();
 }
@@ -80,13 +82,13 @@ function addExtras(){
       e++;
         if(e == 1 && aux_2 == 0){
           var div = document.createElement('div');
-          div.innerHTML = '<div id="nom_ext" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Extras</label></div><div id="nom_ext_cant" class="col-md-2"><label>Cantidad</label></div>';;
+          div.innerHTML = '<div id="nom_ext" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Extras</label></div>';
           document.getElementById('contenedor2').appendChild(div);
           aux_2 = 1;
         }
         var div = document.createElement('div');
         div.setAttribute('class', 'form-inline');
-            div.innerHTML ='<div id="extra_'+e+'" style="clear:both" class="extras_'+e+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select2'+e+'" class="form-control" name="extra[]"></select></div><div id="extra_cant_'+e+'"  class="extra_'+e+' col-md-2""><input class="form-control" name="cant_extra[]" required type="number"/></div>';
+            div.innerHTML ='<div id="extra_'+e+'" style="clear:both" class="extras_'+e+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select2'+e+'" class="form-control" name="extra[]"></select></div>';
             document.getElementById('extras').appendChild(div);
             sv = "#select2"+e;
             llenar_select_extras(e,sv);
@@ -98,6 +100,57 @@ function llenar_select_extras(e, sv){
     aux = "{{$ext->valor}}";
     $(sv).append('<option value="'+id+'">'+aux+'</option>');
   @endforeach
+}
+function eliminar_extra_ingr(){
+  if(u > 0){
+    sv_1 = "#extra_ingr_" + u;
+    sv_2 = "#ingr_cant_" + u;
+    $(sv_1).remove();
+    $(sv_2).remove();
+    if(u == 1){
+        $("#nom_ext_ingr").remove();
+        $("#nom_ext_ingr_cant").remove();
+        aux_3 = 0;
+    }
+    u--;
+  }
+}
+function addingr_Extras(){
+      u++;
+        if(u == 1 && aux_3 == 0){
+          var div = document.createElement('div');
+          div.innerHTML = '<div id="nom_ext_ingr" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Ingrediente</label></div><div id="nom_ext_ingr_cant" class="col-md-2"><label>Cantidad</label></div>';
+          document.getElementById('contenedor3').appendChild(div);
+          aux_3 = 1;
+        }
+        var div = document.createElement('div');
+        div.setAttribute('class', 'form-inline');
+            div.innerHTML ='<div id="extra_ingr_'+u+'" style="clear:both" class="extras_ingr_'+u+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select3'+u+'" class="form-control" name="extra_ingr[]"></select></div><div id="ingr_cant_'+u+'" class="col-lg-1"><input required class="form-control" name="cant_ingr[]" type="text"/></div>';
+            document.getElementById('extras_ingr').appendChild(div);
+            sv = "#select3"+u;
+            llenar_select_ingr_extras(u,sv);
+
+}
+
+function llenar_select_ingr_extras(u, sv){
+
+  tipo_ = "{{$ingredientes[0]->tipo}}";
+  $(sv).append('<optgroup label="'+tipo_+'">');
+
+  @foreach($ingredientes as $ing)
+    id = "{{$ing->id}}";
+    aux = "{{$ing->nombre}}";
+    tipo = "{{$ing->tipo}}";
+
+    if(tipo_ != tipo){
+      $(sv).append('<optgroup/>');
+      $(sv).append('<optgroup label="'+tipo+'">');
+      tipo_ = "{{$ing->tipo}}";
+    }
+    $(sv).append('<option value="'+id+'">'+aux+'</option>');
+
+  @endforeach
+  $(sv).append('<optgroup/>');
 }
 </script>
 
@@ -161,35 +214,11 @@ function llenar_select_extras(e, sv){
             <input type="text" name="email_cliente" id="email_cliente" disabled class="form-control" placeholder="e-mail...">
           </div>
         </div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="direccion_cliente">Dirección del evento</label>
-          <input type="text" name="direccion_cliente" required class="form-control" placeholder="dirección...">
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="fecha_cliente">Fecha y hora</label>
-          <input type="datetime-local" name="fecha_cliente" class="form-control" placeholder="fecha..." required>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="fecha_despacho">Hora despacho</label>
-          <input type="datetime-local" name="fecha_despacho" class="form-control" placeholder="hora..." required>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="comentarios">Descripción</label>
-          <textarea name="descripcion" class="form-control" rows="6" required placeholder="Descripción cotización"></textarea>
-        </div>
-      </div>
     </div>
 
     <div class="row">
       <hr></hr>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
         <h4>Agregar producto</h4>
         <input type="button" class="btn btn-success" onClick="addProducto()" value="+ Agregar producto" />
@@ -203,7 +232,21 @@ function llenar_select_extras(e, sv){
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+      <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+        <div class="form-group">
+        <h4>Agregar ingrediente extra</h4>
+        <input type="button" class="btn btn-success" onClick="addingr_Extras()" value="+ Agregar ingrediente extra" />
+        <input type="button" class="btn btn-danger"   onClick="eliminar_extra_ingr()" value="X" />
+        </div>
+        <div class="form-group">
+          <div class="row" id="contenedor3">
+          </div>
+          <div class="row" id="extras_ingr">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
         <h4>Agregar extra</h4>
         <input type="button" class="btn btn-success" onClick="addExtras()" value="+ Agregar extra" />

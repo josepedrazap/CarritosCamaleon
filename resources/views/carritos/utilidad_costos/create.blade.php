@@ -140,6 +140,35 @@ var haber_sum = 0;
           </table>
         </div>
   </div>
+  <div class="col-md-12 col-lg-12">
+      <h4>Ingredientes extras</h4>
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-condensed table-hover">
+            <thead style="background-color:#7DCEA0">
+              <th>Ingredientes</th>
+              <th>Precio de venta</th>
+              <th>Costo</th>
+            </thead>
+            <?php
+              $total_ingr_ext = 0;
+              $i = 0;
+            ?>
+            @foreach($ingr_extras as $ext)
+            <tr>
+              <td>{{$ext->nombre}}</td>
+              <td>$ {{$ext->precio}}</td>
+              <th>
+                <input class="form-control hidden" name="id_ingr_ext[]" value="{{$ext->id}}">
+                <input class="form-control" value="{{$ext->precio}}" onkeyup="calc(0,0)" id="costo_ingr_ext_{{$i}}" name="costo_ingr_ext[]">
+                <?php $total_ingr_ext += $ext->precio;
+                ?>
+              </th>
+            </tr>
+            <?php $i++ ?>
+            @endforeach
+          </table>
+        </div>
+  </div>
 </div>
 <hr></hr>
 <div class="row">
@@ -161,14 +190,14 @@ var haber_sum = 0;
     <label for="Costo en extras">Costo en extras</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" name="costo_extras" readonly="readonly" id="total_extra" value="{{$total_ext}}">
+      <input class="form-control" name="costo_extras" readonly="readonly" id="total_extra" value="{{$total_ext + $total_ingr_ext}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Costo total del evento">Costo total del evento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" id="costo_total_evento" name="costo_final_evento" value="{{$total + $total_ext + $eventos_detalle[0]->pago_cocineros}}">
+      <input class="form-control" readonly="readonly" id="costo_total_evento" name="costo_final_evento" value="{{$total + $total_ext + $total_ingr_ext + $eventos_detalle[0]->pago_cocineros}}">
     </div>
   </div>
 </div>

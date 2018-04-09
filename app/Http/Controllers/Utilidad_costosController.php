@@ -171,9 +171,21 @@ class Utilidad_costosController extends Controller
       ->where('ed.id_evento', '=', $id)
       ->get();
 
+      $ingr_extras=DB::table('ingredientes as ingr')
+      ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
+      ->where('etie.id_evento', '=', $id)
+      ->select('ingr.nombre', 'etie.precio','etie.cantidad', 'etie.id')
+      ->get();
+
+      $num_ingr_ext=DB::table('ingredientes as ingr')
+      ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
+      ->where('etie.id_evento', '=', $id)
+      ->count();
+
       return view('carritos.utilidad_costos.create', ["id"=>$id, "eventos_detalle"=>$eventos_detalle,
                                                     "ingredientes"=>$ingredientes, "ingredientes_num"=>$ingredientes_num,
-                                                    "extras"=>$extras, "extras_num"=>$extras_num, "cuentas"=>$cuentas]);
+                                                    "extras"=>$extras, "extras_num"=>$extras_num, "cuentas"=>$cuentas,
+                                                    "ingr_extras"=>$ingr_extras, "num_ingr_ext"=>$num_ingr_ext]);
     }
 
     public function aprobar_2($id){
