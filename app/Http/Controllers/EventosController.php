@@ -209,6 +209,13 @@ class EventosController extends Controller
     ->where('eventos.id', '=', $id)
     ->paginate(7);
 
+    $ingr_extras=DB::table('ingredientes as ingr')
+    ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
+    ->where('etie.id_evento', '=', $id)
+    ->select('ingr.nombre', 'etie.cantidad', 'etie.id')
+    ->get();
+
+
     $evento_detalle=DB::table('eventos_detalle')
     ->where('id_evento', '=', $id)
     ->get();
@@ -283,7 +290,7 @@ class EventosController extends Controller
 
 
     $i_ingr = count($ingredientes);
-    return view('carritos.eventos.show', ["evento"=>$evento, "ingredientes"=>$ingredientes,
+    return view('carritos.eventos.show', ["evento"=>$evento, "ingr_extras"=>$ingr_extras,"ingredientes"=>$ingredientes,
                                              "productos"=>$productos, "extras"=>$extras,
                                              "trabajadores"=>$trabajadores, "base" => $base,
                                              "total"=>$total, "vehiculos"=>$vehiculos,

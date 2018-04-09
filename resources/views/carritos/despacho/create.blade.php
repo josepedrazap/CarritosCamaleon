@@ -190,7 +190,7 @@ function calculo_total_productos(){
       <div class="col-lg-6 col-md-6 col-sm-3 col-xs-6">
         <div class="form-group">
           <label for="telefono_cliente">Teléfono</label>
-            <h4>{{$evento[0]->contacto}}</h4>
+            <h4>+{{$evento[0]->contacto}}</h4>
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
@@ -387,7 +387,7 @@ function calculo_total_productos(){
       <hr></hr>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-          <h4>Pago líquido cocineros</h4>
+          <h4>Pago líquido por cocinero</h4>
           <input class="form-control" name="monto_cocineros" type="number" placeholder="$20000" required/>
         </div>
       </div>
