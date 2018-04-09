@@ -107,7 +107,7 @@ function calculo_precio_2(){
     aux1 += parseFloat($("#precio_ext_" + i).val());
   }
   var aux2 = 0;
-  for(i=0; i<{{$num_ingr_ext}}; i++){
+  for(i=0; i<{{$num_ext}}; i++){
     aux2 += parseFloat($("#costo_ext_" + i).val());
   }
   document.getElementById('total_ext').value = aux1;
