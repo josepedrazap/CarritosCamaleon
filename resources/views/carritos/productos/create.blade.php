@@ -24,11 +24,23 @@ function addIngredientes(){
 
 }
 function llenar_select_extras(e, sv){
+  tipo_ = "{{$ingredientes[0]->tipo}}";
+  $(sv).append('<optgroup label="'+tipo_+'">');
+
   @foreach($ingredientes as $ing)
     id = "{{$ing->id}}";
     aux = "{{$ing->nombre}}";
+    tipo = "{{$ing->tipo}}";
+
+    if(tipo_ != tipo){
+      $(sv).append('<optgroup/>');
+      $(sv).append('<optgroup label="'+tipo+'">');
+      tipo_ = "{{$ing->tipo}}";
+    }
     $(sv).append('<option value="'+id+'">'+aux+'</option>');
+
   @endforeach
+  $(sv).append('<optgroup/>');
 }
 </script>
 

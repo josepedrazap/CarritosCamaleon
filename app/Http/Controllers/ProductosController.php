@@ -37,6 +37,7 @@ class ProductosController extends Controller
 
       $ingredientes=DB::table('ingredientes as ingr')
       ->where('ingr.condicion', '=', '1')
+      ->orderBy('ingr.tipo', 'desc')
       ->get();
 
       $tipos = DB::table('selects_valores as sv')
