@@ -305,8 +305,8 @@ function calculo_total_productos(){
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#F9E79F">
               <th class="col-lg-2 col-md-2 col-sm-2">Extras</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Precio</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Costo</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
             </thead>
             @if($num_ext != 0)
             <tfoot>
@@ -346,8 +346,8 @@ function calculo_total_productos(){
             <thead style= "background-color:#7FB3D5">
               <th class="col-lg-2 col-md-2 col-sm-2">Ingredientes</th>
               <th class="col-lg-2 col-md-2 col-sm-2">Cantidad</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Precio</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Costo</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
             </thead>
               @if($num_ingr_ext != 0)
               <tfoot>
