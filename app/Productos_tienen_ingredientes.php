@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Productos_tienen_ingredientes extends Model
 {
-  protected $table = 'Productos_tienen_ingredientes';
+  protected $table = 'productos_tienen_ingredientes';
   protected $primaryKey = 'id';
   public $timestamp = 'false';
 

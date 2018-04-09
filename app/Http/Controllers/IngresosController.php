@@ -150,31 +150,33 @@ class IngresosController extends Controller
             $cont++;
           }
           $cont = 0;
-          while($cont < count($id_cuenta_c)){
 
-            $cmf_temp = new Cuentas_movimientos;
-            $cmf_temp->id_cuenta = $id_cuenta_c[$cont];
-            $cmf_temp->id_documento = $fact_temp->id;
-            if($debe_cuenta_c[$cont] != ''){
-                  $cmf_temp->debe =  $debe_cuenta_c[$cont];
-            }else{
-                  $cmf_temp->debe = 0;
-            }
-            if($haber_cuenta_c[$cont] != ''){
-                  $cmf_temp->haber = $haber_cuenta_c[$cont];
-            }else{
-                  $cmf_temp->haber = 0;
-            }
-            if($glosa_cuenta_c[$cont] != ''){
-                  $cmf_temp->glosa = $glosa_cuenta_c[$cont];
-            }else{
-                  $cmf_temp->glosa = '';
-            }
-            $cmf_temp->fecha = $fecha_documento;
+          if($request->get('id_cuenta_c')){
+            while($cont < count($id_cuenta_c)){
 
-            $cmf_temp->save();
-            $cont++;
+              $cmf_temp = new Cuentas_movimientos;
+              $cmf_temp->id_cuenta = $id_cuenta_c[$cont];
+              $cmf_temp->id_documento = $fact_temp->id;
+              if($debe_cuenta_c[$cont] != ''){
+                    $cmf_temp->debe =  $debe_cuenta_c[$cont];
+              }else{
+                    $cmf_temp->debe = 0;
+              }
+              if($haber_cuenta_c[$cont] != ''){
+                    $cmf_temp->haber = $haber_cuenta_c[$cont];
+              }else{
+                    $cmf_temp->haber = 0;
+              }
+              if($glosa_cuenta_c[$cont] != ''){
+                    $cmf_temp->glosa = $glosa_cuenta_c[$cont];
+              }else{
+                    $cmf_temp->glosa = '';
+              }
+              $cmf_temp->fecha = $fecha_documento;
 
+              $cmf_temp->save();
+              $cont++;
+            }
           }
           DB::commit();
         }catch(Exception $e){
