@@ -196,10 +196,7 @@
   </div>
 
 @if($evento[0]->condicion == 2)
-
-
   <div class="col-lg-6 col-md-6 col-sm-6">
-
     <h4>Trabajadores del evento</h4>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-condensed table-hover">
@@ -216,7 +213,6 @@
       </table>
     </div>
   </div>
-
 @endif
 </div>
 {!!Form::close()!!}

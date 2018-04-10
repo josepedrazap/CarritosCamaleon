@@ -41,8 +41,9 @@ class AuxController extends Controller{
           $user->email = $request->get('email');
           $user->nivel = $request->get('nivel');
           $user->save();
-          return view('carritos.aux_views.succes', ["resultado" => 1, "user"=>$user]);
           DB::commit();
+          return view('carritos.aux_views.succes', ["resultado" => 1, "user"=>$user]);
+
         }catch(Exception $e){
           DB::rollback();
           return view('carritos.aux_views.succes', ["resultado" => 0]);
