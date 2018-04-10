@@ -22,7 +22,15 @@
           <tr>
             <td>{{$cli->nombre}} {{$cli->apellido}}</td>
             <td>{{$cli->rut}}</td>
-            <td>{{$cli->contacto}}</td>
+            @if($cli->contacto[0] == 5 && $cli->contacto[1] == 6 && $cli->contacto[2] == 9 && strlen($cli->contacto) >= 11)
+              <td>
+                <a href="{{"https://api.whatsapp.com/send?phone=$cli->contacto"}}" target="_blank">
+                  <IMG SRC="{{ asset('img/img_wh.png') }}" WIDTH=20 HEIGHT=20>    +{{$cli->contacto}}
+                </a>
+              </td>
+            @else
+              <td><IMG SRC="{{ asset('img/img_tel.png') }}" WIDTH=20 HEIGHT=20>    {{$cli->contacto}}</td>
+            @endif
             <td>{{$cli->mail}}</td>
             <td>
               <a href="/carritos/clientes/ver_eventos/{{$cli->id}}"><button class="btn btn-info">ver eventos</button></a>

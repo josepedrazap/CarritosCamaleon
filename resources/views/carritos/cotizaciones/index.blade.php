@@ -15,7 +15,7 @@
             <th>Estado</th>
             <th>Fecha y hora</th>
             <th>Nombre cliente</th>
-            <th>Dirección</th>
+
             <th>Contacto</th>
             <th>Opciones</th>
           </thead>
@@ -26,9 +26,13 @@
             <td style="color:blue"> <strong>Cotización</strong></td>
             <td>{{$eve->fecha_hora}}</td>
             <td>{{$eve->nombre_cliente}}</td>
-            <td>{{$eve->direccion}}</td>
-            @if($eve->contacto[0] == '+' && $eve->contacto[1] == 5 && $eve->contacto[2] == 6 && $eve->contacto[3] == 9 && strlen($eve->contacto) >= 11)
-              <td><IMG SRC="{{ asset('img/img_wh.png') }}" WIDTH=20 HEIGHT=20>    {{$eve->contacto}}</td>
+
+            @if($eve->contacto[0] == 5 && $eve->contacto[1] == 6 && $eve->contacto[2] == 9 && strlen($eve->contacto) >= 11)
+              <td>
+                <a href="{{"https://api.whatsapp.com/send?phone=$eve->contacto"}}" target="_blank">
+                  <IMG SRC="{{ asset('img/img_wh.png') }}" WIDTH=20 HEIGHT=20>    +{{$eve->contacto}}
+                </a>
+              </td>
             @else
               <td><IMG SRC="{{ asset('img/img_tel.png') }}" WIDTH=20 HEIGHT=20>    {{$eve->contacto}}</td>
             @endif

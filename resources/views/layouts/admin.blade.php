@@ -127,12 +127,14 @@
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-th"></i>
-                <span>Productos</span>
+                <span>Productos y extras</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="/carritos/productos"><i class="far fa-circle"></i> Todos los productos</a></li>
                 <li><a href="/carritos/productos/create"><i class="far fa-circle"></i> Nuevo producto</a></li>
+                <li><a href="/carritos/extras"><i class="far fa-circle"></i> Todos los extras</a></li>
+                <li><a href="/carritos/extras/create"><i class="far fa-circle"></i> Nuevo extra</a></li>
               </ul>
             </li>
             <li class="treeview">

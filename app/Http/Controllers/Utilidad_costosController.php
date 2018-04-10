@@ -53,7 +53,7 @@ class Utilidad_costosController extends Controller
         ->join('eventos_tienen_productos as etp', 'etp.id_evento', '=', 'eventos.id')
         ->join('productos as prod', 'prod.id', '=', 'etp.id_producto')
         ->whereIn('eventos.condicion', array(2, 3))
-        ->whereIn('eventos.aprobado', array(2, 3))
+        ->whereIn('eventos.aprobado', array(1, 2))
         ->orderBy('eventos.id','desc')
         ->select('eventos.id', 'ed.costo_final','etp.cantidad', 'etp.precio_a_cobrar','eventos.nombre_cliente', 'eventos.condicion', 'eventos.nombre_cliente', 'eventos.fecha_hora', 'eventos.direccion', 'ed.precio_evento', 'prod.nombre')
         ->groupBy('eventos.id', 'ed.costo_final','etp.cantidad','etp.precio_a_cobrar', 'eventos.nombre_cliente', 'eventos.condicion', 'eventos.nombre_cliente', 'eventos.fecha_hora', 'eventos.direccion', 'ed.precio_evento', 'prod.nombre')
@@ -182,7 +182,7 @@ class Utilidad_costosController extends Controller
       ->where('etie.id_evento', '=', $id)
       ->count();
 
-      return view('carritos.utilidad_costos.create', ["id"=>$id, "eventos_detalle"=>$eventos_detalle,
+      return view('carritos.utilidad_costos.create', ["id"=>$id, "eventos_detalle"=>$eventos_detalle, "inhabilitado" => 0,
                                                     "ingredientes"=>$ingredientes, "ingredientes_num"=>$ingredientes_num,
                                                     "extras"=>$extras, "extras_num"=>$extras_num, "cuentas"=>$cuentas,
                                                     "ingr_extras"=>$ingr_extras, "num_ingr_ext"=>$num_ingr_ext]);
