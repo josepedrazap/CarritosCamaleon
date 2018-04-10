@@ -16,7 +16,7 @@ class admin
     public function handle($request, Closure $next)
     {
       if ($request->user()->nivel == 'Invitado') {
-        abort(404, "No tienes las credenciales para acceder a esta función.");
+        abort(403, "No tienes las credenciales para acceder a esta función.");
       }
         return $next($request);
     }
