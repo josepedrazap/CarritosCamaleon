@@ -216,8 +216,8 @@
       </table>
     </div>
   </div>
-</div>
-@endif
 
+@endif
+</div>
 {!!Form::close()!!}
 @endsection
