@@ -33,7 +33,6 @@ class AuxController extends Controller{
 
     function store(UserFormRequest $request){
       DB::beginTransaction();
-
         try{
           $user = new User;
           $user->name = $request->get('name');
