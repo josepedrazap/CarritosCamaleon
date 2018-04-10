@@ -19,7 +19,9 @@ var haber_sum = 0;
     }
     total = 0;
     total_2 = 0;
+    total_3 = 0;
     aux = 0;
+    aux2 = 0;
 
     for(a = 0; a < {{$ingredientes_num}}; a++){
       sv = "#costo_ingr_" + a;
@@ -31,12 +33,17 @@ var haber_sum = 0;
       aux = $(sv).val();
       total_2 = parseInt(aux) + total_2;
     }
-    document.getElementById('total_extra').value = parseInt(total_2);
+    for(e = 0; e < {{$num_ingr_ext}}; e++){
+      sv = "#costo_ingr_ext_" + e;
+      aux2 = $(sv).val();
+      total_3 = parseInt(aux2) + total_3;
+    }
+    document.getElementById('total_extra').value = parseInt(total_2) + parseInt(total_3);
     document.getElementById('costo_ingr_total').value = parseInt(total);
-    document.getElementById('costo_total_evento').value = parseInt(total) +  parseInt(total_2) + {{$eventos_detalle[0]->pago_cocineros}};
-    document.getElementById('IVA_ingredientes').value = parseInt(total * 0.19);
-    document.getElementById('IVA_ajustado').value = parseInt({{$eventos_detalle[0]->precio_evento*0.19}} - total * 0.19);
-    document.getElementById('Utilidad_final').value = parseInt({{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento*0.19}} + total * 0.19 - total - {{$eventos_detalle[0]->pago_cocineros}} - total_2);
+    document.getElementById('costo_total_evento').value = parseInt(total) +  parseInt(total_3) + parseInt(total_2) + {{$eventos_detalle[0]->pago_cocineros}};
+    document.getElementById('IVA_ingredientes').value = parseInt(total * 0.19) + parseInt(total_3*0.19);
+    document.getElementById('IVA_ajustado').value = parseInt({{$eventos_detalle[0]->precio_evento*0.19}} - total * 0.19 - total_3*0.19);
+    document.getElementById('Utilidad_final').value = parseInt({{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento*0.19}} + (total + total_3)* 0.19 - total - {{$eventos_detalle[0]->pago_cocineros}} - total_2 - total_3);
 
     let pu = ($('#Utilidad_final').val()/{{$eventos_detalle[0]->precio_evento}})*100;
     document.getElementById('porcentaje_utilidad').value = pu.toFixed(2);
@@ -130,8 +137,8 @@ var haber_sum = 0;
               <td>$ {{$ext->precio}}</td>
               <th>
                 <input class="form-control hidden" name="id_ext[]" value="{{$ext->id_ete}}">
-                <input class="form-control" value="{{$ext->precio}}" onkeyup="calc(0,0)" id="costo_ext_{{$i}}" name="costo_ext[]">
-                <?php $total_ext += $ext->precio;
+                <input class="form-control" value="{{$ext->costo}}" readonly="readonly" id="costo_ext_{{$i}}" name="costo_ext[]">
+                <?php $total_ext += $ext->costo;
                 ?>
               </th>
             </tr>
@@ -159,8 +166,8 @@ var haber_sum = 0;
               <td>$ {{$ext->precio}}</td>
               <th>
                 <input class="form-control hidden" name="id_ingr_ext[]" value="{{$ext->id}}">
-                <input class="form-control" value="{{$ext->precio}}" onkeyup="calc(0,0)" id="costo_ingr_ext_{{$i}}" name="costo_ingr_ext[]">
-                <?php $total_ingr_ext += $ext->precio;
+                <input class="form-control" value="{{$ext->costo}}" readonly="readonly" id="costo_ingr_ext_{{$i}}" name="costo_ingr_ext[]">
+                <?php $total_ingr_ext += $ext->costo;
                 ?>
               </th>
             </tr>
@@ -214,7 +221,7 @@ var haber_sum = 0;
     <label for="Iva ingredientes">IVA ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{$total * 0.19}}">
+      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{$total * 0.19 + $total_ingr_ext*0.19}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
@@ -228,21 +235,21 @@ var haber_sum = 0;
     <label for="IVA del evento">IVA ajustado</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" id="IVA_ajustado" value="{{$eventos_detalle[0]->precio_evento * 0.19 - $total*0.19}}">
+      <input class="form-control" readonly="readonly" id="IVA_ajustado" value="{{$eventos_detalle[0]->precio_evento * 0.19 - $total*0.19 - $total_ingr_ext*0.19}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Utilidad final">Utilidad final</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 - $total - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros}}">
+      <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 + $total_ingr_ext*0.19 - $total - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">Porcentaje de ganancia</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{100*($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 - $total - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)/$eventos_detalle[0]->precio_evento}}">
+      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{100*($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 - $total + $total_ingr_ext*0.19 - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)/$eventos_detalle[0]->precio_evento}}">
     </div>
   </div>
 </div>
@@ -250,7 +257,10 @@ var haber_sum = 0;
 
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <div class="form-group">
+      @if($inhabilitado != 1)
       <a href=""><button class="btn btn-primary" type="submit">Aprobar</button></a>
+      @endif
+
     </div>
   </div>
 

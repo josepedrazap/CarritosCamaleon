@@ -129,7 +129,7 @@
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead style="background-color:#F9E79F">
           <th class="col-lg-2 col-md-2 col-sm-2">Extras</th>
-          <th class="col-lg-2 col-md-2 col-sm-2">Precio</th>
+          <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
         </thead>
         @foreach($extras as $ext)
         <tr>
@@ -147,12 +147,12 @@
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead style="background-color:#F9E79F">
           <th class="col-lg-2 col-md-2 col-sm-2">Extras</th>
-          <th class="col-lg-2 col-md-2 col-sm-2">Precio</th>
+          <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
         </thead>
         @foreach($ingr_extras as $ext)
         <tr>
           <td>{{$ext->nombre}}</td>
-          <td>{{$ext->cantidad}}</td>
+          <td>{{$ext->precio}}</td>
         </tr>
         @endforeach
       </table>

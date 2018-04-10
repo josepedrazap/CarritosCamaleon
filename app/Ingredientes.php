@@ -19,7 +19,9 @@ class Ingredientes extends Model
     'inventareable',
     'precio_bruto',
     'precio_liquido',
-    'iva'
+    'iva',
+    'porcion_',
+    'uni_porcion'
   ];
 
   protected $guarded = [

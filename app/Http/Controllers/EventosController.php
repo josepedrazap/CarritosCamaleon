@@ -54,8 +54,7 @@ class EventosController extends Controller
           $date_2 = $date_2->format('Y-m-d');
 
           $eventos=DB::table('eventos')
-          ->where('condicion', '!=', 0)
-          ->where('condicion', '!=', 4)
+          ->whereIn('condicion', array(1,2,3))
           ->where('fecha_hora', '>=', $date_1)
           ->where('fecha_hora', '<', $date_2)
           ->orderBy('fecha_hora','desc')
@@ -72,8 +71,7 @@ class EventosController extends Controller
           $date = $date->format('Y-m-d');
 
           $eventos=DB::table('eventos')
-          ->where('condicion', '!=', 0)
-          ->where('condicion', '!=', 4)
+          ->whereIn('condicion', array(1,2,3))
           ->where('fecha_hora', '>=', $date_now)
           ->where('fecha_hora', '<', $date)
           ->orderBy('fecha_hora','desc')
@@ -85,8 +83,7 @@ class EventosController extends Controller
       if($request->get('tipo') != 1 && $request->get('tipo') != 2){
           $query=trim($request->get('searchText'));
           $eventos=DB::table('eventos')
-          ->where('condicion', '!=', 0)
-          ->where('condicion', '!=', 4)
+          ->whereIn('condicion', array(1,2,3))
           ->where('nombre_cliente','LIKE','%'.$query.'%')
           ->orderBy('id','desc')
           ->paginate(7);
@@ -207,14 +204,13 @@ class EventosController extends Controller
 
     $evento=DB::table('eventos')
     ->where('eventos.id', '=', $id)
-    ->paginate(7);
+    ->get();
 
     $ingr_extras=DB::table('ingredientes as ingr')
     ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
     ->where('etie.id_evento', '=', $id)
-    ->select('ingr.nombre', 'etie.cantidad', 'etie.id')
+    ->select('ingr.nombre', 'etie.cantidad', 'etie.precio','etie.id')
     ->get();
-
 
     $evento_detalle=DB::table('eventos_detalle')
     ->where('id_evento', '=', $id)
@@ -282,18 +278,12 @@ class EventosController extends Controller
     ->groupBy('nombre', 'apellido', 'monto')
     ->get();
 
-    $vehiculos=DB::table('vehiculos')->get();
-
-    //$products = Product::all();
-
-    $pdf = PDF::loadView('carritos.gastos.error');
-
-
     $i_ingr = count($ingredientes);
-    return view('carritos.eventos.show', ["evento"=>$evento, "ingr_extras"=>$ingr_extras,"ingredientes"=>$ingredientes,
+    return view('carritos.eventos.show', ["evento"=>$evento, "ingr_extras"=>$ingr_extras,
+                                            "ingredientes"=>$ingredientes,
                                              "productos"=>$productos, "extras"=>$extras,
                                              "trabajadores"=>$trabajadores, "base" => $base,
-                                             "total"=>$total, "vehiculos"=>$vehiculos,
+                                             "total"=>$total,
                                              "pago_cocinero"=>20000, "i_ingr" => $i_ingr,
                                              "evento_detalle"=>$evento_detalle]);
   }

@@ -49,7 +49,7 @@ class DespachoController extends Controller
       $ingr_extras=DB::table('ingredientes as ingr')
       ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
       ->where('etie.id_evento', '=', $id)
-      ->select('ingr.nombre', 'etie.cantidad', 'etie.id')
+      ->select('ingr.nombre', 'etie.cantidad', 'etie.id', 'ingr.porcion_', 'precio_bruto','ingr.uni_porcion')
       ->get();
 
       $num_ingr_ext=DB::table('ingredientes as ingr')
@@ -89,8 +89,8 @@ class DespachoController extends Controller
       ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
       ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
       ->where('etp.id_evento', '=', $id)
-      ->select('ingr.nombre as nombre', 'ingr.inventareable' ,'pti.unidad as unidad', 'ingr.unidad as uni_inv','inv.cantidad as stock','ingr.id as id_ingr', DB::raw('sum(porcion*etp.cantidad) as sum'))
-      ->groupBy('nombre', 'ingr.inventareable' ,'unidad', 'id_ingr', 'stock', 'uni_inv')
+      ->select('ingr.nombre as nombre', 'ingr.inventareable' ,'precio_bruto','pti.unidad as unidad', 'ingr.unidad as uni_inv','inv.cantidad as stock','ingr.id as id_ingr', DB::raw('sum(porcion*etp.cantidad) as sum'))
+      ->groupBy('nombre', 'ingr.inventareable' ,'unidad', 'precio_bruto','id_ingr', 'stock', 'uni_inv')
       ->get();
 
       $trabajadores=DB::table('trabajadores as tra')
@@ -124,14 +124,17 @@ class DespachoController extends Controller
     public function store(Request $request){
       DB::beginTransaction();
       try{
-
-
         $id = $request->id_evento_;
         $eventos = Eventos::findOrFail($id);
 
         if($eventos->condicion != 4){
           $eventos = Eventos::findOrFail($id);
           $eventos->condicion = 2;
+          $eventos->update();
+        }
+        if($eventos->condicion == 4){
+          $eventos = Eventos::findOrFail($id);
+          $eventos->condicion = 6;
           $eventos->update();
         }
 
@@ -142,7 +145,6 @@ class DespachoController extends Controller
         $id_etps = $request->get('id_etp');
 
         $precio_real_ext = $request->get('precio_extra');
-
         $total_final = $request->get('total_final');
         $total_final_iva = $request->get('total_iva');
         $extra_movil = $request->get('extra_movil');
@@ -153,7 +155,7 @@ class DespachoController extends Controller
 
         $eve_det = new Eventos_detalle;
         $eve_det->id_evento = $id;
-        $eve_det->gasto_extra = $extra_movil;
+        $eve_det->gasto_extra = 0;
         $eve_det->iva_por_pagar = $total_final_iva;
         $eve_det->precio_evento = $total_final;
         $eve_det->pago_cocineros = $pago_cocineros;
@@ -187,10 +189,12 @@ class DespachoController extends Controller
 
         if($request->get('id_ete')){
               $id_etes = $request->get('id_ete');
+              $etes_costos = $request->get('costo_extra');
               $cont = 0;
               while($cont < count($id_etes)){
                 $id_temp = $id_etes[$cont];
                 $ete_temp = Eventos_tienen_extras::findOrFail($id_temp);
+                $ete_temp->costo = $etes_costos[$cont];
                 $ete_temp->precio = $precio_real_ext[$cont];
                 $ete_temp->update();
                 $cont++;
@@ -199,11 +203,13 @@ class DespachoController extends Controller
         }
         if($request->get('id_etie')){
               $id_eties = $request->get('id_etie');
+              $eties_costos = $request->get('costo_ingr_extra');
               $precio_real_ingr_ext = $request->get('precio_ingr_extra');
               $cont = 0;
               while($cont < count($id_eties)){
                 $id_temp = $id_eties[$cont];
                 $etie_temp = Eventos_tienen_ingr_extras::findOrFail($id_temp);
+                $etie_temp->costo = $eties_costos[$cont];
                 $etie_temp->precio = $precio_real_ingr_ext[$cont];
                 $etie_temp->update();
                 $cont++;
@@ -217,7 +223,7 @@ class DespachoController extends Controller
           DB::rollback();
       }
 
-      if($eventos->condicion == 4){
+      if($eventos->condicion == 6){
           return Redirect::to("carritos/cotizaciones");
       }else{
           return Redirect::to("carritos/despacho");

@@ -19,12 +19,10 @@ function eval(i, v){
 function calculo_total(valor){
       var total = 0;
       v1 = $("#total_sum").val();
-      v2 = $("#val1").val();
       v3 = $('#total_ext').val();
       v4 = $('#total_ingr_ext').val();
-      total = parseFloat(v1) + parseFloat(v2) + parseFloat(v3) + parseFloat(v4);
+      total = parseFloat(v1) + parseFloat(v3) + parseFloat(v4);
 
-      document.getElementById('val2').value = parseFloat(v1);
       document.getElementById('IVA').value = parseFloat(total * 0.19);
       document.getElementById('Display').value = total;
       document.getElementById('iva_total').value = total * 0.19;
@@ -35,11 +33,11 @@ function calculo_total(valor){
 function suma_cocinero(i){
 
   if(i == 1){
-    total = parseFloat($("#pago_cocinero").val()) + {{$pago_cocinero}};
+    total = parseFloat($("#pago_cocinero").val()) + parseInt($("#precio_real_" + i).val());
     document.getElementById('pago_cocinero').value = total;
     //calculo_total();
   }else{
-    total = parseFloat($("#pago_cocinero").val()) - {{$pago_cocinero}};
+    total = parseFloat($("#pago_cocinero").val()) - parseInt($("#precio_real_" + i).val());
     document.getElementById('pago_cocinero').value = total;
     //calculo_total();
   }
@@ -51,6 +49,8 @@ function eliminar_coc(){
     $(sv).remove();
     suma_cocinero(0);
     a--;
+    calculo_costos_total();
+
     seguridad = seguridad - 1;
   }
   mostrar_ocultar_buttons(seguridad);
@@ -76,6 +76,7 @@ function addCocinero(){
             llenar_select_trabajadores(a,sv);
             suma_cocinero(1);
             mostrar_ocultar_buttons(seguridad);
+            calculo_costos_total();
 
 }
 function llenar_select_trabajadores(a, sv){
@@ -101,6 +102,17 @@ function calculo_precio(t, i){
   document.getElementById('total_'+i).value = total;
   calculo_total_productos();
 }
+function calculo_costos_total(){
+  var total = 0;
+  v1 = $("#total_costo_ingredientes").val();
+  v2 = $("#total_costo_ext").val();
+  v3 = $('#total_costo_ingr_ext').val();
+
+  v4 = $('#monto_cocineros').val();
+  total = parseFloat(v1) + parseFloat(v2) + parseFloat(v3) + parseFloat(v4)*parseFloat(a);
+  document.getElementById('costo_parcial').value = total;
+
+}
 function calculo_precio_2(){
   var aux1 = 0;
   for(i=0; i<{{$num_ext}}; i++){
@@ -112,6 +124,7 @@ function calculo_precio_2(){
   }
   document.getElementById('total_ext').value = aux1;
   document.getElementById('total_costo_ext').value = aux2;
+  calculo_costos_total();
   calculo_total();
 }
 function calculo_precio_3(){
@@ -125,6 +138,7 @@ function calculo_precio_3(){
   }
   document.getElementById('total_ingr_ext').value = aux1;
   document.getElementById('total_costo_ingr_ext').value = aux2;
+  calculo_costos_total();
   calculo_total();
 }
 function calculo_total_productos(){
@@ -245,7 +259,7 @@ function calculo_total_productos(){
             @foreach($productos as $prod)
             <tr>
               <td>{{$prod->nombre}}</td>
-              <td><input class="form-control" id="cant_prod_{{$i}}" value="{{$prod->cantidad}}" readonly="readonly"></td>
+              <td><input class="form-control" id="cant_prod_{{$i}}" value="{{$prod->cantidad}}" onkeyup="calculo_precio(this.value, {{$i}})"></td>
               <td>${{$prod->precio}}</td>
               <th><input name="precio_real[]" type="number" id="precio_real_{{$i}}" required onkeyup="calculo_precio(this.value, {{$i}})" class="form-control"></th>
               <th><input name="precio_liquido[]" type="number" id="precio_liquido_{{$i}}" class="form-control" readonly="readonly"></th>
@@ -267,8 +281,14 @@ function calculo_total_productos(){
               <thead style="background-color:#7DCEA0">
                 <th>Ingredientes</th>
                 <th>Cantidad sugerida</th>
+                <th>Precio bruto unidad</th>
+                <th>Costo total</th>
                 <th>Stock en inventario</th>
               </thead>
+
+              <?php
+                $costo_total_tmp = 0;
+               ?>
               @foreach($ingredientes as $ingr)
               <tr>
                 <td>{{$ingr->nombre}}</td>
@@ -285,6 +305,34 @@ function calculo_total_productos(){
                 @else
                 <td>{{round($ingr->sum)}} unidades</td>
                 @endif
+
+                <td>$ {{$ingr->precio_bruto}} x {{$ingr->uni_inv}}</td>
+
+                @if($ingr->unidad == "gramos" || $ingr->unidad == "unidad" || $ingr->unidad == "lámina")
+                @if($ingr->unidad == "gramos")
+                <td>$ {{$ingr->sum * $ingr->precio_bruto/ 1000}}</td>
+                <?php
+                  $costo_total_tmp += ($ingr->sum * $ingr->precio_bruto) / 1000;
+                 ?>
+                @endif
+                @if($ingr->unidad == "unidad")
+                <td>$ {{round($ingr->sum * $ingr->precio_bruto)}}</td>
+                <?php
+                  $costo_total_tmp += round($ingr->sum * $ingr->precio_bruto);
+                 ?>
+                @endif
+                @if($ingr->unidad == "lámina")
+                <td>$ {{round($ingr->sum * $ingr->precio_bruto)}}</td>
+                <?php
+                  $costo_total_tmp += round($ingr->sum * $ingr->precio_bruto);
+                 ?>
+                @endif
+                @else
+                <td>$ {{round($ingr->sum * $ingr->precio_bruto)}}</td>
+                <?php
+                  $costo_total_tmp += round($ingr->sum * $ingr->precio_bruto);
+                 ?>
+                @endif
                 @if($ingr->inventareable == 1)
                 <th><input class="form-control" id="{{$ingr->id_ingr}}" value="{{$ingr->stock}} {{$ingr->uni_inv}}" disabled></th>
                 @else
@@ -292,6 +340,13 @@ function calculo_total_productos(){
                 @endif
               </tr>
               @endforeach
+              <tfoot>
+                <th></th>
+                <th></th>
+                <td><h4><strong>Total:</strong></td>
+                <th><input class="form-control" name="total_costo_ingredientes[]" id="total_costo_ingredientes" value="{{$costo_total_tmp}}" required readonly="readonly"></th>
+                <th></th>
+              </tfoot>
             </table>
           </div>
         </div>
@@ -305,26 +360,27 @@ function calculo_total_productos(){
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#F9E79F">
               <th class="col-lg-2 col-md-2 col-sm-2">Extras</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
               <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
             </thead>
             @if($num_ext != 0)
             <tfoot>
               <td><h4><strong>Total:</strong></td>
-              <th><input class="form-control" name="total_extra[]" id="total_ext" required readonly="readonly"></th>
               <th><input class="form-control" name="total_costo_extra[]" id="total_costo_ext" required readonly="readonly"></th>
+              <th><input class="form-control" name="total_extra[]" id="total_ext" required readonly="readonly"></th>
             </tfoot>
             <?php $i = 0 ?>
             @foreach($extras as $ext)
             <tr>
               <td>{{$ext->valor}}</td>
               <th>
+                  <input class="form-control" name="costo_extra[]" id="costo_ext_{{$i}}" onkeyup="calculo_precio_2({{$i}})" required>
+              </th>
+              <th>
                   <input class="form-control" name="precio_extra[]" id="precio_ext_{{$i}}" onkeyup="calculo_precio_2({{$i}})" required>
                   <input name="id_ete[]" id="id_ete_{{$i}}" value="{{$ext->id}}"  hidden>
               </th>
-              <th>
-                  <input class="form-control" name="costo_extra[]" id="costo_ext_{{$i}}" onkeyup="calculo_precio_2({{$i}})" required>
-              </th>
+
             </tr>
               <?php $i++ ?>
             @endforeach
@@ -346,15 +402,16 @@ function calculo_total_productos(){
             <thead style= "background-color:#7FB3D5">
               <th class="col-lg-2 col-md-2 col-sm-2">Ingredientes</th>
               <th class="col-lg-2 col-md-2 col-sm-2">Cantidad</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
               <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
+
             </thead>
               @if($num_ingr_ext != 0)
               <tfoot>
                 <td><h4><strong>Total:</strong></td>
                 <td></td>
-                <th><input class="form-control" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
                 <td><input class="form-control" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></td>
+                <th><input class="form-control" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
               </tfoot>
               <?php $i = 0 ?>
             @foreach($ingr_extras as $ing_ext)
@@ -362,19 +419,25 @@ function calculo_total_productos(){
               <td>{{$ing_ext->nombre}}</td>
               <td>{{$ing_ext->cantidad}}</td>
               <td>
+                @if($ing_ext->uni_porcion == "gramos")
+                <input class="form-control" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{round(($ing_ext->cantidad*$ing_ext->porcion_/1000)*$ing_ext->precio_bruto)}}" required>
+                @else
+                <input class="form-control" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{round(($ing_ext->cantidad*$ing_ext->porcion_)*$ing_ext->precio_bruto)}}" required>
+                @endif
+              </td>
+              <td>
                 <input class="form-control" name="precio_ingr_extra[]" id="precio_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" required>
                 <input name="id_etie[]" id="id_etie_{{$i}}" value="{{$ing_ext->id}}"  hidden>
               </td>
-              <td>
-                <input class="form-control" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" required>
-              </td>
+
             </tr>
             <?php $i++ ?>
             @endforeach
             @else
             <tfoot>
-              <td><h4><strong>Total:</strong></td>
-                <td></td>
+              <td><h4><strong>Total:</strong></h4></td>
+              <td></td>
+              <th><input class="form-control" value="0" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></th>
               <th><input class="form-control" value="0" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
             </tfoot>
             @endif
@@ -382,13 +445,12 @@ function calculo_total_productos(){
         </div>
       </div>
     </div>
-
-
       <hr></hr>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
           <h4>Pago líquido por cocinero</h4>
-          <input class="form-control" name="monto_cocineros" type="number" placeholder="$20000" required/>
+          <input class="form-control" onkeyup="calculo_costos_total()" name="monto_cocineros" id="monto_cocineros" type="number" placeholder="$20000" required/>
+          <input id="total_cocineros" type="hidden"/>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -420,10 +482,9 @@ function calculo_total_productos(){
               <td><input name="costo_parcial"  class="form-control" placeholder="" id="costo_parcial" readonly="readonly"></td>
               <td><input name="total_iva"  class="form-control" placeholder="" id="iva_total" readonly="readonly"></td>
               <td><input name="total_final"   class="form-control" placeholder="" id="Display" readonly="readonly"></td>
-              <td><input name="pago_cocinero" type="hidden" class="form-control" placeholder="" id="pago_cocinero" value="0" ></td>
-              <td><input name="extra_movil" type="hidden" class="form-control"  value="0" id="val1" onkeyup="calculo_total()" required></td>
-              <td><input name="total_pre" type="hidden" class="form-control" id="val2" readonly="readonly"></td>
-              <td><input name="total_iva" type="hidden" class="form-control" placeholder="" id="IVA" readonly="readonly"></td>
+              <td><input name="pago_cocinero" type="hidden" id="pago_cocinero" value="0" ></td>
+
+              <td><input name="total_iva" type="hidden"id="IVA"></td>
             </tr>
           </table>
         </div>
@@ -432,7 +493,7 @@ function calculo_total_productos(){
       <div class="row" id="save" hidden>
         <hr></hr>
         <input name="_token value={{csrf_token()}}" type="hidden"></input>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
 
         @if($evento[0]->condicion == 4)
         <button class="btn btn-primary" type="submit">Terminar cotización</button>

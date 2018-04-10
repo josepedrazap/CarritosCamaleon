@@ -36,7 +36,7 @@ class CotizacionesController extends Controller
           $date_2 = $date_2->format('Y-m-d');
 
           $eventos=DB::table('eventos')
-          ->where('condicion', '=', 4)
+          ->where('condicion', '=', 6)
           ->where('fecha_hora', '>=', $date_1)
           ->where('fecha_hora', '<', $date_2)
           ->orderBy('fecha_hora','desc')
@@ -53,7 +53,7 @@ class CotizacionesController extends Controller
           $date = $date->format('Y-m-d');
 
           $eventos=DB::table('eventos')
-          ->where('condicion', '=', 4)
+          ->where('condicion', '=', 6)
           ->where('fecha_hora', '>=', $date_now)
           ->where('fecha_hora', '<', $date)
           ->orderBy('fecha_hora','desc')
@@ -65,7 +65,7 @@ class CotizacionesController extends Controller
       if($request->get('tipo') != 1 && $request->get('tipo') != 2){
           $query=trim($request->get('searchText'));
           $eventos=DB::table('eventos')
-          ->where('condicion', '=', 4)
+          ->where('condicion', '=', 6)
           ->where('nombre_cliente','LIKE','%'.$query.'%')
           ->orderBy('id','desc')
           ->paginate(7);

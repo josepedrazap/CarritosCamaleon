@@ -47,9 +47,9 @@ function calc(){
           </select>
         </div>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
-          <label for="tipo">Unidad de medida</label>
+          <label for="tipo">Medida</label>
           <select class="form-control" name="unidad">
             <option>Kg</option>
             <option>unidad</option>
@@ -59,6 +59,24 @@ function calc(){
           </select>
         </div>
       </div>
+      <div class="col-lg-1 col-md-3 col-sm-6 col-xs-8">
+        <div class="form-group">
+          <label>Porción</label>
+          <input type="text" class="form-control" name="porcion">
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6 col-xs-4">
+        <div class="form-group">
+          <label>Unidad</label>
+          <select class="form-control" name="unidad_porcion">
+            <option>unidad</option>
+            <option>gramos</option>
+            <option>lámina</option>
+            <option>bolsas</option>
+          </select>
+        </div>
+      </div>
+
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-primary desactive">
@@ -67,7 +85,7 @@ function calc(){
         </div>
       </div>
     </div>
-
+<hr></hr>
     <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
