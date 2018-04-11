@@ -421,7 +421,7 @@ function calculo_total_productos(){
               <td>{{$ing_ext->nombre}}</td>
               <td>{{$ing_ext->cantidad}}</td>
               @if($ing_ext->uni_porcion == "gramos")
-              <td>{{$ing_ext->cantidad * $ing_ext->porcion_/1000}} {{$ing_ext->uni_porcion}}</td>
+              <td>{{$ing_ext->cantidad * $ing_ext->porcion_/1000}} Kg</td>
               @else
               <td>{{$ing_ext->cantidad * $ing_ext->porcion_}} {{$ing_ext->uni_porcion}}</td>
               @endif
