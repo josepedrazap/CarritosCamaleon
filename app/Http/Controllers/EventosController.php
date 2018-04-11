@@ -105,7 +105,11 @@ class EventosController extends Controller
         ->orderBy('ingr.tipo', 'desc')
         ->get();
 
-        $extras=DB::table('selects_valores as sv')->where('sv.familia', '=', 'extras')->get();
+        $extras=DB::table('selects_valores as sv')
+        ->where('sv.familia', '=', 'extras')
+        ->where('sv.condicion', '=', 1)
+        ->get();
+
         $clientes=DB::table('clientes')->get();
         return view('carritos.eventos.create', ["extras"=>$extras, "productos"=>$productos,
                                                 "ingredientes"=>$ingredientes, "clientes"=>$clientes]);
@@ -309,7 +313,11 @@ class EventosController extends Controller
     ->where('condicion', '=', '1')
     ->get();
     $ingredientes=DB::table('ingredientes')->get();
-    $extras=DB::table('selects_valores as sv')->where('sv.familia', '=', 'extras')->get();
+    $extras=DB::table('selects_valores as sv')
+    ->where('sv.familia', '=', 'extras')
+    ->where('sv.condicion', '=', 1)
+    ->get();
+    
 
     $clientes=DB::table('clientes')->get();
     return view('carritos.eventos.cotizacion', ["productos"=>$productos, "extras"=>$extras, "ingredientes"=>$ingredientes, "clientes"=>$clientes]);

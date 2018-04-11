@@ -61,7 +61,7 @@ Route::get('/', function () {
   Route::get('carritos/cuentas_contables/balance', 'Cuentas_contablesController@balance');
 
   Route::resource('carritos/reset', 'ResetpassController');
-
+  Route::resource('carritos/extras', 'ExtrasController');
   Route::resource('carritos/compras', 'ComprasController');
   Route::resource('carritos/ingredientes', 'IngredientesController');
   Route::resource('carritos/clientes', 'ClientesController');

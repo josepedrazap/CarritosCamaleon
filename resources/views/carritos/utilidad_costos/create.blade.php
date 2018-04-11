@@ -38,15 +38,15 @@ var haber_sum = 0;
       aux2 = $(sv).val();
       total_3 = parseInt(aux2) + total_3;
     }
-    document.getElementById('total_extra').value = parseInt(total_2) + parseInt(total_3);
-    document.getElementById('costo_ingr_total').value = parseInt(total);
+    document.getElementById('total_extra').value = parseInt(total_2);
+    document.getElementById('costo_ingr_total').value = parseInt(total) + parseInt(total_3);
     document.getElementById('costo_total_evento').value = parseInt(total) +  parseInt(total_3) + parseInt(total_2) + {{$eventos_detalle[0]->pago_cocineros}};
     document.getElementById('IVA_ingredientes').value = parseInt(total * 0.19) + parseInt(total_3*0.19);
     document.getElementById('IVA_ajustado').value = parseInt({{$eventos_detalle[0]->precio_evento*0.19}} - total * 0.19 - total_3*0.19);
-    document.getElementById('Utilidad_final').value = parseInt({{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento*0.19}} + (total + total_3)* 0.19 - total - {{$eventos_detalle[0]->pago_cocineros}} - total_2 - total_3);
+    document.getElementById('Utilidad_final').value = Math.round(parseInt({{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento*0.19}} + (total + total_3)* 0.19 - total - {{$eventos_detalle[0]->pago_cocineros}} - total_2 - total_3));
 
     let pu = ($('#Utilidad_final').val()/{{$eventos_detalle[0]->precio_evento}})*100;
-    document.getElementById('porcentaje_utilidad').value = pu.toFixed(2);
+    document.getElementById('porcentaje_utilidad').value = Math.round(pu.toFixed(2));
   }
 </script>
 
@@ -183,7 +183,7 @@ var haber_sum = 0;
     <label for="Costo en ingredientes">Costo en ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" id="costo_ingr_total" readonly="readonly" name="costo_ingr_total" value="{{$total}}">
+      <input class="form-control" id="costo_ingr_total" readonly="readonly" name="costo_ingr_total" value="{{$total  + $total_ingr_ext}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
@@ -197,7 +197,7 @@ var haber_sum = 0;
     <label for="Costo en extras">Costo en extras</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" name="costo_extras" readonly="readonly" id="total_extra" value="{{$total_ext + $total_ingr_ext}}">
+      <input class="form-control" name="costo_extras" readonly="readonly" id="total_extra" value="{{$total_ext}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
@@ -242,14 +242,14 @@ var haber_sum = 0;
     <label for="Utilidad final">Utilidad final</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 + $total_ingr_ext*0.19 - $total - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros}}">
+      <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{round($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 + $total_ingr_ext*0.19 - $total - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">Porcentaje de ganancia</label>
     <div class="input-group">
-      <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{100*($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 - $total + $total_ingr_ext*0.19 - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)/$eventos_detalle[0]->precio_evento}}">
+      <span class="input-group-addon">%</span>
+      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{round(100*($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 - $total + $total_ingr_ext*0.19 - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)/$eventos_detalle[0]->precio_evento)}}">
     </div>
   </div>
 </div>

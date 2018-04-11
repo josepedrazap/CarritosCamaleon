@@ -37,7 +37,7 @@
 </div>
 <div class="row">
   <div class="col-md-12 col-lg-12">
-      <h3>Extras</h3>
+      <h4>Extras</h4>
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#7DCEA0">
@@ -64,8 +64,38 @@
             @endforeach
           </table>
         </div>
+
+            <h4>Ingredientes extras</h4>
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered table-condensed table-hover">
+                  <thead style="background-color:#7DCEA0">
+                    <th>Ingredientes</th>
+                    <th>Precio de venta</th>
+                    <th>Costo</th>
+                  </thead>
+                  <?php
+                    $total_ingr_ext = 0;
+                    $i = 0;
+                  ?>
+                  @foreach($ingr_extras as $ext)
+                  <tr>
+                    <td>{{$ext->nombre}}</td>
+                    <td>$ {{$ext->precio}}</td>
+                    <th>
+                      <input class="form-control hidden" name="id_ingr_ext[]" value="{{$ext->id}}">
+                      <input class="form-control" value="{{$ext->costo}}" readonly="readonly" id="costo_ingr_ext_{{$i}}" name="costo_ingr_ext[]">
+                      <?php $total_ingr_ext += $ext->costo;
+                      ?>
+                    </th>
+                  </tr>
+                  <?php $i++ ?>
+                  @endforeach
+                </table>
+              </div>
+        </div>
+
   </div>
-</div>
+
 <hr></hr>
 <div class="row">
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
@@ -123,8 +153,8 @@
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">Porcentaje de ganancia</label>
     <div class="input-group">
-      <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{100 * $eventos_detalle[0]->utilidad_final/$eventos_detalle[0]->precio_evento}}">
+      <span class="input-group-addon">%</span>
+      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{round(100 * $eventos_detalle[0]->utilidad_final/$eventos_detalle[0]->precio_evento)}}">
     </div>
   </div>
 </div>

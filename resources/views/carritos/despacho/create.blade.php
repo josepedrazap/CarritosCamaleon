@@ -374,10 +374,10 @@ function calculo_total_productos(){
             <tr>
               <td>{{$ext->valor}}</td>
               <th>
-                  <input class="form-control" name="costo_extra[]" id="costo_ext_{{$i}}" onkeyup="calculo_precio_2({{$i}})" required>
+                  <input class="form-control" name="costo_extra[]" type="number" id="costo_ext_{{$i}}" onkeyup="calculo_precio_2({{$i}})" required>
               </th>
               <th>
-                  <input class="form-control" name="precio_extra[]" id="precio_ext_{{$i}}" onkeyup="calculo_precio_2({{$i}})" required>
+                  <input class="form-control" type="number" name="precio_extra[]" id="precio_ext_{{$i}}" onkeyup="calculo_precio_2({{$i}})" required>
                   <input name="id_ete[]" id="id_ete_{{$i}}" value="{{$ext->id}}"  hidden>
               </th>
 
@@ -420,9 +420,9 @@ function calculo_total_productos(){
               <td>{{$ing_ext->cantidad}}</td>
               <td>
                 @if($ing_ext->uni_porcion == "gramos")
-                <input class="form-control" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{round(($ing_ext->cantidad*$ing_ext->porcion_/1000)*$ing_ext->precio_bruto)}}" required>
+                <input class="form-control" type="number" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{round(($ing_ext->cantidad*$ing_ext->porcion_/1000)*$ing_ext->precio_bruto)}}" required>
                 @else
-                <input class="form-control" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{round(($ing_ext->cantidad*$ing_ext->porcion_)*$ing_ext->precio_bruto)}}" required>
+                <input class="form-control" type="number" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{round(($ing_ext->cantidad*$ing_ext->porcion_)*$ing_ext->precio_bruto)}}" required>
                 @endif
               </td>
               <td>
@@ -479,9 +479,9 @@ function calculo_total_productos(){
               <th>Monto a cobrar evento</th>
             </thead>
             <tr>
-              <td><input name="costo_parcial"  class="form-control" placeholder="" id="costo_parcial" readonly="readonly"></td>
-              <td><input name="total_iva"  class="form-control" placeholder="" id="iva_total" readonly="readonly"></td>
-              <td><input name="total_final"   class="form-control" placeholder="" id="Display" readonly="readonly"></td>
+              <th><input name="costo_parcial"  class="form-control" placeholder="" id="costo_parcial" readonly="readonly"></th>
+              <th><input name="total_iva"  class="form-control" placeholder="" id="iva_total" readonly="readonly"></th>
+              <th><input name="total_final"   class="form-control" placeholder="" id="Display" readonly="readonly"></th>
               <td><input name="pago_cocinero" type="hidden" id="pago_cocinero" value="0" ></td>
 
               <td><input name="total_iva" type="hidden"id="IVA"></td>

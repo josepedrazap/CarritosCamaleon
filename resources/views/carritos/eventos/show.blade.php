@@ -178,25 +178,9 @@
   </div>
 </div>
 
-  <div class="col-lg-6 col-md-6 col-sm-6">
-  <hr></hr>
-  <h4>Totales</h4>
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered table-condensed table-hover">
-        <thead style="background-color:#D2B4DE">
-          <th>Iva</th>
-          <th>Precio evento</th>
-        </thead>
-        <tr>
-          <th><input class="form-control" readonly="readonly" value="{{$evento_detalle[0]->total_productos_iva}}"></th>
-          <th><input class="form-control" readonly="readonly" value="{{$evento_detalle[0]->total_productos}}"></th>
-        </tr>
-      </table>
-    </div>
-  </div>
-
 @if($evento[0]->condicion == 2)
   <div class="col-lg-6 col-md-6 col-sm-6">
+    <hr></hr>
     <h4>Trabajadores del evento</h4>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-condensed table-hover">
@@ -214,6 +198,25 @@
     </div>
   </div>
 @endif
+
+  <div class="col-lg-6 col-md-6 col-sm-6">
+  <hr></hr>
+  <h4>Totales</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+        <thead style="background-color:#D2B4DE">
+          <th>Iva</th>
+          <th>Precio evento</th>
+        </thead>
+        <tr>
+          <th><input class="form-control" readonly="readonly" value="{{$evento_detalle[0]->total_productos_iva}}"></th>
+          <th><input class="form-control" readonly="readonly" value="{{$evento_detalle[0]->total_productos}}"></th>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
 </div>
 {!!Form::close()!!}
 @endsection
