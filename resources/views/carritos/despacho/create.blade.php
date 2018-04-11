@@ -401,6 +401,7 @@ function calculo_total_productos(){
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style= "background-color:#7FB3D5">
               <th class="col-lg-2 col-md-2 col-sm-2">Ingredientes</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Porciones</th>
               <th class="col-lg-2 col-md-2 col-sm-2">Cantidad</th>
               <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
               <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
@@ -410,6 +411,7 @@ function calculo_total_productos(){
               <tfoot>
                 <td><h4><strong>Total:</strong></td>
                 <td></td>
+                <td></td>
                 <td><input class="form-control" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></td>
                 <th><input class="form-control" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
               </tfoot>
@@ -418,6 +420,7 @@ function calculo_total_productos(){
             <tr>
               <td>{{$ing_ext->nombre}}</td>
               <td>{{$ing_ext->cantidad}}</td>
+              <td>{{$ing_ext->cantidad * $ingr->porcion_}}</td>
               <td>
                 @if($ing_ext->uni_porcion == "gramos")
                 <input class="form-control" type="number" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{($ing_ext->cantidad*$ing_ext->porcion_*$ing_ext->precio_bruto)/1000}}" required>
@@ -436,6 +439,7 @@ function calculo_total_productos(){
             @else
             <tfoot>
               <td><h4><strong>Total:</strong></h4></td>
+              <td></td>
               <td></td>
               <th><input class="form-control" value="0" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></th>
               <th><input class="form-control" value="0" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
