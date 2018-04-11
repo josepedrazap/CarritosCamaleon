@@ -350,6 +350,65 @@ function calculo_total_productos(){
             </table>
           </div>
         </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <hr></hr>
+          <h4>Ingredientes extras</h4>
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered table-condensed table-hover">
+              <thead style= "background-color:#7FB3D5">
+                <th class="col-lg-2 col-md-2 col-sm-2">Ingredientes</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Porciones</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Cantidad</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
+
+              </thead>
+                @if($num_ingr_ext != 0)
+                <tfoot>
+                  <td><h4><strong>Total:</strong></td>
+                  <td></td>
+                  <td></td>
+                  <td><input class="form-control" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></td>
+                  <th><input class="form-control" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
+                </tfoot>
+                <?php $i = 0 ?>
+              @foreach($ingr_extras as $ing_ext)
+              <tr>
+                <td>{{$ing_ext->nombre}}</td>
+                <td>{{$ing_ext->cantidad}}</td>
+                @if($ing_ext->uni_porcion == "gramos")
+                <td>{{$ing_ext->cantidad * $ing_ext->porcion_/1000}} Kg</td>
+                @else
+                <td>{{$ing_ext->cantidad * $ing_ext->porcion_}} {{$ing_ext->uni_porcion}}</td>
+                @endif
+
+                <td>
+                  @if($ing_ext->uni_porcion == "gramos")
+                  <input class="form-control" type="number" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{($ing_ext->cantidad*$ing_ext->porcion_*$ing_ext->precio_bruto)/1000}}" required>
+                  @else
+                  <input class="form-control" type="number" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{$ing_ext->cantidad*$ing_ext->porcion_*$ing_ext->precio_bruto}}" required>
+                  @endif
+                </td>
+                <td>
+                  <input class="form-control" name="precio_ingr_extra[]" id="precio_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" required>
+                  <input name="id_etie[]" id="id_etie_{{$i}}" value="{{$ing_ext->id}}"  hidden>
+                </td>
+
+              </tr>
+              <?php $i++ ?>
+              @endforeach
+              @else
+              <tfoot>
+                <td><h4><strong>Total:</strong></h4></td>
+                <td></td>
+                <td></td>
+                <th><input class="form-control" value="0" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></th>
+                <th><input class="form-control" value="0" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
+              </tfoot>
+              @endif
+            </table>
+          </div>
+        </div>
 
 
       <div class="col-lg-6 col-md-6 col-sm-6">
@@ -394,66 +453,7 @@ function calculo_total_productos(){
           </table>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <hr></hr>
-        <h4>Ingredientes extras</h4>
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered table-condensed table-hover">
-            <thead style= "background-color:#7FB3D5">
-              <th class="col-lg-2 col-md-2 col-sm-2">Ingredientes</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Porciones</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Cantidad</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
-
-            </thead>
-              @if($num_ingr_ext != 0)
-              <tfoot>
-                <td><h4><strong>Total:</strong></td>
-                <td></td>
-                <td></td>
-                <td><input class="form-control" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></td>
-                <th><input class="form-control" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
-              </tfoot>
-              <?php $i = 0 ?>
-            @foreach($ingr_extras as $ing_ext)
-            <tr>
-              <td>{{$ing_ext->nombre}}</td>
-              <td>{{$ing_ext->cantidad}}</td>
-              @if($ing_ext->uni_porcion == "gramos")
-              <td>{{$ing_ext->cantidad * $ing_ext->porcion_/1000}} Kg</td>
-              @else
-              <td>{{$ing_ext->cantidad * $ing_ext->porcion_}} {{$ing_ext->uni_porcion}}</td>
-              @endif
-
-              <td>
-                @if($ing_ext->uni_porcion == "gramos")
-                <input class="form-control" type="number" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{($ing_ext->cantidad*$ing_ext->porcion_*$ing_ext->precio_bruto)/1000}}" required>
-                @else
-                <input class="form-control" type="number" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{$ing_ext->cantidad*$ing_ext->porcion_*$ing_ext->precio_bruto}}" required>
-                @endif
-              </td>
-              <td>
-                <input class="form-control" name="precio_ingr_extra[]" id="precio_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" required>
-                <input name="id_etie[]" id="id_etie_{{$i}}" value="{{$ing_ext->id}}"  hidden>
-              </td>
-
-            </tr>
-            <?php $i++ ?>
-            @endforeach
-            @else
-            <tfoot>
-              <td><h4><strong>Total:</strong></h4></td>
-              <td></td>
-              <td></td>
-              <th><input class="form-control" value="0" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></th>
-              <th><input class="form-control" value="0" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
-            </tfoot>
-            @endif
-          </table>
-        </div>
       </div>
-    </div>
       <hr></hr>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
