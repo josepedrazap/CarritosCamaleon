@@ -420,7 +420,12 @@ function calculo_total_productos(){
             <tr>
               <td>{{$ing_ext->nombre}}</td>
               <td>{{$ing_ext->cantidad}}</td>
-              <td>{{$ing_ext->cantidad * $ing_ext->porcion_}}</td>
+              @if($ing_ext->uni_porcion == "gramos")
+              <td>{{$ing_ext->cantidad * $ing_ext->porcion_/1000}} {{$ing_ext->uni_porcion}}</td>
+              @else
+              <td>{{$ing_ext->cantidad * $ing_ext->porcion_}} {{$ing_ext->uni_porcion}}</td>
+              @endif
+
               <td>
                 @if($ing_ext->uni_porcion == "gramos")
                 <input class="form-control" type="number" name="costo_ingr_extra[]" id="costo_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" value="{{($ing_ext->cantidad*$ing_ext->porcion_*$ing_ext->precio_bruto)/1000}}" required>
