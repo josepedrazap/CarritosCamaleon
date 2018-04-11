@@ -36,10 +36,9 @@
               </ul>
             </td>
             <td>
-              <a href="" data-target="#modal-delete-{{$prod->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
+              <a href="" data-target="#modal-delete-{{$id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
             </td>
           </tr>
-
           @endif
             @include('carritos.productos.modal')
           @endforeach
