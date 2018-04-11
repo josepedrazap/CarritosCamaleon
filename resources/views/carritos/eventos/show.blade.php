@@ -121,6 +121,30 @@
         </table>
       </div>
     </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <hr></hr>
+      <h4>Ingredientes extras </h4>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-condensed table-hover">
+          <thead style="background-color:#F9E79F">
+            <th class="col-lg-2 col-md-2 col-sm-2">Ingredientes extras</th>
+            <th class="col-lg-2 col-md-2 col-sm-2">Cantidad</th>
+            <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
+          </thead>
+          @foreach($ingr_extras as $ext)
+          <tr>
+            <td>{{$ext->nombre}}</td>
+            @if($ext->uni_porcion == "gramos")
+            <td>{{$ext->cantidad * $ext->porcion_/1000}} Kg</td>
+            @else
+            <td>{{$ext->cantidad * $ext->porcion_}} {{$ext->uni_porcion}}</td>
+            @endif
+            <td>$ {{$ext->precio}}</td>
+          </tr>
+          @endforeach
+        </table>
+      </div>
+    </div>
 
   <div class="col-lg-6 col-md-6 col-sm-12">
     <hr></hr>
@@ -134,30 +158,13 @@
         @foreach($extras as $ext)
         <tr>
           <td>{{$ext->valor}}</td>
-          <td>{{$ext->precio}}</td>
+          <td>$ {{$ext->precio}}</td>
         </tr>
         @endforeach
       </table>
     </div>
   </div>
-  <div class="col-lg-6 col-md-6 col-sm-12">
-    <hr></hr>
-    <h4>Ingredientes extras </h4>
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered table-condensed table-hover">
-        <thead style="background-color:#F9E79F">
-          <th class="col-lg-2 col-md-2 col-sm-2">Extras</th>
-          <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
-        </thead>
-        @foreach($ingr_extras as $ext)
-        <tr>
-          <td>{{$ext->nombre}}</td>
-          <td>{{$ext->precio}}</td>
-        </tr>
-        @endforeach
-      </table>
-    </div>
-  </div>
+
 
 <div class="col-lg-6 col-md-6 col-sm-12">
   <hr></hr>

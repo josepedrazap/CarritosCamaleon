@@ -213,8 +213,13 @@ class EventosController extends Controller
     $ingr_extras=DB::table('ingredientes as ingr')
     ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
     ->where('etie.id_evento', '=', $id)
-    ->select('ingr.nombre', 'etie.cantidad', 'etie.precio','etie.id')
+    ->select('ingr.nombre', 'etie.cantidad', 'etie.id', 'ingr.porcion_', 'etie.precio','ingr.uni_porcion')
     ->get();
+
+    $num_ingr_ext=DB::table('ingredientes as ingr')
+    ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
+    ->where('etie.id_evento', '=', $id)
+    ->count();
 
     $evento_detalle=DB::table('eventos_detalle')
     ->where('id_evento', '=', $id)
@@ -317,7 +322,7 @@ class EventosController extends Controller
     ->where('sv.familia', '=', 'extras')
     ->where('sv.condicion', '=', 1)
     ->get();
-    
+
 
     $clientes=DB::table('clientes')->get();
     return view('carritos.eventos.cotizacion', ["productos"=>$productos, "extras"=>$extras, "ingredientes"=>$ingredientes, "clientes"=>$clientes]);
