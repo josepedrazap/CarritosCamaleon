@@ -98,6 +98,11 @@ function calc(){
           <option >gramos</option>
           <option >lámina</option>
           <option selected="selected">bolsas</option>
+          @else
+          <option >unidad</option>
+          <option >gramos</option>
+          <option >lámina</option>
+          <option >bolsas</option>
           @endif
         </select>
       </div>
