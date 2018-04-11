@@ -22,21 +22,20 @@
           @if($id != $prod->id)
 
           <?php $id = $prod->id ?>
-
           <tr>
             <td>{{$prod->nombre}}</td>
             <td>$ {{$prod->precio}}</td>
             <td>
               <ul>
-                @foreach($productos as $prod)
-                @if($prod->id == $id)
-                <li>{{$prod->ingrediente}} {{$prod->porcion}} {{$prod->unidad}}</li>
+                @foreach($productos as $prod_)
+                @if($prod_->id == $id)
+                <li>{{$prod_->ingrediente}} {{$prod_->porcion}} {{$prod_->unidad}}</li>
                 @endif
                 @endforeach
               </ul>
             </td>
             <td>
-              <a href="" data-target="#modal-delete-{{$id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
+              <a href="" data-target="#modal-delete-{{$prod->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
             </td>
           </tr>
           @endif
