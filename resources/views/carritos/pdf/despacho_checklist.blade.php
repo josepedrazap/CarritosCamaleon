@@ -73,6 +73,22 @@
       <td>_____</td>
     </tr>
     @endforeach
+
+		<tr>
+			<td colspan="3">------------------------------------------------Ingredientes extras-------------------------------------------------------</td>
+		</tr>
+
+		@foreach($ingr_extras as $ext)
+		<tr>
+			<td>{{$ext->nombre}}</td>
+			@if($ext->uni_porcion == "gramos")
+			<td>{{$ext->cantidad * $ext->porcion_/1000}} Kg</td>
+			@else
+			<td>{{$ext->cantidad * $ext->porcion_}} {{$ext->uni_porcion}}</td>
+			@endif
+			<td>_____</td>
+		</tr>
+		@endforeach
 </table>
 <hr></hr>
 <h3>Extras</h3>
@@ -84,22 +100,6 @@
   @foreach($extras as $ext)
   <tr>
     <td>{{$ext->valor}}</td>
-    <td>_____</td>
-  </tr>
-  @endforeach
-</table>
-<hr></hr>
-<h3>Ingredientes extras</h3>
-<table>
-	<tr>
-    <th>Ingrediente</th>
-		<th>Cantidad</th>
-    <th>Check</th>
-	</tr>
-  @foreach($ingr_extras as $ext)
-  <tr>
-    <td>{{$ext->nombre}}</td>
-		<td>{{$ext->cantidad}}</td>
     <td>_____</td>
   </tr>
   @endforeach
