@@ -31,9 +31,8 @@
             <th>${{$ingr->precio_liquido}}</th>
             <th>{{$ingr->porcion_}} {{$ingr->uni_porcion}}</th>
             <td>
-              <a href="/carritos/ingredientes/{{$ingr->id}}/edit"><button class="btn btn-info">Editar precio</button></a>
+              <a href="/carritos/ingredientes/{{$ingr->id}}/edit"><button class="btn btn-info">Editar ingrediente</button></a>
               <a href="" data-target="#modal-delete-{{$ingr->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
-              <a href="" data-target="#modal-cambiar-{{$ingr->id}}" data-toggle="modal"><button class="btn btn-success">Cambiar porción</button></a>
 
             </td>
           </tr>

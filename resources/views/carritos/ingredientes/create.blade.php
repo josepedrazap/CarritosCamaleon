@@ -62,13 +62,13 @@ function calc(){
       <div class="col-lg-1 col-md-3 col-sm-6 col-xs-8">
         <div class="form-group">
           <label>Porción</label>
-          <input type="text" class="form-control" name="porcion">
+          <input type="text" class="form-control" required name="porcion">
         </div>
       </div>
       <div class="col-lg-2 col-md-3 col-sm-6 col-xs-4">
         <div class="form-group">
           <label>Unidad</label>
-          <select class="form-control" name="unidad_porcion">
+          <select class="form-control" required name="unidad_porcion">
             <option>unidad</option>
             <option>gramos</option>
             <option>lámina</option>

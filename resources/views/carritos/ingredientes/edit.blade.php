@@ -51,26 +51,65 @@ function calc(){
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
         <label for="tipo">Precio bruto</label>
-        <input type="number" id="precio_bruto" onkeyup="calc()" class="form-control" required name="precio_bruto">
+        <input type="number" id="precio_bruto" onkeyup="calc()" value="{{$ingrediente->precio_bruto}}" required class="form-control"  name="precio_bruto">
       </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
         <label for="tipo">IVA</label>
-        <input type="number" id="iva" class="form-control" required name="iva" readonly="readonly">
+        <input type="number" id="iva" class="form-control" value="{{$ingrediente->iva}}" name="iva" reuqired readonly="readonly">
       </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
         <label for="tipo">Precio líquido</label>
-        <input type="number" id="precio_liquido" class="form-control" required name="precio_liquido" readonly="readonly">
+        <input type="number" id="precio_liquido" class="form-control" value="{{$ingrediente->precio_liquido}}" required name="precio_liquido" readonly="readonly">
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-8">
+      <div class="form-group">
+        <label>Porción</label>
+        <input type="text" class="form-control" value="{{$ingrediente->porcion_}}" required name="porcion">
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-4">
+      <div class="form-group">
+        <label>Unidad</label>
+        <select class="form-control" required name="uni_porcion" value="{{$ingrediente->uni_porcion}}">
+          @if($ingrediente->uni_porcion == "unidad")
+          <option selected="selected">unidad</option>
+          <option >gramos</option>
+          <option >lámina</option>
+          <option >bolsas</option>
+          @elseif($ingrediente->uni_porcion == "gramos")
+          <option >unidad</option>
+          <option selected="selected">gramos</option>
+          <option >lámina</option>
+          <option >bolsas</option>
+          @elseif($ingrediente->uni_porcion == "lámina")
+          <option >unidad</option>
+          <option >gramos</option>
+          <option selected="selected">lámina</option>
+          <option >bolsas</option>
+          @elseif($ingrediente->uni_porcion == "bolsas")
+          <option >unidad</option>
+          <option >gramos</option>
+          <option >lámina</option>
+          <option selected="selected">bolsas</option>
+          @endif
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
       <div class="form-group">
         <a href="/carritos/ingredientes">
-          <button class="btn btn-primary">Actualizar precio ingrediente</button>
+          <button class="btn btn-primary">Actualizar ingrediente</button>
         </a>
         <button class="btn btn-danger" type="reset">Limpiar campos</button>
       </div>
