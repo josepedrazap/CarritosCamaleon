@@ -53,11 +53,11 @@
         <tr>
           <td>{{$ext->nombre}}</td>
           @if($ext->uni_porcion == 'gramos')
-          <th><input value="{{round($ext->cantidad_total/1000,1)}}" name="cantidad_usada_ext[]" class="form-control" /></th>
+          <th><input value="{{round($ext->cantidad_total/1000,1)}}" readonly="readonly" name="cantidad_usada_ext[]" class="form-control" /></th>
           <th>Kg</th>
           @else
           <th>
-            <input value="{{round($ext->cantidad_total)}}" name="cantidad_usada_ext[]" class="form-control" />
+            <input value="{{round($ext->cantidad_total)}}" readonly="readonly" name="cantidad_usada_ext[]" class="form-control" />
           </th>
           <th>{{$ext->uni_porcion}}</th>
           @endif
