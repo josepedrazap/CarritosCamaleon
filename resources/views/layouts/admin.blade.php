@@ -33,7 +33,7 @@
           <span class="logo-mini"><IMG SRC="{{ asset('img/logoi.png') }}" WIDTH=50 HEIGHT=50/></span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg">
-            <IMG SRC="{{ asset('img/logo_new2.png') }}" WIDTH=60 HEIGHT=35/>
+            <IMG SRC="{{ asset('img/logo_new2.png') }}" WIDTH=85 HEIGHT=45/>
 
           </span>
         </a>
