@@ -397,7 +397,7 @@ function calculo_total_productos(){
                   @endif
                 </td>
                 <td>
-                  <input class="form-control" name="precio_ingr_extra[]" id="precio_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" required>
+                  <input class="form-control"type="number"  name="precio_ingr_extra[]" id="precio_ingr_ext_{{$i}}" onkeyup="calculo_precio_3({{$i}})" required>
                   <input name="id_etie[]" id="id_etie_{{$i}}" value="{{$ing_ext->id}}"  hidden>
                 </td>
 
