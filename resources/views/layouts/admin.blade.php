@@ -30,9 +30,12 @@
         <!-- Logo -->
         <a href="/carritos/eventos" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>Carritos</b>V</span>
+          <span class="logo-mini"><IMG SRC="{{ asset('img/logoi.png') }}" WIDTH=45 HEIGHT=45/></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">  <IMG SRC="{{ asset('img/logo_new2.png') }}" WIDTH=80 HEIGHT=35/></span>
+          <span class="logo-lg">
+            <IMG SRC="{{ asset('img/logo_new2.png') }}" WIDTH=60 HEIGHT=35/>
+
+          </span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -268,9 +271,9 @@
       <!--Fin-Contenido-->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>Version</b> 1.0
+          <b>Version</b> 1.1 release
         </div>
-        <strong><a href="www.carritoscamaleon.cl">ERP Carritos Camaleón</a></strong>
+        <strong><a href="http://www.carritoscamaleon.cl">Carritos Camaleón</a></strong>
       </footer>
 
 
