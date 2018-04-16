@@ -148,25 +148,13 @@ class DespachoController extends Controller
         $total_final = $request->get('total_final');
         $total_final_iva = $request->get('total_iva');
         $extra_movil = $request->get('extra_movil');
-        $pago_cocineros = $request->get('pago_cocinero');
+        $pago_cocineros = $request->get('total_cocineros');
         $prod_iva_sum = $request->get('iva_sum');
         $prod_total_sum = $request->get('total_sum');
         $pago_cocineros = $request->get('monto_cocineros');
 
-        $eve_det = new Eventos_detalle;
-        $eve_det->id_evento = $id;
-        $eve_det->gasto_extra = 0;
-        $eve_det->iva_por_pagar = $total_final_iva;
-        $eve_det->precio_evento = $total_final;
-        $eve_det->pago_cocineros = $pago_cocineros;
-        $eve_det->total_ingredientes = 0;
-        $eve_det->total_ingredientes_iva = 0;
-        $eve_det->utilidad_final = 0;
-        $eve_det->costo_final = 0;
-        $eve_det->total_productos = $prod_total_sum;
-        $eve_det->total_productos_iva = $prod_iva_sum;
-        $eve_det->save();
 
+        $trabajadores_num = 0;
         $cont = 0;
         while($cont < count($trabajadores) && $eventos->condicion == 2){
           $trab = new Eventos_tienen_trabajadores;
@@ -176,6 +164,7 @@ class DespachoController extends Controller
           $trab->id_evento = $id;
           $trab->save();
           $cont++;
+          $trabajadores_num++;
         }
 
         $cont = 0;
@@ -186,6 +175,20 @@ class DespachoController extends Controller
           $etp_temp->update();
           $cont++;
         }
+
+        $eve_det = new Eventos_detalle;
+        $eve_det->id_evento = $id;
+        $eve_det->gasto_extra = 0;
+        $eve_det->iva_por_pagar = $total_final_iva;
+        $eve_det->precio_evento = $total_final;
+        $eve_det->pago_cocineros = $pago_cocineros * $trabajadores_num;
+        $eve_det->total_ingredientes = 0;
+        $eve_det->total_ingredientes_iva = 0;
+        $eve_det->utilidad_final = 0;
+        $eve_det->costo_final = 0;
+        $eve_det->total_productos = $prod_total_sum;
+        $eve_det->total_productos_iva = $prod_iva_sum;
+        $eve_det->save();
 
         if($request->get('id_ete')){
               $id_etes = $request->get('id_ete');
