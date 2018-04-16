@@ -276,7 +276,7 @@ class Utilidad_costosController extends Controller
       $ingr_extras=DB::table('ingredientes as ingr')
       ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
       ->where('etie.id_evento', '=', $id)
-      ->select('ingr.nombre', 'etie.precio', 'etie.id as id_','etie.costo','etie.cantidad', 'etie.id')
+      ->select('ingr.nombre', 'etie.precio', 'etie.costo', 'etie.cantidad', 'ingr.uni_porcion','etie.cantidad_total', 'etie.id')
       ->get();
 
       $num_ingr_ext=DB::table('ingredientes as ingr')

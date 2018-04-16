@@ -21,7 +21,7 @@
               <th>Ingrediente</th>
               <th>Cantidad usada</th>
               <th>Unidades</th>
-              <th>Costo</th>
+              <th>Costo empresa</th>
             </thead>
             @foreach($ingredientes_tmp as $ingr)
             <tr>
@@ -43,7 +43,7 @@
           <th>Ingredientes</th>
           <th colspan="2">Cantidad usada</th>
           <th>Precio de venta</th>
-          <th>Costo</th>
+          <th>Costo empresa</th>
         </thead>
         <?php
           $total_ingr_ext = 0;
