@@ -166,7 +166,7 @@
             </li>
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-dollar-sign"></i>
+                <i class="fa fa-check"></i>
                 <span>Post eventos</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
