@@ -30,7 +30,7 @@
         <!-- Logo -->
         <a href="/carritos/eventos" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><IMG SRC="{{ asset('img/logoi.png') }}" WIDTH=45 HEIGHT=45/></span>
+          <span class="logo-mini"><IMG SRC="{{ asset('img/logoi.png') }}" WIDTH=50 HEIGHT=50/></span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg">
             <IMG SRC="{{ asset('img/logo_new2.png') }}" WIDTH=60 HEIGHT=35/>
