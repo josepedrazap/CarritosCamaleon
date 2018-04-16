@@ -112,7 +112,7 @@ function addingr_Extras(){
       u++;
         if(u == 1 && aux_3 == 0){
           var div = document.createElement('div');
-          div.innerHTML = '<div id="nom_ext_ingr" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Ingrediente</label></div><div id="nom_ext_ingr_cant" class="col-md-2"><label>Cantidad de porciones</label></div>';
+          div.innerHTML = '<div id="nom_ext_ingr" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Ingrediente</label></div><div id="nom_ext_ingr_cant" class="col-md-2"><label>Porciones</label></div>';
           document.getElementById('contenedor3').appendChild(div);
           aux_3 = 1;
         }

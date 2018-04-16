@@ -13,6 +13,7 @@ use CamaleonERP\Eventos_tienen_trabajadores;
 use CamaleonERP\Eventos_tienen_extras;
 use CamaleonERP\Eventos_costo_ingredientes;
 use CamaleonERP\Eventos_detalle;
+use CamaleonERP\Eventos_tienen_ingr_extras;
 
 use Illuminate\Support\Facades\Input;
 use Codedge\Fpdf\Facades\Fpdf;
@@ -174,7 +175,7 @@ class Utilidad_costosController extends Controller
       $ingr_extras=DB::table('ingredientes as ingr')
       ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
       ->where('etie.id_evento', '=', $id)
-      ->select('ingr.nombre', 'etie.precio', 'etie.costo', 'etie.cantidad', 'etie.id')
+      ->select('ingr.nombre', 'etie.precio', 'etie.costo', 'etie.cantidad', 'etie.id', 'etie.cantidad_total', 'ingr.uni_porcion')
       ->get();
 
       $num_ingr_ext=DB::table('ingredientes as ingr')
@@ -193,7 +194,7 @@ class Utilidad_costosController extends Controller
       $ingr_extras=DB::table('ingredientes as ingr')
       ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
       ->where('etie.id_evento', '=', $id)
-      ->select('ingr.nombre', 'etie.precio', 'etie.costo', 'etie.cantidad', 'etie.id')
+      ->select('ingr.nombre', 'etie.precio', 'etie.costo', 'etie.cantidad', 'ingr.uni_porcion','etie.cantidad_total', 'etie.id')
       ->get();
 
       $num_ingr_ext=DB::table('ingredientes as ingr')
@@ -275,7 +276,7 @@ class Utilidad_costosController extends Controller
       $ingr_extras=DB::table('ingredientes as ingr')
       ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
       ->where('etie.id_evento', '=', $id)
-      ->select('ingr.nombre', 'etie.precio', 'etie.costo','etie.cantidad', 'etie.id')
+      ->select('ingr.nombre', 'etie.precio', 'etie.id as id_','etie.costo','etie.cantidad', 'etie.id')
       ->get();
 
       $num_ingr_ext=DB::table('ingredientes as ingr')
@@ -333,7 +334,6 @@ class Utilidad_costosController extends Controller
           $eve_c_ingr->costo_total = $costos[$cont];
           $eve_c_ingr->precio_bruto = $precio_bruto_ingr[$cont];
           $eve_c_ingr->cantidad = $cantidad_usada[$cont];
-
           $eve_c_ingr->unidad = $unidades[$cont];
           $eve_c_ingr->save();
           $cont++;
@@ -348,25 +348,59 @@ class Utilidad_costosController extends Controller
           $cont++;
         }
       }
+      $cont = 0;
+      if($request->get('cantidad_usada_ext')){
+        $cant_usada_ext = $request->get('cantidad_usada_ext');
+        $id_ingr_ext = $request->get('id_ingr_ext');
+        $uni_ingr_ext = $request->get('uni_ingr_ext');
+        while($cont < count($cant_usada_ext)){
+          $ingr_tmp = Eventos_tienen_ingr_extras::findOrFail($id_ingr_ext[$cont]);
+          if($uni_ingr_ext[$cont] == 'gramos'){
+            $ingr_tmp->cantidad_total = $cant_usada_ext[$cont] * 1000;
+          }else{
+            $ingr_tmp->cantidad_total = $cant_usada_ext[$cont];
+          }
+          $ingr_tmp->update();
+          $cont++;
+        }
+      }
       //descuento del inventario si el ingrediente es inventareable
       $ingredientes=DB::table('productos as prod')
       ->join('productos_tienen_ingredientes as pti', 'prod.id', '=', 'pti.id_producto')
       ->join('ingredientes as ingr', 'pti.id_ingrediente', '=', 'ingr.id')
       ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
       ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
+      ->join('eventos_costo_ingredientes as eci', 'eci.id_ingrediente', '=', 'ingr.id')
       ->where('etp.id_evento', '=', $request->id_evento_)
+      ->where('eci.id_evento', '=', $request->id_evento_)
       ->where('ingr.inventareable', '=', 1) //inventareable?
-      ->select('ingr.id as id_ingr', 'inv.id as id_inv', DB::raw('sum(porcion*etp.cantidad) as sum'))
-      ->groupBy('id_ingr', 'id_inv')
+      ->select('ingr.id as id_ingr', 'inv.id as id_inv', 'eci.cantidad as cant_usada')
+      ->groupBy('id_ingr', 'id_inv', 'cant_usada')
+      ->get();
+
+      $ingr_extras = DB::table('eventos_tienen_ingr_extras as etie')
+      ->join('inventario as inv', 'inv.id_item', '=', 'etie.id_extra')
+      ->join('ingredientes as ingr', 'ingr.id', '=', 'inv.id_item')
+      ->where('ingr.inventareable', '=', 1)
+      ->select('ingr.id as id_ingr', 'inv.id as id_inv', 'etie.cantidad_total as cant_usada')
+      ->groupBy('id_ingr', 'id_inv', 'cant_usada')
       ->get();
 
       $cont = 0;
       while($cont < count($ingredientes)){
         $inv_temp = Inventario::findOrFail($ingredientes[$cont]->id_inv);
-        $inv_temp->cantidad = $inv_temp->cantidad - $ingredientes[$cont]->sum;
+        $inv_temp->cantidad = $inv_temp->cantidad - $ingredientes[$cont]->cant_usada;
         $inv_temp->update();
         $cont++;
       }
+      $cont = 0;
+      while($cont < count($ingr_extras)){
+        $inv_temp = Inventario::findOrFail($ingr_extras[$cont]->id_inv);
+        $inv_temp->cantidad = $inv_temp->cantidad - $ingr_extras[$cont]->cant_usada;
+        $inv_temp->update();
+        $cont++;
+      }
+
         DB::commit();
       }catch(Exception $e){
         DB::rollback();

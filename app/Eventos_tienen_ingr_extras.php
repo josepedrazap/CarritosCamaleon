@@ -15,7 +15,8 @@ class Eventos_tienen_ingr_extras extends Model
     'id_extra',
     'precio',
     'costo',
-    'cantidad'
+    'cantidad',
+    'cantidad_total'
   ];
 
   protected $guarded = [

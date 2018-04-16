@@ -350,7 +350,7 @@ function calculo_total_productos(){
             </table>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-8 col-md-8 col-sm-8">
           <hr></hr>
           <h4>Ingredientes extras</h4>
           <div class="table-responsive">
@@ -358,7 +358,8 @@ function calculo_total_productos(){
               <thead style= "background-color:#7FB3D5">
                 <th class="col-lg-2 col-md-2 col-sm-2">Ingredientes</th>
                 <th class="col-lg-2 col-md-2 col-sm-2">Porciones</th>
-                <th class="col-lg-2 col-md-2 col-sm-2">Cantidad</th>
+                <th colspan="2">Cantidad</th>
+
                 <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
                 <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
 
@@ -368,18 +369,24 @@ function calculo_total_productos(){
                   <td><h4><strong>Total:</strong></td>
                   <td></td>
                   <td></td>
-                  <td><input class="form-control" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></td>
-                  <th><input class="form-control" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
+                  <td></td>
+                  <td><input class="form-control" type="number" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></td>
+                  <th><input class="form-control" type="number" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
                 </tfoot>
                 <?php $i = 0 ?>
               @foreach($ingr_extras as $ing_ext)
               <tr>
                 <td>{{$ing_ext->nombre}}</td>
-                <td>{{$ing_ext->cantidad}}</td>
+                <td>
+                  {{$ing_ext->cantidad}}
+                  <input class="hidden" name="cantidad_total_ingr_extra[]" value="{{$ing_ext->cantidad * $ing_ext->porcion_}}" readonly="readonly"/>
+                </td>
                 @if($ing_ext->uni_porcion == "gramos")
-                <td>{{$ing_ext->cantidad * $ing_ext->porcion_/1000}} Kg</td>
+                <td><input class="form-control" readonly="readonly" value="{{$ing_ext->cantidad * $ing_ext->porcion_/1000}}"/></td>
+                <td>Kg</td>
                 @else
-                <td>{{$ing_ext->cantidad * $ing_ext->porcion_}} {{$ing_ext->uni_porcion}}</td>
+                <td><input class="form-control"  value="{{$ing_ext->cantidad * $ing_ext->porcion_}}" readonly="readonly"/></td>
+                <td> {{$ing_ext->uni_porcion}}</td>
                 @endif
 
                 <td>
@@ -402,6 +409,7 @@ function calculo_total_productos(){
                 <td><h4><strong>Total:</strong></h4></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <th><input class="form-control" value="0" name="total_costo_ingr_extra[]" id="total_costo_ingr_ext" required readonly="readonly"></th>
                 <th><input class="form-control" value="0" name="total_ingr_extra[]" id="total_ingr_ext" required readonly="readonly"></th>
               </tfoot>
@@ -411,7 +419,7 @@ function calculo_total_productos(){
         </div>
 
 
-      <div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="col-lg-4 col-md-4 col-sm-4k">
         <hr></hr>
         <h4>Extras del evento</h4>
 

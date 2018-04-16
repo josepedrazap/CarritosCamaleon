@@ -185,6 +185,7 @@ class EventosController extends Controller
                   $eve_t_ingr_ext->cantidad = $cant_extra_ingr[$i];
                   $eve_t_ingr_ext->precio = 0;
                   $eve_t_ingr_ext->costo = 0;
+                  $eve_t_ingr_ext->cantidad_total = 0;
                   $eve_t_ingr_ext->save();
                   $i++;
               }

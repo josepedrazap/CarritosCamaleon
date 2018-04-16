@@ -66,7 +66,7 @@ var haber_sum = 0;
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#7DCEA0">
               <th>Ingrediente</th>
-              <th>Cantidad sugerida</th>
+              <th>Cantidad usada</th>
               <th>Unidades</th>
               <th>Precio bruto registrado</th>
               <th>Costo</th>
@@ -119,6 +119,51 @@ var haber_sum = 0;
 </div>
 <div class="row">
   <div class="col-md-12 col-lg-12">
+      <h4>Ingredientes extras</h4>
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-condensed table-hover">
+            <thead style="background-color:#7DCEA0">
+              <th>Ingrediente</th>
+              <th>Cantidad usada</th>
+              <th>Unidad</th>
+              <th>Precio de venta</th>
+              <th>Costo</th>
+            </thead>
+            <?php
+              $total_ingr_ext = 0;
+              $i = 0;
+            ?>
+            @foreach($ingr_extras as $ext)
+            <tr>
+              <td>
+                {{$ext->nombre}}
+              </td>
+              @if($ext->uni_porcion == 'gramos')
+              <th><input value="{{round($ext->cantidad_total/1000,1)}}" name="cantidad_usada_ext[]" class="form-control" /></th>
+                <td>Kg</td>
+              @else
+              <th>
+                <input value="{{round($ext->cantidad_total)}}" name="cantidad_usada_ext[]" class="form-control" />
+              </th>
+                <td>{{$ext->uni_porcion}}</td>
+              @endif
+
+              <td>$ {{$ext->precio}}</td>
+              <th>
+                <input class="form-control hidden" name="id_ingr_ext[]" value="{{$ext->id}}">
+                <input class="form-control hidden" name="uni_ingr_ext[]" value="{{$ext->uni_porcion}}">
+
+                <input class="form-control" value="{{$ext->costo}}" readonly="readonly" id="costo_ingr_ext_{{$i}}" name="costo_ingr_ext[]">
+                <?php $total_ingr_ext += $ext->costo;
+                ?>
+              </th>
+            </tr>
+            <?php $i++ ?>
+            @endforeach
+          </table>
+        </div>
+  </div>
+  <div class="col-md-12 col-lg-12">
       <h4>Extras</h4>
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-hover">
@@ -139,35 +184,6 @@ var haber_sum = 0;
                 <input class="form-control hidden" name="id_ext[]" value="{{$ext->id_ete}}">
                 <input class="form-control" value="{{$ext->costo}}" readonly="readonly" id="costo_ext_{{$i}}" name="costo_ext[]">
                 <?php $total_ext += $ext->costo;
-                ?>
-              </th>
-            </tr>
-            <?php $i++ ?>
-            @endforeach
-          </table>
-        </div>
-  </div>
-  <div class="col-md-12 col-lg-12">
-      <h4>Ingredientes extras</h4>
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered table-condensed table-hover">
-            <thead style="background-color:#7DCEA0">
-              <th>Ingredientes</th>
-              <th>Precio de venta</th>
-              <th>Costo</th>
-            </thead>
-            <?php
-              $total_ingr_ext = 0;
-              $i = 0;
-            ?>
-            @foreach($ingr_extras as $ext)
-            <tr>
-              <td>{{$ext->nombre}}</td>
-              <td>$ {{$ext->precio}}</td>
-              <th>
-                <input class="form-control hidden" name="id_ingr_ext[]" value="{{$ext->id}}">
-                <input class="form-control" value="{{$ext->costo}}" readonly="readonly" id="costo_ingr_ext_{{$i}}" name="costo_ingr_ext[]">
-                <?php $total_ingr_ext += $ext->costo;
                 ?>
               </th>
             </tr>
@@ -217,18 +233,19 @@ var haber_sum = 0;
       <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->precio_evento}}">
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-    <label for="Iva ingredientes">IVA ingredientes</label>
-    <div class="input-group">
-      <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{$total * 0.19 + $total_ingr_ext*0.19}}">
-    </div>
-  </div>
+
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">IVA del evento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->precio_evento * 0.19}}">
+    </div>
+  </div>
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+    <label for="Iva ingredientes">IVA ingredientes</label>
+    <div class="input-group">
+      <span class="input-group-addon">$</span>
+      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{$total * 0.19 + $total_ingr_ext*0.19}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
@@ -242,7 +259,7 @@ var haber_sum = 0;
     <label for="Utilidad final">Utilidad final</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{round($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 + $total_ingr_ext*0.19 - $total - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)}}">
+      <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{round($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 + $total_ingr_ext*0.19 - $total - $total_ingr_ext - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">

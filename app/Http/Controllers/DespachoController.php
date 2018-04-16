@@ -205,12 +205,14 @@ class DespachoController extends Controller
               $id_eties = $request->get('id_etie');
               $eties_costos = $request->get('costo_ingr_extra');
               $precio_real_ingr_ext = $request->get('precio_ingr_extra');
+              $cant_total = $request->get('cantidad_total_ingr_extra');
               $cont = 0;
               while($cont < count($id_eties)){
                 $id_temp = $id_eties[$cont];
                 $etie_temp = Eventos_tienen_ingr_extras::findOrFail($id_temp);
                 $etie_temp->costo = $eties_costos[$cont];
                 $etie_temp->precio = $precio_real_ingr_ext[$cont];
+                $etie_temp->cantidad_total = $cant_total[$cont];
                 $etie_temp->update();
                 $cont++;
               }

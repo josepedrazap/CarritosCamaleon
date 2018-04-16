@@ -36,7 +36,44 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12 col-lg-12">
+  <h4>Ingredientes extras</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+        <thead style="background-color:#7DCEA0">
+          <th>Ingredientes</th>
+          <th colspan="2">Cantidad usada</th>
+          <th>Precio de venta</th>
+          <th>Costo</th>
+        </thead>
+        <?php
+          $total_ingr_ext = 0;
+          $i = 0;
+        ?>
+        @foreach($ingr_extras as $ext)
+        <tr>
+          <td>{{$ext->nombre}}</td>
+          @if($ext->uni_porcion == 'gramos')
+          <th><input value="{{round($ext->cantidad_total/1000,1)}}" name="cantidad_usada_ext[]" class="form-control" /></th>
+          <th>Kg</th>
+          @else
+          <th>
+            <input value="{{round($ext->cantidad_total)}}" name="cantidad_usada_ext[]" class="form-control" />
+          </th>
+          <th>{{$ext->uni_porcion}}</th>
+          @endif
+          <td>$ {{$ext->precio}}</td>
+          <th>
+            <input class="form-control hidden" name="id_ingr_ext[]" value="{{$ext->id}}">
+            <input class="form-control" value="{{$ext->costo}}" readonly="readonly" id="costo_ingr_ext_{{$i}}" name="costo_ingr_ext[]">
+            <?php $total_ingr_ext += $ext->costo;
+            ?>
+          </th>
+        </tr>
+        <?php $i++ ?>
+        @endforeach
+      </table>
+    </div>
+
       <h4>Extras</h4>
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-hover">
@@ -64,36 +101,6 @@
             @endforeach
           </table>
         </div>
-
-            <h4>Ingredientes extras</h4>
-              <div class="table-responsive">
-                <table class="table table-striped table-bordered table-condensed table-hover">
-                  <thead style="background-color:#7DCEA0">
-                    <th>Ingredientes</th>
-                    <th>Precio de venta</th>
-                    <th>Costo</th>
-                  </thead>
-                  <?php
-                    $total_ingr_ext = 0;
-                    $i = 0;
-                  ?>
-                  @foreach($ingr_extras as $ext)
-                  <tr>
-                    <td>{{$ext->nombre}}</td>
-                    <td>$ {{$ext->precio}}</td>
-                    <th>
-                      <input class="form-control hidden" name="id_ingr_ext[]" value="{{$ext->id}}">
-                      <input class="form-control" value="{{$ext->costo}}" readonly="readonly" id="costo_ingr_ext_{{$i}}" name="costo_ingr_ext[]">
-                      <?php $total_ingr_ext += $ext->costo;
-                      ?>
-                    </th>
-                  </tr>
-                  <?php $i++ ?>
-                  @endforeach
-                </table>
-              </div>
-        </div>
-
   </div>
 
 <hr></hr>
