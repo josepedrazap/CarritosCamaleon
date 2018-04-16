@@ -318,7 +318,10 @@ class EventosController extends Controller
     $productos=DB::table('productos')
     ->where('condicion', '=', '1')
     ->get();
-    $ingredientes=DB::table('ingredientes')->get();
+    $ingredientes=DB::table('ingredientes as ingr')
+    ->where('ingr.condicion', '=', '1')
+    ->orderBy('ingr.tipo', 'desc')
+    ->get();
     $extras=DB::table('selects_valores as sv')
     ->where('sv.familia', '=', 'extras')
     ->where('sv.condicion', '=', 1)
