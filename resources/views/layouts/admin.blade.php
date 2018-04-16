@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Carritos Camaleon | www.carritoscamaleon.cl</title>
+    <title>ERP Carritos Camaleon | www.erpcamaleon.cl</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -22,7 +22,7 @@
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 
   </head>
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="hold-transition skin-green sidebar-mini">
     <div class="wrapper">
 
       <header class="main-header">
@@ -32,7 +32,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>Carritos</b>V</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Camaleón</b></span>
+          <span class="logo-lg">  <IMG SRC="{{ asset('img/logo_new2.png') }}" WIDTH=80 HEIGHT=35/></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
