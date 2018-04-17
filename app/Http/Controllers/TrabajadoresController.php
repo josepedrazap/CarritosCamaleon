@@ -75,7 +75,13 @@ class TrabajadoresController extends Controller
 
   }
   public function create(){
-    return view('carritos.trabajadores.create');
+    $bancos=DB::table('selects_valores as sv')
+    ->where('sv.familia', '=', 'BANCOS')
+    ->get();
+    $cuentas=DB::table('selects_valores as sv')
+    ->where('sv.familia', '=', 'TIPO_CUENTA_BANCARIA')
+    ->get();
+    return view('carritos.trabajadores.create', ["bancos"=>$bancos, "cuentas"=>$cuentas]);
   }
 
   function store(TrabajadoresFormRequest $request){
