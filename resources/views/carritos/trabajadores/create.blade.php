@@ -46,13 +46,9 @@
         <div class="form-group">
           <label for="banco_trabajador">Banco</label>
           <select  class="form-control" name="banco">
-            <option value="Ninguno">Ninguno</option>
-            <option value="Banco de Chile">Banco de Chile</option>
-            <option value="Banco Santander">Banco Santander</option>
-            <option value="Banco BCI">Banco BCI</option>
-            <option value="Banco Estado">Banco Estado</option>
-            <option value="Banco Itaú">Banco Itaú</option>
-            <option value="Banco BBUVA">Banco BBVA</option>
+            @foreach($bancos as $ban)
+            <option value="{{$ban->valor}}">{{$ban->valor}}</option>
+            @endforeach
           </select>
         </div>
       </div>
@@ -60,16 +56,12 @@
         <div class="form-group">
           <label for="tipo_cuenta">Tipo cuenta</label>
           <select  class="form-control" name="tipo_cuenta">
-            <option value="ninguna">Ninguna</option>
-            <option value="cuenta_corriente">cuenta corriente</option>
-            <option value="cuenta_vista">cuenta vista</option>
-            <option value="cuenta_ahorro">cuenta de ahorro</option>
-            <option value="cuenta_rut">cuentaRut</option>
-            <option value="cuenta_rut">cuenta de gastos</option>
+            @foreach($cuentas as $ct)
+            <option value="{{$ct->valor}}">{{$ct->valor}}</option>
+            @endforeach
           </select>
         </div>
       </div>
-
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
         <div class="form-group">
           <label for="telefono_trabajador">Teléfono</label>

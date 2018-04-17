@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
-    <h3>Agregar trabajador</h3>
+    <h3>Ver / Actualizar trabajador</h3>
     <hr/>
     @if(count($errors)>0)
     <div class="alert alert-danger">
