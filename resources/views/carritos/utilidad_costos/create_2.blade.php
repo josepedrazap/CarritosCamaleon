@@ -14,7 +14,7 @@
 
 <div class="row">
   <div class="col-md-12 col-lg-12">
-    <h3>Ingredientes</h3>
+    <h4>Ingredientes</h4>
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#7DCEA0">
@@ -37,7 +37,7 @@
 
 
   <div class="col-md-12 col-lg-12">
-    <h3>Ingredientes extras</h3>
+    <h4>Ingredientes extras</h4>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead style="background-color:#7DCEA0">
@@ -77,7 +77,7 @@
 </div>
 
       <div class="col-md-12 col-lg-12">
-        <h3>Extras</h3>
+        <h4>Extras</h4>
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#7DCEA0">
