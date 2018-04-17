@@ -57,4 +57,24 @@ class ClientesController extends Controller
     return Redirect::to("carritos/clientes");
 
   }
+  function editar(Request $request){
+    DB::beginTransaction();
+    try{
+      $cli_tmp = Clientes::findOrFail($request->get('id'));
+      $cli_tmp->nombre = $request->get('nombre');
+      $cli_tmp->apellido = $request->get('apellido');
+      $cli_tmp->mail = $request->get('email');
+      $cli_tmp->rut = $request->get('rut');
+      $cli_tmp->contacto = $request->get('contacto');
+      $cli_tmp->update();
+      DB::commit();
+    }catch(Exception $e){
+      DB::rollback();
+    }
+    return Redirect::to("carritos/clientes");
+
+  }
+  function edit($id){
+    return view("carritos.clientes.edit", ["cliente"=>Clientes::findOrFail($id), "id"=>$id]);
+  }
 }

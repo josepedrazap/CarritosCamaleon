@@ -50,26 +50,32 @@ class TrabajadoresController extends Controller
   }
 
   public function editar(Request $request){
-    $id = $request->get('id');
-    $tra_tmp = Trabajadores::findOrFail($id);
-    $tra_tmp->nombre = $request->get('nombre');
-    $tra_tmp->apellido = $request->get('apellido');
-    $tra_tmp->clase = $request->get('clase');
-    $tra_tmp->update();
+    DB::beginTransaction();
+    try{
+      $id = $request->get('id');
+      $tra_tmp = Trabajadores::findOrFail($id);
+      $tra_tmp->nombre = $request->get('nombre');
+      $tra_tmp->apellido = $request->get('apellido');
+      $tra_tmp->clase = $request->get('clase');
+      $tra_tmp->update();
 
-    $tra_tmp = DB::table('trabajador_detalle as td')
-    ->where('td.id_trabajador', '=', $id)
-    ->get();
-    $tra_tmp =Trabajador_detalle::findOrFail($tra_tmp[0]->id);
-    $tra_tmp->email = $request->get('email');
-    $tra_tmp->telefono = $request->get('telefono');
-    $tra_tmp->maneja = $request->get('maneja');
-    $tra_tmp->rut = $request->get('rut');
-    $tra_tmp->cuenta = $request->get('cuenta');
+      $tra_tmp = DB::table('trabajador_detalle as td')
+      ->where('td.id_trabajador', '=', $id)
+      ->get();
+      $tra_tmp =Trabajador_detalle::findOrFail($tra_tmp[0]->id);
+      $tra_tmp->email = $request->get('email');
+      $tra_tmp->telefono = $request->get('telefono');
+      $tra_tmp->maneja = $request->get('maneja');
+      $tra_tmp->rut = $request->get('rut');
+      $tra_tmp->cuenta = $request->get('cuenta');
 
-    if($request->get('descripcion'))$tra_tmp->descripcion = $request->get('descripcion');
+      if($request->get('descripcion'))$tra_tmp->descripcion = $request->get('descripcion');
 
-    $tra_tmp->update();
+      $tra_tmp->update();
+      DB::commit();
+    }catch(Exception $e){
+      DB::rollback();
+    }
 
     return Redirect::to("carritos/trabajadores");
 
