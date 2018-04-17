@@ -21,7 +21,7 @@ function finalizar(){
   this.form.submit();
 }
 </script>
-
+@if($cont != 0)
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
       <h3>Todos los pagos a {{$data[0]->nombre}} {{$data[0]->apellido}}</h3>
@@ -96,5 +96,7 @@ function finalizar(){
   <div class="form-group" id="save">
     <button class="btn btn-danger" onclick="history.back(-1)">Volver</button>
   </div>
-
+@else
+<h4>El trabajador no posee pagos pendientes.</h4>
+@endif
 @endsection
