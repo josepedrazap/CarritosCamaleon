@@ -46,8 +46,7 @@
           <input type="rut" name="rut" class="form-control"  value="{{$cliente->rut}}" placeholder="rut..." required>
         </div>
       </div>
-    </div>
-      <div class="row">
+    
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <label for="telefono">Teléfono</label>
         <div class="input-group">
