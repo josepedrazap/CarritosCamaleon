@@ -35,7 +35,45 @@ class TrabajadoresController extends Controller
 
     }
   }
+  function edit($id){
+    $tra_tmp = DB::table('trabajador_detalle as td')
+    ->join('trabajadores as t', 't.id', '=', 'td.id_trabajador')
+    ->where('td.id_trabajador', '=', $id)
+    ->get();
+    $bancos=DB::table('selects_valores as sv')
+    ->where('sv.familia', '=', 'BANCOS')
+    ->get();
+    $cuentas=DB::table('selects_valores as sv')
+    ->where('sv.familia', '=', 'TIPO_CUENTA_BANCARIA')
+    ->get();
+    return view("carritos.trabajadores.edit", ["trabajador"=>$tra_tmp, "id"=>$id, "bancos"=>$bancos, "cuentas"=>$cuentas]);
+  }
 
+  public function editar(Request $request){
+    $id = $request->get('id');
+    $tra_tmp = Trabajadores::findOrFail($id);
+    $tra_tmp->nombre = $request->get('nombre');
+    $tra_tmp->apellido = $request->get('apellido');
+    $tra_tmp->clase = $request->get('clase');
+    $tra_tmp->update();
+
+    $tra_tmp = DB::table('trabajador_detalle as td')
+    ->where('td.id_trabajador', '=', $id)
+    ->get();
+    $tra_tmp =Trabajador_detalle::findOrFail($tra_tmp[0]->id);
+    $tra_tmp->email = $request->get('email');
+    $tra_tmp->telefono = $request->get('telefono');
+    $tra_tmp->maneja = $request->get('maneja');
+    $tra_tmp->rut = $request->get('rut');
+    $tra_tmp->cuenta = $request->get('cuenta');
+
+    if($request->get('descripcion'))$tra_tmp->descripcion = $request->get('descripcion');
+
+    $tra_tmp->update();
+
+    return Redirect::to("carritos/trabajadores");
+
+  }
   public function create(){
     return view('carritos.trabajadores.create');
   }
@@ -81,9 +119,7 @@ class TrabajadoresController extends Controller
   function show($id){
     //return view("carritos.trabajadores.show", ["producto"=>Productos::findOrFail($id)]);
   }
-  function edit($id){
-    //return view("carritos.trabajadores.edit", ["producto"=>Productos::findOrFail($id)]);
-  }
+
   function update(TrabajadoresFormRequest $request, $id){
     //$producto = FindOrFail($id);
     //$producto->Nombre = $request->get('Nombre');
