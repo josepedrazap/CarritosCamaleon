@@ -133,7 +133,7 @@ function ocultar_buttons(){
 
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
           <label for="tipo">Proveedor</label>
           <div class="form-group">
             <select class="form-control" name="id_proveedor" required>
@@ -143,13 +143,13 @@ function ocultar_buttons(){
             </select>
           </div>
         </div>
-        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-6">
+        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-12">
           <div class="form-group">
             <label for="">Nuevo</label>
             <a href="/carritos/proveedores/create"><button type="button" class="btn btn-info">Nuevo</button></a>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <label for="fecha">Tipo de documento</label>
           <div class="form-group">
             <select name="tipo_documento" class="form-control" id="tipo" onchange="iva_calc()">
@@ -163,13 +163,13 @@ function ocultar_buttons(){
             </select>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <label for="fecha">Número de documento</label>
           <div class="form-group">
             <input name="numero_documento" type="number" class="form-control" required></input>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <label for="fecha">Fecha documento</label>
           <div class="form-group">
             <input name="fecha_documento" type="date" class="form-control" required></input>
