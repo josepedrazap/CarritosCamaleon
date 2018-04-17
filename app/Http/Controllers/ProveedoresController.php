@@ -27,6 +27,26 @@ class ProveedoresController extends Controller
       return view('carritos.proveedores.index', ["proveedores"=>$proveedores]);
     }
   }
+  function edit($id){
+    return view("carritos.proveedores.edit", ["proveedor"=>Proveedores::findOrFail($id), "id"=>$id]);
+  }
+  function editar(Request $request){
+    DB::beginTransaction();
+    try{
+      $pro_tmp = Proveedores::findOrFail($request->get('id'));
+      $pro_tmp->nombre = $request->get('nombre');
+      $pro_tmp->email = $request->get('email');
+      $pro_tmp->rut = $request->get('rut');
+      $pro_tmp->telefono = $request->get('telefono');
+      $pro_tmp->descripcion = $request->get('descripcion');
+      $pro_tmp->update();
+      DB::commit();
+    }catch(Exception $e){
+      DB::rollback();
+    }
+    return Redirect::to("carritos/proveedores");
+
+  }
   public function create(){
     return view('carritos.proveedores.create');
   }

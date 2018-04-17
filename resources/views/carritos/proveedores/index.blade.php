@@ -16,6 +16,7 @@
             <th>E-mail</th>
             <th>teléfono</th>
             <th>Descripción</th>
+            <th>Opciones</th>
           </thead>
           @foreach($proveedores as $prov)
           <tr>
@@ -24,6 +25,10 @@
             <td>{{$prov->email}}</td>
             <td>{{$prov->telefono}}</td>
             <td>{{$prov->descripcion}}</td>
+            <td>
+              <a href="/carritos/proveedores/{{$prov->id}}/edit"><button class="btn btn-success">Ver / Editar</button></a>
+
+            </td>
           </tr>
 
           @endforeach
