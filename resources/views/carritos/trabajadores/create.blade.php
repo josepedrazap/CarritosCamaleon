@@ -39,7 +39,7 @@
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
         <div class="form-group">
           <label for="apellido_trabajador">Apellido</label>
-          <input type="text" name="apellido_trabajador" class="form-control" placeholder="dirección...">
+          <input type="text" name="apellido_trabajador" class="form-control" placeholder="apellido...">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">

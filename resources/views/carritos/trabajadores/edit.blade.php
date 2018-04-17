@@ -128,7 +128,7 @@
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="comentarios">Comentarios</label>
-          <textarea name="descripcion" value="{{$trabajador[0]->descripcion}}" class="form-control" rows="6" placeholder="Escribe aquí tus comentarios"></textarea>
+          <textarea name="descripcion" class="form-control" rows="6" placeholder="Escribe aquí tus comentarios">{{$trabajador[0]->descripcion}}</textarea>
         </div>
       </div>
 
