@@ -71,7 +71,7 @@ class PagosController extends Controller
     ->where('tra.id','=',$id)
     ->select('tra.nombre as nombre', 'ett.estado','td.cuenta', 'td.rut', 'td.tipo_cuenta', 'td.banco','eve.condicion','tra.apellido as apellido', 'eve.fecha_hora','eve.nombre_cliente as nombre_cliente', 'ett.monto as monto', 'ett.id')
     ->groupBy('nombre', 'apellido', 'td.cuenta', 'ett.estado', 'td.tipo_cuenta', 'td.rut', 'td.banco', 'eve.condicion','monto', 'nombre_cliente', 'eve.fecha_hora', 'ett.id')
-    ->paginate(5);
+    ->get();
 
     $cont=DB::table('eventos_tienen_trabajadores as ett')
     ->where('ett.id_trabajador', '=', $id)
@@ -100,7 +100,7 @@ class PagosController extends Controller
     ->where('ett.estado', '=', '1')
     ->select('tra.nombre as nombre', 'td.cuenta', 'td.rut', 'td.tipo_cuenta', 'td.banco','eve.condicion','tra.apellido as apellido', 'eve.fecha_hora','eve.nombre_cliente as nombre_cliente', 'ett.monto as monto', 'ett.id')
     ->groupBy('nombre', 'apellido', 'td.cuenta', 'td.tipo_cuenta', 'td.rut', 'td.banco', 'eve.condicion','monto', 'nombre_cliente', 'eve.fecha_hora', 'ett.id')
-    ->paginate(7);
+    ->get();
     return view('carritos.pagos.create', ["data"=>$data, "id_t"=>$id]);
   }
 

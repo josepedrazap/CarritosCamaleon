@@ -28,7 +28,7 @@ function addCuentas(){
 
   if(cuenta != ""){
 
-    var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-warning" onClick="eliminar('+cont+')">X</button></td><td><input hidden name="id_cuenta[]" value="'+cuenta+'"> <input class="form-control" disabled value="'+nom+'"></td><td><input class="form-control" type="number" id="id_debe_cuenta'+cont+'" name="debe_cuenta[]" readonly="readonly" value="'+debe+'"></td><td><input class="form-control" type="number" id="id_haber_cuenta'+cont+'" readonly="readonly" name="haber_cuenta[]" value="'+haber+'"></td><td><input class="form-control" name="glosa_cuenta[]" value="'+glosa+'"></td></tr>';
+    var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-warning" onClick="eliminar('+cont+')">X</button></td><td><input hidden name="id_cuenta[]" value="'+cuenta+'"/> <input class="form-control" disabled value="'+nom+'"/></td><td><input class="form-control" type="number" id="id_debe_cuenta'+cont+'" name="debe_cuenta[]" readonly="readonly" value="'+debe+'"/></td><td><input class="form-control" type="number" id="id_haber_cuenta'+cont+'" readonly="readonly" name="haber_cuenta[]" value="'+haber+'"/></td><td><input class="form-control" name="glosa_cuenta[]" value="'+glosa+'"/></td></tr>';
 
     vaciar();
 
@@ -152,10 +152,10 @@ function ocultar_buttons(){
           </div>
         </div>
       </div>
-    </div>
+
 
     <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <label for="apellido">Monto neto</label>
           <div class="input-group">
@@ -181,13 +181,12 @@ function ocultar_buttons(){
           <div class="input-group">
             <input class="hidden" class="form-control"></input>
           </div>
-        </div>
       </div>
     </div>
     <hr></hr>
 
     <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
       <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
         <label for="total">Nombre pagador</label>
           <input name="nombre_pagador" value="Empresa" class="form-control" required ></input>
@@ -196,7 +195,7 @@ function ocultar_buttons(){
         <label for="total">Descripción del gasto</label>
             <textarea name="descripcion" class="form-control" rows="4" required placeholder="Descripción del gasto"></textarea>
       </div>
-    </div>
+  
     </div>
 <hr></hr>
     <div class="row">
@@ -274,7 +273,7 @@ function ocultar_buttons(){
         <a href=""><button class="btn btn-primary" type="submit">Ingresar compra</button></a>
         <button class="btn btn-danger" type="reset">Limpiar campos</button>
       </div>
-  </div>
+    </div>
 
   {!!Form::close()!!}
 
