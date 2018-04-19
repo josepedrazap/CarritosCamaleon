@@ -90,7 +90,7 @@ function finalizar(){
           @endforeach
         </table>
       </div>
-      {{$data->render()}}
+
     </div>
   </div>
   <div class="form-group" id="save">
