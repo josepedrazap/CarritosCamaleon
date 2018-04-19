@@ -6,13 +6,17 @@
       @include('carritos.gastos.search2')
     </div>
   </div>
+  <div class="list-group">
+      <a href="/carritos/excel/index_excel_gastos/{{$date_1}}/{{$date_2}}" class="list-group-item list-group-item-success">
+        <strong>Presione aquí para obtener los gastos en Excel</strong>
+      </a>
+  </div>
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-condensed table-hover">
           <tr style="background-color:#ABEBC6">
             <th>Fecha</th>
-
             <th>Monto</th>
             <th>Iva</th>
             <th>Monto final</th>
@@ -22,7 +26,7 @@
           @foreach($data as $dat)
           <tr>
             <td>{{$dat->fecha}}</td>
-          
+
             <td>$ {{$dat->monto_neto}}</td>
             <td>$ {{$dat->iva}}</td>
             <td>$ {{$dat->total}}</td>

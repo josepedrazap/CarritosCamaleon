@@ -3,8 +3,14 @@
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
       <h3>Libro de Ventas</h3>
+      @include('carritos.ingresos.search2')
 
     </div>
+  </div>
+  <div class="list-group">
+      <a href="/carritos/excel/index_excel_ingresos/{{$date_1}}/{{$date_2}}" class="list-group-item list-group-item-success">
+        <strong>Presione aquí para obtener los ingresos en Excel</strong>
+      </a>
   </div>
 
   <div class="row">
@@ -16,6 +22,7 @@
             <th>Fecha documento</th>
             <th>Número documento</th>
             <th>Tipo documento</th>
+            <th>Nombre tercero</th>
             <th>Rut tercero</th>
             <th>Monto neto</th>
             <th>Iva</th>
@@ -29,6 +36,7 @@
             <td>{{$dat->fecha_documento}}</td>
             <td>{{$dat->numero_documento}}</td>
             <td>{{$dat->tipo_documento}}</td>
+            <td>{{$dat->nombre}}</td>
             <td>{{$dat->rut}}</td>
             <th>$ {{$dat->monto_neto}}</th>
             <th>$ {{$dat->iva}}</th>
@@ -37,7 +45,7 @@
               <a href="/carritos/ingresos/show_2/{{$dat->id_doc}}"><button class="btn btn-info">Ver</button></a>
               <div class="btn-group">
                   <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Información <span class="caret"></span>
+                    Info <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu">
                     <li><h5>Nombre cliente: {{$dat->nombre}} {{$dat->apellido}}</h5></li>

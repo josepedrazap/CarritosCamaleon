@@ -151,7 +151,7 @@ class Cuentas_contablesController extends Controller
     }
 
     public function balance_excel ($date_1, $date_2){
-      
+
         $total_debe = DB::table('cuentas_contables as cc')
         ->join('cuentas_movimientos as cm', 'cm.id_cuenta', '=', 'cc.id')
         ->whereBetween('fecha', array($date_1, $date_2))
@@ -173,7 +173,7 @@ class Cuentas_contablesController extends Controller
 
  	     Excel::create($balance, function($excel) use ($data, $total_debe, $total_haber) {
 
- 	         $excel->sheet('Blance', function($sheet) use ($data, $total_debe, $total_haber) {
+ 	         $excel->sheet('Balance', function($sheet) use ($data, $total_debe, $total_haber) {
  	             $sheet->loadView('carritos.aux_views.1')
  	             ->with('data', $data)
                ->with('total_debe', $total_debe)

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use CamaleonERP\Documento_financiero;
 use CamaleonERP\Cuentas_movimientos;
+use Maatwebsite\Excel\Facades\Excel;
+
 use DB;
 
 class ComprasController extends Controller
@@ -15,15 +17,20 @@ class ComprasController extends Controller
     $this->middleware('auth');
     $this->middleware('admin');
   }
-    public function index(){
+    public function index(Request $request){
+
+      $date_1 = $request->get('date_1');
+      $date_2 = $request->get('date_2');
+
         $facturas = DB::table('documento_financiero as df')
         ->where('tipo_dato', '=', 'compra')
         ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
+        ->whereBetween('fecha_documento', array($date_1, $date_2))
         ->select('df.id', 'tipo_documento', 'df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->groupBy('df.id', 'tipo_documento', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->orderBy('id','desc')
         ->paginate(7);
-        return View('carritos.compras.index', ["facturas"=>$facturas]);
+        return View('carritos.compras.index', ["facturas"=>$facturas, "date_1"=>$date_1, "date_2"=>$date_2]);
     }
     public function create(){
 
@@ -108,5 +115,28 @@ class ComprasController extends Controller
       }
       return Redirect::to("carritos/compras");
 
+    }
+    public function index_excel ($date_1, $date_2){
+
+        $data = DB::table('documento_financiero as df')
+        ->where('tipo_dato', '=', 'compra')
+        ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
+        ->whereBetween('fecha_documento', array($date_1, $date_2))
+        ->select('df.id', 'tipo_documento', 'df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
+        ->groupBy('df.id', 'tipo_documento', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
+        ->orderBy('id','desc')
+        ->get();
+
+       $nombre = "compras_periodo_".$date_1."_a_".$date_2;
+
+       Excel::create($nombre, function($excel) use ($data) {
+
+           $excel->sheet('Honorarios', function($sheet) use ($data) {
+               $sheet->loadView('carritos.aux_views.4')
+               ->with('data', $data);
+               $sheet->setOrientation('landscape');
+           });
+
+       })->export('xlsx');
     }
 }

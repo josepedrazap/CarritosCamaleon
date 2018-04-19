@@ -3,8 +3,13 @@
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
       <h3>Libro de Compras <a href="compras/create"><button class="btn btn-success">Nueva</button></a></h3>
-
+      @include('carritos.compras.search2')
     </div>
+  </div>
+  <div class="list-group">
+      <a href="/carritos/excel/index_excel_compras/{{$date_1}}/{{$date_2}}" class="list-group-item list-group-item-success">
+        <strong>Presione aquí para obtener las compras en Excel</strong>
+      </a>
   </div>
 
   <div class="row">

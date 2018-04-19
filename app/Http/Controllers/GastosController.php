@@ -13,6 +13,7 @@ use CamaleonERP\Cuentas_movimientos;
 use CamaleonERP\Eventos_tienen_productos;
 use CamaleonERP\Eventos_tienen_extras;
 use Illuminate\Support\Facades\Input;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Support\Facades\Redirect;
 use CamaleonERP\Http\Requests\EventosFormRequest;
@@ -28,30 +29,8 @@ class GastosController extends Controller
   }
   public function index(Request $request){
 
-    $mes = $request->get('mes');
-    $año = $request->get('año');
-
-    if($año == 0){
-
-      $data=DB::table('gastos as gts')
-      ->where('gts.condicion', '=', '1')
-      ->join('documento_financiero as df', 'df.id', '=', 'gts.id_documento')
-      ->get();
-      return view('carritos.gastos.index',["data"=>$data]);
-
-    }else if($mes == 0){
-      $date_1 = Carbon::create($año, 1, 1);
-      $date_2 = Carbon::create($año, 1, 1);
-      $date_2->addYear(1);
-      $date_1 = $date_1->format('Y-m-d');
-      $date_2 = $date_2->format('Y-m-d');
-    }else{
-      $date_1 = Carbon::create($año, $mes, 1);
-      $date_2 = Carbon::create($año, $mes, 1);
-      $date_2->addMonth();
-      $date_1 = $date_1->format('Y-m-d');
-      $date_2 = $date_2->format('Y-m-d');
-    }
+    $date_1 = $request->get('date_1');
+    $date_2 = $request->get('date_2');
 
       $query=trim($request->get('searchText'));
       $data=DB::table('gastos as gts')
@@ -59,7 +38,7 @@ class GastosController extends Controller
       ->join('documento_financiero as df', 'df.id', '=', 'gts.id_documento')
       ->whereBetween('fecha', array($date_1, $date_2))
       ->get();
-      return view('carritos.gastos.index',["data"=>$data, "searchText"=>$query]);
+      return view('carritos.gastos.index',["data"=>$data, "searchText"=>$query, "date_1"=>$date_1, "date_2"=>$date_2]);
 
 
   }
@@ -266,5 +245,25 @@ class GastosController extends Controller
     $pdf->loadHTML($view);
 
     return $pdf->stream('reporte');
+  }
+  public function index_excel ($date_1, $date_2){
+
+    $data=DB::table('gastos as gts')
+    ->where('gts.condicion', '=', '1')
+    ->join('documento_financiero as df', 'df.id', '=', 'gts.id_documento')
+    ->whereBetween('fecha', array($date_1, $date_2))
+    ->get();
+
+     $nombre = "gastos_periodo_".$date_1."_a_".$date_2;
+
+     Excel::create($nombre, function($excel) use ($data) {
+
+         $excel->sheet('Ventas', function($sheet) use ($data) {
+             $sheet->loadView('carritos.aux_views.5')
+             ->with('data', $data);
+             $sheet->setOrientation('landscape');
+         });
+
+     })->export('xlsx');
   }
 }

@@ -24,6 +24,11 @@
       </a>
   </div>
   <div class="list-group">
+      <a href="/carritos/honorarios" class="list-group-item list-group-item-info">
+          Libro de Honorarios
+      </a>
+  </div>
+  <div class="list-group">
       <a href="/carritos/compras" class="list-group-item list-group-item-info">
           Libro de Compras
       </a>

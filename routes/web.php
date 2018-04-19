@@ -49,12 +49,18 @@ Route::get('/', function () {
   Route::get('cambiar_contraseña', 'ResetpassController@cambiar_contraseña');
 
   //RUTAS DE PDF
-
-
   Route::get('carritos/pdf/despacho_checklist/{id}','PDFController@despacho_checklist');
   Route::get('carritos/pdf/balance/{date_1}/{date_2}','PDFController@balance_pdf');
   Route::get('carritos/pdf/balance_8_cols/{date_1}/{date_2}','PDFController@balance_8_cols');
+
+  //RUTAS EXCEL
   Route::get('carritos/excel/balance_excel/{date_1}/{date_2}','Cuentas_contablesController@balance_excel');
+  Route::get('carritos/excel/index_excel/{date_1}/{date_2}','HonorariosController@index_excel');
+  Route::get('carritos/excel/index_excel_ingresos/{date_1}/{date_2}','IngresosController@index_excel');
+  Route::get('carritos/excel/index_excel_compras/{date_1}/{date_2}','ComprasController@index_excel');
+  Route::get('carritos/excel/index_excel_gastos/{date_1}/{date_2}','GastosController@index_excel');
+
+
 
   Route::get('carritos/eventos/cotizacion', 'EventosController@cotizacion');
   Route::get('carritos/gastos/resumen', 'GastosController@resumen');
@@ -63,7 +69,7 @@ Route::get('/', function () {
   Route::get('carritos/ingredientes/update_precio/{bruto}/{liquido}/{iva}', 'IngredientesController@update_precio');
   //Route::get('carritos/compras/ver/{id}', 'ComprasController@ver');
   Route::get('carritos/cuentas_contables/balance', 'Cuentas_contablesController@balance');
-
+  Route::resource('carritos/honorarios', 'HonorariosController');
   Route::resource('carritos/reset', 'ResetpassController');
   Route::resource('carritos/extras', 'ExtrasController');
   Route::resource('carritos/compras', 'ComprasController');

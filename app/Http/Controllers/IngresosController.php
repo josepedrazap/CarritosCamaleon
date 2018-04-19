@@ -10,6 +10,7 @@ use CamaleonERP\Documento_financiero;
 use CamaleonERP\Cuentas_movimientos;
 use CamaleonERP\Eventos_tienen_documentos;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IngresosController extends Controller
 {
@@ -44,20 +45,23 @@ class IngresosController extends Controller
         return View('carritos.ingresos.ver', ["factura"=>$factura, "cuentas"=>$cuentas, "id"=>$id]);
       }
 
-      public function mostrar_ingresos(){
+      public function mostrar_ingresos(Request $request){
+
+        $date_1 = $request->get('date_1');
+        $date_2 = $request->get('date_2');
+
         $data=DB::table('documento_financiero as df')
         ->where('df.tipo_dato', '=', 'venta')
-        //->join('cuentas_movimientos as cm', 'cm.id_documento', '=', 'df.id')
-        //->join('cuentas_contables as cc', 'cc.id', '=', 'cm.id_cuenta')
         ->join('clientes as cli', 'cli.id', '=', 'df.id_tercero')
         ->join('eventos_tienen_documentos as etd', 'etd.id_documento', '=', 'df.id')
         ->join('eventos as eve', 'eve.id', '=', 'etd.id_evento')
-        ->select('numero_documento', 'df.id as id_doc','eve.id as id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
-        ->groupBy('numero_documento', 'id_doc', 'id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
+        ->whereBetween('fecha_documento', array($date_1, $date_2))
+        ->select('numero_documento', 'cli.nombre','df.id as id_doc','eve.id as id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
+        ->groupBy('numero_documento', 'cli.nombre','id_doc', 'id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
         ->orderBy('id_doc', 'asc')
         ->get();
 
-        return view('carritos.ingresos.mostrar_ingresos', ["data"=>$data]);
+        return view('carritos.ingresos.mostrar_ingresos', ["data"=>$data, "date_1"=>$date_1, "date_2"=>$date_2]);
       }
       public function show($id){
         $eventos_detalle = DB::table('eventos_detalle as ed')
@@ -184,6 +188,31 @@ class IngresosController extends Controller
         }
         return Redirect::to("carritos/ingresos");
 
+      }
+
+      public function index_excel ($date_1, $date_2){
+
+        $data=DB::table('documento_financiero as df')
+        ->where('df.tipo_dato', '=', 'venta')
+        ->join('clientes as cli', 'cli.id', '=', 'df.id_tercero')
+        ->join('eventos_tienen_documentos as etd', 'etd.id_documento', '=', 'df.id')
+        ->join('eventos as eve', 'eve.id', '=', 'etd.id_evento')
+        ->whereBetween('fecha_documento', array($date_1, $date_2))
+        ->select('numero_documento', 'cli.nombre','df.id as id_doc','eve.id as id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
+        ->groupBy('numero_documento', 'cli.nombre','id_doc', 'id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
+        ->orderBy('id_doc', 'asc')
+        ->get();
+         $nombre = "ventas_periodo_".$date_1."_a_".$date_2;
+
+         Excel::create($nombre, function($excel) use ($data) {
+
+             $excel->sheet('Ventas', function($sheet) use ($data) {
+                 $sheet->loadView('carritos.aux_views.3')
+                 ->with('data', $data);
+                 $sheet->setOrientation('landscape');
+             });
+
+         })->export('xlsx');
       }
 
 }

@@ -1,4 +1,4 @@
-{!! Form::open(array('url'=>'carritos/gastos', 'method'=>'GET', 'autocomplete'=>'off', 'role'=>'search'))!!}
+{!! Form::open(array('url'=>'carritos/ingresos/mostrar_ingresos', 'method'=>'GET', 'autocomplete'=>'off', 'role'=>'search'))!!}
 <hr></hr>
 <div class="row">
   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -18,5 +18,6 @@
     </div>
   </div>
 </div>
+
 
 {{Form::close()}}
