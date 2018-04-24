@@ -1,6 +1,16 @@
 @extends ('layouts.admin')
 @section('contenido')
 
+<?php
+  foreach($ayudas as $ay){
+    if($ay->campo == 'precio')$ay_precio = $ay->texto;
+    if($ay->campo == 'nombre_producto')$ay_nombre_producto = $ay->texto;
+    if($ay->campo == 'plataforma')$ay_plataforma = $ay->texto;
+    if($ay->campo == 'cant_ingrediente_')$ay_cant_ingrediente_ = $ay->texto;
+    if($ay->campo == 'uni_')$ay_uni_ = $ay->texto;
+  }
+ ?>
+
 <script>
 e = 0;
 
@@ -34,7 +44,7 @@ function addIngredientes(){
 
         var div = document.createElement('div');
         div.setAttribute('class', 'form-inline');
-            div.innerHTML ='<div class="ingredientes_'+e+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select2'+e+'" class="form-control" onchange="unidad('+e+')" name="ingrediente_[]"></select></div><div class="ingrediente_'+e+' col-md-3""><input class="form-control" name="cant_ingrediente_[]" type="text"/></div><div class="col-md-2"><input class="form-control" readonly="readonly" name="uni_[]" id="unidad_id_'+e+'"/></div>';
+            div.innerHTML ='<div class="ingredientes_'+e+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select2'+e+'" class="form-control" onchange="unidad('+e+')" name="ingrediente_[]"></select></div><div class="ingrediente_'+e+' col-md-3""><input title="{{$ay_cant_ingrediente_}}" class="form-control" name="cant_ingrediente_[]" type="text"/></div><div class="col-md-2"><input title="{{$ay_uni_}}" class="form-control" readonly="readonly" name="uni_[]" id="unidad_id_'+e+'"/></div>';
             document.getElementById('ingredientes').appendChild(div);
 
             sv = "#select2"+e;
@@ -78,6 +88,7 @@ function llenar_select_extras(e, sv){
   </div>
 </div>
 
+
     {!!Form::open(array('url'=>'carritos/productos','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::Token()}}
 
@@ -85,7 +96,7 @@ function llenar_select_extras(e, sv){
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="nombre_producto">Nombre del producto</label>
-          <input type="text" name="nombre_producto" require class="form-control" placeholder="nombre...">
+          <input type="text" title="{{$ay_nombre_producto}}" name="nombre_producto" require class="form-control" placeholder="nombre...">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
@@ -101,13 +112,13 @@ function llenar_select_extras(e, sv){
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="precio">Precio bruto sugerido</label>
-          <input name="precio" type="number" class="form-control" require placeholder="precio...">
+          <input  title="{{$ay_precio}}" name="precio" type="number" class="form-control" require placeholder="precio...">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="plataforma">Base</label>
-          <select class="form-control" name="plataforma">
+          <select title="{{$ay_plataforma}}" class="form-control" name="plataforma">
             @foreach($bases as $bs)
             <option value="{{$bs->valor}}" >{{$bs->valor}}</option>
             @endforeach

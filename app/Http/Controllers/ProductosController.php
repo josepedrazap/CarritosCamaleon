@@ -48,8 +48,12 @@ class ProductosController extends Controller
       ->where('sv.familia', '=', 'base_productos')
       ->get();
 
+      $ayudas = DB::table('ayudas')
+      ->where('ayudas.familia', '=', 'productos_create')
+      ->get();
 
-      return view('carritos.productos.create', ["ingredientes"=>$ingredientes, "tipos"=>$tipos, "bases"=>$bases]);
+
+      return view('carritos.productos.create', ["ayudas"=>$ayudas, "ingredientes"=>$ingredientes, "tipos"=>$tipos, "bases"=>$bases]);
     }
 
     function store(ProductosFormRequest $request){
