@@ -18,8 +18,8 @@ class MercaderiaProxEventosController extends Controller
   }
     public function index(Request $request){
 
-      $date_1 = $request->get('fecha_1');
-      $date_2 = $request->get('fecha_2');
+      $date_1 = $request->get('date_1');
+      $date_2 = $request->get('date_2');
       $var = 1;
       $ingredientes_totales = DB::table('eventos as eve')
       ->join('eventos_tienen_productos as etp', 'etp.id_evento', '=', 'eve.id')
@@ -54,7 +54,7 @@ class MercaderiaProxEventosController extends Controller
       ->where('eve.aprobado', '=', '0')
       ->count('eve.id');
 
-      if(!$request->get('fecha_1') || !$request->get('fecha_2')){
+      if(!$request->get('date_1') || !$request->get('date_2')){
         $var = 0;
       }
 

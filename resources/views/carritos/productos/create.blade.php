@@ -4,19 +4,37 @@
 <script>
 e = 0;
 
+function unidad(a){
+  sv = "#select2" + a + " option:selected";
+  var id = $(sv).val();
+  sv2 = "unidad_id_"+ a;
+  var Kg= "Kg";
+
+  @foreach($ingredientes as $ingr)
+  if({{$ingr->id}} == id){
+    var uni = "{{$ingr->unidad}}";
+    if( uni == Kg){
+      document.getElementById(sv2).value = "gramos";
+    }else{
+      document.getElementById(sv2).value = "{{$ingr->unidad}}";
+    }
+  }
+  @endforeach
+}
+
 function addIngredientes(){
       e++;
 
         if(e == 1){
           var div = document.createElement('div');
-          div.innerHTML = '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Ingredientes</label></div><div class="col-md-3"><label>Cantidad sugerida</label></div>';
+          div.innerHTML = '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Ingrediente</label></div><div class="col-md-3"><label>Porción sugerida</label></div><div class="col-md-3"><label>Unidad</label></div>';
           document.getElementById('contenedor1').appendChild(div);
 
         }
 
         var div = document.createElement('div');
         div.setAttribute('class', 'form-inline');
-            div.innerHTML ='<div class="ingredientes_'+e+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select2'+e+'" class="form-control" name="ingrediente_[]"></select></div><div class="ingrediente_'+e+' col-md-3""><input class="form-control" name="cant_ingrediente_[]" type="text"/></div><div class="col-md-2"><select class="form-control" name="uni_[]"><option value="gramos">gramos</option><option value="unidad">unidad(es)</option><option value="lámina">lámina(s)</option></select></div>';
+            div.innerHTML ='<div class="ingredientes_'+e+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select2'+e+'" class="form-control" onchange="unidad('+e+')" name="ingrediente_[]"></select></div><div class="ingrediente_'+e+' col-md-3""><input class="form-control" name="cant_ingrediente_[]" type="text"/></div><div class="col-md-2"><input class="form-control" readonly="readonly" name="uni_[]" id="unidad_id_'+e+'"/></div>';
             document.getElementById('ingredientes').appendChild(div);
 
             sv = "#select2"+e;
@@ -66,7 +84,7 @@ function llenar_select_extras(e, sv){
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
-          <label for="nombre_producto">Nombre producto</label>
+          <label for="nombre_producto">Nombre del producto</label>
           <input type="text" name="nombre_producto" require class="form-control" placeholder="nombre...">
         </div>
       </div>
@@ -82,13 +100,13 @@ function llenar_select_extras(e, sv){
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
-          <label for="precio">Precio</label>
+          <label for="precio">Precio bruto sugerido</label>
           <input type="text" name="precio" class="form-control" require placeholder="precio...">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
-          <label for="plataforma">Plato o porta completos</label>
+          <label for="plataforma">Base</label>
           <select class="form-control" name="plataforma">
             @foreach($bases as $bs)
             <option value="{{$bs->valor}}" >{{$bs->valor}}</option>
@@ -101,7 +119,7 @@ function llenar_select_extras(e, sv){
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
-          <h3>Ingredientes</h3>
+          <h3>Ingredientes x unidad</h3>
         </div>
       </div>
     </div>

@@ -76,35 +76,8 @@ function calc(){
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-4">
       <div class="form-group">
-        <label>Unidad</label>
-        <select class="form-control" required name="uni_porcion" value="{{$ingrediente->uni_porcion}}">
-          @if($ingrediente->uni_porcion == "unidad")
-          <option selected="selected">unidad</option>
-          <option >gramos</option>
-          <option >lámina</option>
-          <option >bolsas</option>
-          @elseif($ingrediente->uni_porcion == "gramos")
-          <option >unidad</option>
-          <option selected="selected">gramos</option>
-          <option >lámina</option>
-          <option >bolsas</option>
-          @elseif($ingrediente->uni_porcion == "lámina")
-          <option >unidad</option>
-          <option >gramos</option>
-          <option selected="selected">lámina</option>
-          <option >bolsas</option>
-          @elseif($ingrediente->uni_porcion == "bolsas")
-          <option >unidad</option>
-          <option >gramos</option>
-          <option >lámina</option>
-          <option selected="selected">bolsas</option>
-          @else
-          <option >unidad</option>
-          <option >gramos</option>
-          <option >lámina</option>
-          <option >bolsas</option>
-          @endif
-        </select>
+        <label>Unidad de porción</label>
+        <input class="form-control" value="{{$ingrediente->uni_porcion}}" readonly="readonly" name="uni_porcion"/>
       </div>
     </div>
 

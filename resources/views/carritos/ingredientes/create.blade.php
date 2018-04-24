@@ -7,6 +7,19 @@ function calc(){
   document.getElementById('precio_liquido').value = v1 - v1*0.19;
   document.getElementById('iva').value = v1*0.19;
 }
+function unidad_p(){
+  sv = "#unidad option:selected";
+  var unidad = $(sv).val();
+  sv2 = "unidad_porcion";
+  var Kg= "Kg";
+
+  if(unidad == Kg){
+      document.getElementById('unidad_porcion').value = "gramos";
+  }else{
+      document.getElementById('unidad_porcion').value = unidad;
+  }
+
+}
 </script>
 
 <div class="row">
@@ -49,8 +62,8 @@ function calc(){
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
-          <label for="tipo">Medida</label>
-          <select class="form-control" name="unidad">
+          <label for="unidad">Unidad de inventario</label>
+          <select class="form-control" name="unidad" id="unidad" onchange="unidad_p()">
             <option>Kg</option>
             <option>unidad</option>
             <option>lámina</option>
@@ -67,13 +80,8 @@ function calc(){
       </div>
       <div class="col-lg-2 col-md-3 col-sm-6 col-xs-4">
         <div class="form-group">
-          <label>Unidad</label>
-          <select class="form-control" required name="unidad_porcion">
-            <option>unidad</option>
-            <option>gramos</option>
-            <option>lámina</option>
-            <option>bolsas</option>
-          </select>
+          <label>Unidad de la porción</label>
+          <input class="form-control" id="unidad_porcion" value="gramos" name="unidad_porcion" readonly="readonly"/>
         </div>
       </div>
 
