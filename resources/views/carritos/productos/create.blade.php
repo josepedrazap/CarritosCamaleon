@@ -101,7 +101,7 @@ function llenar_select_extras(e, sv){
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="precio">Precio bruto sugerido</label>
-          <input type="text" name="precio" class="form-control" require placeholder="precio...">
+          <input type="text" name="precio" type="number" class="form-control" require placeholder="precio...">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
