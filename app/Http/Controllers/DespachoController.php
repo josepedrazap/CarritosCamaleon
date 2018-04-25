@@ -181,7 +181,15 @@ class DespachoController extends Controller
         $eve_det->gasto_extra = 0;
         $eve_det->iva_por_pagar = $total_final_iva;
         $eve_det->precio_evento = $total_final;
-        $eve_det->pago_cocineros = $pago_cocineros * $trabajadores_num;
+        //ver
+        if($eventos->condicion == 6){
+          $eve_det->pago_cocineros = $pago_cocineros * count($trabajadores);
+        }else{
+          $eve_det->pago_cocineros = $pago_cocineros * $trabajadores_num;
+
+        }
+
+        //
         $eve_det->total_ingredientes = 0;
         $eve_det->total_ingredientes_iva = 0;
         $eve_det->utilidad_final = 0;

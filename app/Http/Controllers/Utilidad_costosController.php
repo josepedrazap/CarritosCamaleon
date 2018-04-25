@@ -389,13 +389,18 @@ class Utilidad_costosController extends Controller
       $cont = 0;
       while($cont < count($ingredientes)){
         $inv_temp = Inventario::findOrFail($ingredientes[$cont]->id_inv);
-        $inv_temp->cantidad = $inv_temp->cantidad - $ingredientes[$cont]->cant_usada;
+        if($inv_temp->cantidad - $ingredientes[$cont]->cant_usada < 0){
+            $inv_temp->cantidad = 0;
+        }else{
+            $inv_temp->cantidad = $inv_temp->cantidad - $ingredientes[$cont]->cant_usada;
+        }
         $inv_temp->update();
         $cont++;
       }
       $cont = 0;
       while($cont < count($ingr_extras)){
         $inv_temp = Inventario::findOrFail($ingr_extras[$cont]->id_inv);
+        
         $inv_temp->cantidad = $inv_temp->cantidad - $ingr_extras[$cont]->cant_usada;
         $inv_temp->update();
         $cont++;
