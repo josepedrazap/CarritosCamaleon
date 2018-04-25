@@ -81,6 +81,9 @@ function finalizar(){
             @if($dat->condicion == 3)
             <td style="color:grey"> <strong>Ejecutado</strong></td>
             @endif
+            @else
+            <td>$dat->condicion</td>
+            @endif
             <td>
               <input value="{{$dat->monto}}" class="form-control" disabled id="{{$dat->id}}">
               <input name="{{$dat->id}}" value="0" hidden id="__{{$dat->id}}">

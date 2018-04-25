@@ -32,7 +32,7 @@ class EventosController extends Controller
     ->where('fecha_hora', '<',  Carbon::now())
     ->where('condicion', '=', 2)
     ->get();
-
+    
     $cont = 0;
 
     while($cont < count($eventos_ejecutados)){
@@ -42,6 +42,7 @@ class EventosController extends Controller
       $eve_temp->update();
       $cont++;
     }
+
 
     if($request){
 
