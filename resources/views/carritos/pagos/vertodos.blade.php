@@ -82,8 +82,8 @@ function finalizar(){
             <td style="color:grey"> <strong>Ejecutado</strong></td>
             @endif
 
-            <td>$dat->condicion</td>
-          
+            <td>{{$dat->condicion}}</td>
+
             <td>
               <input value="{{$dat->monto}}" class="form-control" disabled id="{{$dat->id}}">
               <input name="{{$dat->id}}" value="0" hidden id="__{{$dat->id}}">
