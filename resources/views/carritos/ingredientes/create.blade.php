@@ -5,7 +5,7 @@
 function calc_bruto(){
   v1 = $("#precio_bruto").val();
   document.getElementById('precio_liquido').value = v1/1.19;
-  document.getElementById('iva').value = v1 - v1/0.19;
+  document.getElementById('iva').value = v1/0.19 - v1;
 }
 function calc_liquido(){
   v1 = $("#precio_liquido").val();
