@@ -117,7 +117,7 @@ function unidad_p(){
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
         <label for="tipo">Precio líquido</label>
-        <input type="number" id="precio_liquido" class="form-control"  onkeyup="calc_bruto()"  required name="precio_liquido">
+        <input type="number" id="precio_liquido" class="form-control"  onkeyup="calc_liquido()"  required name="precio_liquido">
       </div>
     </div>
   </div>
