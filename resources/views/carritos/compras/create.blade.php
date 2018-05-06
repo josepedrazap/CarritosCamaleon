@@ -136,7 +136,7 @@ function ocultar_buttons(){
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
           <label for="tipo">Proveedor</label>
           <div class="form-group">
-            <select class="form-control" name="id_proveedor" required>
+            <select class="form-control selectpicker" name="id_proveedor" data-live-search="true" required >
               @foreach($prov as $p)
               <option value="{{$p->id}}">{{$p->rut}}</option>
               @endforeach

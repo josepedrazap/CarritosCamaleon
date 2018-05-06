@@ -22,7 +22,7 @@ class ProveedoresController extends Controller
       $proveedores=DB::table('proveedores as prov')
       ->where('prov.nombre','LIKE','%'.$query.'%')
       ->orderBy('prov.id','desc')
-      ->paginate(7);
+      ->paginate(8);
 
       return view('carritos.proveedores.index', ["proveedores"=>$proveedores]);
     }
