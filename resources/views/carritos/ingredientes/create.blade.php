@@ -4,13 +4,13 @@
 <script>
 function calc_bruto(){
   v1 = $("#precio_bruto").val();
-  document.getElementById('precio_liquido').value = v1/1.19;
-  document.getElementById('iva').value = v1 - v1/1.19 ;
+  document.getElementById('precio_liquido').value = Math.round(v1/1.19);
+  document.getElementById('iva').value = Math.round(v1 - v1/1.19) ;
 }
 function calc_liquido(){
   v1 = $("#precio_liquido").val();
-  document.getElementById('precio_bruto').value = v1*1.19;
-  document.getElementById('iva').value =  v1*1.19 - v1;
+  document.getElementById('precio_bruto').value = Math.round(v1*1.19);
+  document.getElementById('iva').value =  Math.round(v1*1.19 - v1);
 }
 function unidad_p(){
   sv = "#unidad option:selected";
