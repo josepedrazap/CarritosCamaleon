@@ -118,12 +118,12 @@
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-dollar-sign"></i>
-                <span>Cotizaciones</span>
+                <span>Simulador</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/carritos/cotizaciones"><i class="far fa-circle"></i> Todos las cotizaciones</a></li>
-                <li><a href="/carritos/eventos/cotizacion"><i class="far fa-circle"></i> Nueva cotización</a></li>
+                <li><a href="/carritos/cotizaciones"><i class="far fa-circle"></i> Todos las simulaciones</a></li>
+                <li><a href="/carritos/eventos/cotizacion"><i class="far fa-circle"></i> Nueva simulación</a></li>
               </ul>
             </li>
             @if(Auth::user()->nivel == 'Administrador')

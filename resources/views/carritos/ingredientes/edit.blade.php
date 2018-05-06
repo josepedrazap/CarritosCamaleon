@@ -67,10 +67,11 @@ function calc(){
       </div>
     </div>
   </div>
+  
   <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-8">
       <div class="form-group">
-        <label>Porción</label>
+        <label>Porción cada 100 productos</label>
         <input type="text" class="form-control" value="{{$ingrediente->porcion_}}" required name="porcion">
       </div>
     </div>

@@ -72,13 +72,15 @@ function unidad_p(){
           </select>
         </div>
       </div>
-      <div class="col-lg-1 col-md-3 col-sm-6 col-xs-8">
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-8">
         <div class="form-group">
-          <label>Porción</label>
+          <label>Porción cada 100 productos</label>
           <input type="text" class="form-control" required name="porcion">
         </div>
       </div>
-      <div class="col-lg-2 col-md-3 col-sm-6 col-xs-4">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-4">
         <div class="form-group">
           <label>Unidad de la porción</label>
           <input class="form-control" id="unidad_porcion" value="gramos" name="unidad_porcion" readonly="readonly"/>

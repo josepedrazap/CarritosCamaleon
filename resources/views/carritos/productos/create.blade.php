@@ -130,7 +130,8 @@ function llenar_select_extras(e, sv){
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
-          <h3>Ingredientes x unidad</h3>
+          <h3>Ingredientes x 100 unidades
+          </h3>
         </div>
       </div>
     </div>

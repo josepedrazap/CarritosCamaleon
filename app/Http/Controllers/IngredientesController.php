@@ -52,7 +52,7 @@ class IngredientesController extends Controller
         $ingrediente->nombre = $request->get('nombre');
         $ingrediente->tipo = $request->get('tipo');
         $ingrediente->unidad = $request->get('unidad');
-        $ingrediente->porcion_ = $request->get('porcion');
+        $ingrediente->porcion_ = $request->get('porcion')/100;
         $ingrediente->uni_porcion = $request->get('unidad_porcion');
         $ingrediente->clase = "default";
         $ingrediente->condicion = 1;

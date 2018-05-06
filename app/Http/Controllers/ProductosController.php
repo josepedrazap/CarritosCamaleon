@@ -78,7 +78,7 @@ class ProductosController extends Controller
             $prod_t_ingr = new Productos_tienen_ingredientes;
             $prod_t_ingr->id_producto = $producto->id;
             $prod_t_ingr->id_ingrediente = $ingrs_name[$i];
-            $prod_t_ingr->porcion = $ingrs[$i];
+            $prod_t_ingr->porcion = $ingrs[$i] / 100;
             $prod_t_ingr->unidad = $unis[$i];
             $prod_t_ingr->save();
           $i++;
