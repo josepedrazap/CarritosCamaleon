@@ -62,6 +62,7 @@ function unidad_p(){
             <option>proteina</option>
             <option>masa</option>
             <option>refrigerio</option>
+            <option>insumos</option>
           </select>
         </div>
       </div>
