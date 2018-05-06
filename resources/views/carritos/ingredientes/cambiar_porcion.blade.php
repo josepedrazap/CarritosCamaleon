@@ -2,10 +2,15 @@
 @section('contenido')
 
 <script>
-function calc(){
+function calc_bruto(){
   v1 = $("#precio_bruto").val();
-  document.getElementById('precio_liquido').value = v1 - v1*0.19;
-  document.getElementById('iva').value = v1*0.19;
+  document.getElementById('precio_liquido').value = Math.round(v1/1.19);
+  document.getElementById('iva').value = Math.round(v1 - v1/1.19) ;
+}
+function calc_liquido(){
+  v1 = $("#precio_liquido").val();
+  document.getElementById('precio_bruto').value = Math.round(v1*1.19);
+  document.getElementById('iva').value =  Math.round(v1*1.19 - v1);
 }
 </script>
 
@@ -51,7 +56,7 @@ function calc(){
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
         <label for="tipo">Precio bruto</label>
-        <input type="number" id="precio_bruto" onkeyup="calc()" class="form-control" required name="precio_bruto">
+        <input type="number" id="precio_bruto" onkeyup="calc_bruto()" class="form-control" required name="precio_bruto">
       </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
@@ -63,7 +68,7 @@ function calc(){
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
         <label for="tipo">Precio líquido</label>
-        <input type="number" id="precio_liquido" class="form-control" required name="precio_liquido" readonly="readonly">
+        <input type="number" id="precio_liquido" onkeyup="calc_liquido()" class="form-control" required name="precio_liquido">
       </div>
     </div>
   </div>
