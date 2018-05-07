@@ -96,7 +96,7 @@ function llenar_select_extras(e, sv){
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="nombre_producto">Nombre del producto</label>
-          <input type="text" title="{{$ay_nombre_producto}}" name="nombre_producto" require class="form-control" placeholder="nombre...">
+          <input type="text" title="{{$ay_nombre_producto}}" name="nombre_producto" required class="form-control" placeholder="nombre...">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
@@ -112,7 +112,7 @@ function llenar_select_extras(e, sv){
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
           <label for="precio">Precio bruto sugerido</label>
-          <input  title="{{$ay_precio}}" name="precio" type="number" class="form-control" require placeholder="precio...">
+          <input  title="{{$ay_precio}}" name="precio" type="number" class="form-control" required placeholder="precio...">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
