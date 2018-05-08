@@ -113,7 +113,7 @@ class Cuentas_contablesController extends Controller
           $tipo_doc = 0;
         }
 
-        $pref_ultimo = DB::table('Cuentas_contables as cc')
+        $pref_ultimo = DB::table('cuentas_contables as cc')
         ->where('prefijo', '=', $prefijo)
         ->orderBy('created_at', 'desc')
         ->take(1)
