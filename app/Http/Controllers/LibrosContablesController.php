@@ -51,9 +51,9 @@ class LibrosContablesController extends Controller
       ->join('cuentas_movimientos as cm', 'cm.id_documento', '=', 'df.id')
       ->join('cuentas_contables as cc', 'cc.id', '=', 'cm.id_cuenta')
       ->where('df.tipo_dato', '=', 'compra')
-      ->select('debe', 'haber', 'num_prefijo_abs','fecha_documento','nombre_cuenta', 'df.tipo_documento', 'numero_documento','cm.glosa', 'id_documento')
-      ->groupBy('debe', 'haber', 'num_prefijo_abs','fecha_documento','nombre_cuenta', 'df.tipo_documento', 'numero_documento','cm.glosa', 'id_documento')
-      ->orderBy('df.id', 'asc')
+      ->select('debe', 'haber', 'excento', 'otros_impuestos','df.id as id_df','fecha_ingreso','num_prefijo_abs','fecha_documento','nombre_cuenta', 'df.tipo_documento', 'numero_documento','cm.glosa', 'id_documento')
+      ->groupBy('debe', 'haber', 'excento', 'otros_impuestos','id_df','fecha_ingreso', 'num_prefijo_abs','fecha_documento','nombre_cuenta', 'df.tipo_documento', 'numero_documento','cm.glosa', 'id_documento')
+      ->orderBy('df.id', 'desc')
       ->get();
 
       return View('carritos.libros_contables.libro_compras', ["cuentas"=>$cuentas, "fecha"=>$carbon]);
