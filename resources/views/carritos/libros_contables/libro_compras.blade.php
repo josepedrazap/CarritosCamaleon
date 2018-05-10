@@ -55,11 +55,11 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
             <td>{{$ct->nombre_cuenta}}</td>
             <td>{{$ct->debe}}</td>
             <td>{{$ct->haber}}</td>
+            <td></td>
+            <td></td>
             <th>{{$ct->glosa}}</th>
           </tr>
           @endif
