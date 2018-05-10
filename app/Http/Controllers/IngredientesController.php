@@ -19,13 +19,23 @@ class IngredientesController extends Controller
     }
     public function index(Request $request){
       if($request){
-        $query=trim($request->get('searchText'));
-        $ingredientes=DB::table('ingredientes as ingr')
-        ->where('ingr.nombre','LIKE','%'.$query.'%')
-        ->where('ingr.condicion','=', 1)
-        ->orderBy('ingr.nombre')
-        ->paginate(7);
-        return view('carritos.ingredientes.index', ["ingredientes"=>$ingredientes]);
+
+        if($request->get('tipo') != "0"){
+          $query = $request->get('tipo');
+          $ingredientes=DB::table('ingredientes as ingr')
+          ->where('ingr.tipo', '=', $query)
+          ->where('ingr.condicion','=', 1)
+          ->orderBy('ingr.nombre')
+          ->paginate(7);
+          return view('carritos.ingredientes.index', ["ingredientes"=>$ingredientes]);
+        }
+            $query=trim($request->get('searchText'));
+            $ingredientes=DB::table('ingredientes as ingr')
+            ->where('ingr.nombre','LIKE','%'.$query.'%')
+            ->where('ingr.condicion','=', 1)
+            ->orderBy('ingr.nombre')
+            ->paginate(7);
+            return view('carritos.ingredientes.index', ["ingredientes"=>$ingredientes]);
       }
     }
 
