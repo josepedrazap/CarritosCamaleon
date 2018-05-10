@@ -53,6 +53,7 @@ function addIngredientes(){
 }
 function llenar_select_extras(e, sv){
   tipo_ = "{{$ingredientes[0]->tipo}}";
+  $(sv).append('<option>------------</option>');
   $(sv).append('<optgroup label="'+tipo_+'">');
 
   @foreach($ingredientes as $ing)
