@@ -36,9 +36,11 @@ class ComprasController extends Controller
 
       $prov = DB::table('proveedores')
       ->get();
+      $serie_comprobante = Documento_financiero::all();
+      $serie = $serie_comprobante->last();
       $cuentas = DB::table('cuentas_contables')
       ->get();
-      return View('carritos.compras.create', ["prov"=>$prov, "cuentas"=>$cuentas]);
+      return View('carritos.compras.create', ["prov"=>$prov, "cuentas"=>$cuentas, "serie"=>$serie]);
     }
 
     public function show($id){
@@ -64,7 +66,7 @@ class ComprasController extends Controller
         $monto_neto = $request->get('monto_neto');
         $iva = $request->get('iva');
         $total = $request->get('total');
-
+        $fecha_ingreso = $request->get('fecha_ingreso');
         $id_cuenta = $request->get('id_cuenta');
         $debe_cuenta = $request->get('debe_cuenta');
         $haber_cuenta = $request->get('haber_cuenta');
@@ -77,6 +79,7 @@ class ComprasController extends Controller
         $fact_temp->tipo_documento = $tipo_documento;
         $fact_temp->numero_documento = $numero_documento;
         $fact_temp->fecha_documento = $fecha_documento;
+        $fact_temp->fecha_ingreso = $fecha_ingreso;
         $fact_temp->monto_neto = $monto_neto;
         $fact_temp->iva = $iva;
         $fact_temp->total = $total;

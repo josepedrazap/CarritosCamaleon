@@ -106,9 +106,14 @@ function ocultar_buttons(){
 }
 </script>
 
+{!!Form::open(array('url'=>'carritos/compras','method'=>'POST','autocomplete'=>'off'))!!}
+{{Form::Token()}}
+
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
-    <h3>Compras</h3>
+      <h3>Compras número de comprobante {{$serie->id + 1}}</h3>
+      <label for="fecha">Fecha de ingreso</label>
+      <input name="fecha_ingreso" type="date" class="form-control" required></input>
     <hr/>
     @if(count($errors)>0)
     <div class="alert alert-danger">
@@ -122,13 +127,13 @@ function ocultar_buttons(){
   </div>
 </div>
 
-    {!!Form::open(array('url'=>'carritos/compras','method'=>'POST','autocomplete'=>'off'))!!}
-    {{Form::Token()}}
+
 
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <h4>Datos de la compra</h4>
+        <h4>Datos de la compra </h4>
       </div>
+
     </div>
 
     <div class="row">
@@ -201,6 +206,7 @@ function ocultar_buttons(){
             <input id="total_final" name="total" class="form-control" required ></input>
           </div>
         </div>
+
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <div class="input-group">
             <input class="hidden" class="form-control"></input>

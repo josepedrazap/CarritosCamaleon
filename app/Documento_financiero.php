@@ -15,6 +15,7 @@ class Documento_financiero extends Model
     'tipo_documento',
     'numero_documento',
     'fecha_documento',
+    'fecha_ingreso',
     'tipo_dato',
     'monto_neto',
     'iva',
