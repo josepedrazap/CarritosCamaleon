@@ -25,7 +25,7 @@ class ComprasController extends Controller
         $facturas = DB::table('documento_financiero as df')
         ->where('tipo_dato', '=', 'compra')
         ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
-        ->whereBetween('fecha_documento', array($date_1, $date_2))
+        ->whereBetween('fecha_ingreso', array($date_1, $date_2))
         ->select('df.id', 'tipo_documento', 'df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->groupBy('df.id', 'tipo_documento', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->orderBy('id','desc')
