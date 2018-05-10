@@ -55,6 +55,8 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
             <td>{{$ct->nombre_cuenta}}</td>
             <td>{{$ct->debe}}</td>
             <td>{{$ct->haber}}</td>
