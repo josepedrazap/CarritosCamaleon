@@ -45,9 +45,12 @@ class GastosController extends Controller
   function create(){
     $prov = DB::table('proveedores')
     ->get();
+    $serie_comprobante = Documento_financiero::all();
+    $serie = $serie_comprobante->last();
+
     $cuentas = DB::table('cuentas_contables')
     ->get();
-    return View('carritos.gastos.create', ["prov"=>$prov, "cuentas"=>$cuentas]);
+    return View('carritos.gastos.create', ["prov"=>$prov, "cuentas"=>$cuentas, "serie"=>$serie]);
   }
 
   function resumen(Request $request){
@@ -170,7 +173,7 @@ class GastosController extends Controller
       $monto_neto = $request->get('monto_neto');
       $iva = $request->get('iva');
       $total = $request->get('total');
-
+      $fecha_ingreso = $request->get('fecha_ingreso');
       $id_cuenta = $request->get('id_cuenta');
       $debe_cuenta = $request->get('debe_cuenta');
       $haber_cuenta = $request->get('haber_cuenta');
@@ -186,6 +189,7 @@ class GastosController extends Controller
       $fact_temp->monto_neto = $monto_neto;
       $fact_temp->iva = $iva;
       $fact_temp->total = $total;
+      $fact_temp->fecha_ingreso = $fecha_ingreso;
       $fact_temp->save();
 
       $nombre_pagador = $request->get('nombre_pagador');

@@ -108,7 +108,9 @@ function ocultar_buttons(){
 
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
-    <h3>Ingresar Gasto</h3>
+    <h3>Ingresar Gasto número de comprobante {{$serie->id + 1501}}</h3>
+    <input name="fecha_ingreso" type="date" class="form-control" required></input>
+
     <hr/>
     @if(count($errors)>0)
     <div class="alert alert-danger">
@@ -195,7 +197,7 @@ function ocultar_buttons(){
         <label for="total">Descripción del gasto</label>
             <textarea name="descripcion" class="form-control" rows="4" required placeholder="Descripción del gasto"></textarea>
       </div>
-  
+
     </div>
 <hr></hr>
     <div class="row">
