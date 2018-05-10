@@ -166,6 +166,13 @@ function ocultar_buttons(){
           </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+          <label for="iva">Excento</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input name="excento" class="form-control" required ></input>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <label for="iva">IVA</label>
           <div class="input-group">
             <span class="input-group-addon">$</span>

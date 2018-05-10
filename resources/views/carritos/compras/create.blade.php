@@ -192,11 +192,25 @@ function ocultar_buttons(){
             <input type="text" class="form-control" name="monto_neto" id="monto" onkeyup="iva_calc();" required>
           </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+          <label for="iva">Excento</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input name="excento" class="form-control"  ></input>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
           <label for="iva">IVA</label>
           <div class="input-group">
             <span class="input-group-addon">$</span>
-            <input id="total_iva" name="iva" class="form-control" required ></input>
+            <input id="total_iva" name="iva" class="form-control"  ></input>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+          <label for="iva">Otros impuestos</label>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input name="otros_impuestos" class="form-control" ></input>
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">

@@ -71,6 +71,8 @@ class ComprasController extends Controller
         $debe_cuenta = $request->get('debe_cuenta');
         $haber_cuenta = $request->get('haber_cuenta');
         $glosa_cuenta = $request->get('glosa_cuenta');
+        $otros_impuestos = $request->get('otros_impuestos');
+        $excento = $request->get('excento');
 
         $fact_temp = new Documento_financiero;
         $fact_temp->id_tercero = $id_tercero;
@@ -83,6 +85,8 @@ class ComprasController extends Controller
         $fact_temp->monto_neto = $monto_neto;
         $fact_temp->iva = $iva;
         $fact_temp->total = $total;
+        $fact_temp->excento = $excento;
+        $fact_temp->otros_impuestos;
         $fact_temp->save();
 
         $cont = 0;

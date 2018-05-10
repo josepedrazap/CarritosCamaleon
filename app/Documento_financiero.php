@@ -21,6 +21,8 @@ class Documento_financiero extends Model
     'iva',
     'total',
     'tipo_tercero',
+    'excento',
+    'otros_impuestos'
   ];
 
   protected $guarded = [
