@@ -22,7 +22,8 @@ class Documento_financiero extends Model
     'total',
     'tipo_tercero',
     'excento',
-    'otros_impuestos'
+    'otros_impuestos',
+    'numero_comprobante'
   ];
 
   protected $guarded = [
