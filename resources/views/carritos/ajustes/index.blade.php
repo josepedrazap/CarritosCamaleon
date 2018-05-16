@@ -6,11 +6,7 @@
       @include('carritos.ajustes.search2')
     </div>
   </div>
-  <div class="list-group">
-      <a href="/carritos/excel/index_excel_compras/{{$date_1}}/{{$date_2}}" class="list-group-item list-group-item-success">
-        <strong>Presione aquí para obtener los ajustes en Excel (No implementado aun)</strong>
-      </a>
-  </div>
+
 
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
