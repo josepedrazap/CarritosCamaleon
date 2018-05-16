@@ -75,6 +75,9 @@ class ComprasController extends Controller
         $excento = $request->get('excento');
 
         $fact_temp = new Documento_financiero;
+        $num_ = $request->get('numero_comprobante');
+
+        $fact_temp->numero_comprobante = $num_;
         $fact_temp->id_tercero = $id_tercero;
         $fact_temp->tipo_tercero = 'prov';
         $fact_temp->tipo_dato = 'compra';
