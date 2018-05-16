@@ -2,7 +2,7 @@
 @section('contenido')
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
-      <h3>Ajustes <a href="ajustes/create"><button class="btn btn-success">Nueva</button></a></h3>
+      <h3>Comprobantes <a href="ajustes/create"><button class="btn btn-success">Nueva</button></a></h3>
       @include('carritos.ajustes.search2')
     </div>
   </div>
