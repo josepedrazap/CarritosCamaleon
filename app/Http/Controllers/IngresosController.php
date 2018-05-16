@@ -55,7 +55,7 @@ class IngresosController extends Controller
         ->join('clientes as cli', 'cli.id', '=', 'df.id_tercero')
         ->join('eventos_tienen_documentos as etd', 'etd.id_documento', '=', 'df.id')
         ->join('eventos as eve', 'eve.id', '=', 'etd.id_evento')
-        ->whereBetween('fecha_documento', array($date_1, $date_2))
+        ->whereBetween('fecha_ingreso', array($date_1, $date_2))
         ->select('numero_documento', 'cli.nombre','df.id as id_doc','eve.id as id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
         ->groupBy('numero_documento', 'cli.nombre','id_doc', 'id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
         ->orderBy('id_doc', 'asc')
@@ -81,8 +81,10 @@ class IngresosController extends Controller
         ->get();
         $evento=Eventos::findOrFail($id);
         $cliente=Clientes::findOrFail($evento->id_cliente);
+        $serie_comprobante = Documento_financiero::all();
+        $serie = $serie_comprobante->last();
 
-        return view('carritos.ingresos.create', ["eventos_detalle"=>$eventos_detalle, "cliente"=>$cliente,
+        return view('carritos.ingresos.create', ["eventos_detalle"=>$eventos_detalle, "cliente"=>$cliente, "serie"=>$serie,
                                                  "cuentas"=>$cuentas, "id"=>$id, "eci"=>$eci, "extras"=>$extras]);
 
       }
@@ -100,6 +102,8 @@ class IngresosController extends Controller
           $monto_neto = $request->get('valor_neto');
           $iva = $request->get('valor_iva');
           $total = $request->get('valor_total');
+          $fecha_ingreso = $request->get('fecha_ingreso');
+          $excento = $request->get('excento');
 
           $id_cuenta = $request->get('id_cuenta');
           $debe_cuenta = $request->get('debe_cuenta');
@@ -121,6 +125,8 @@ class IngresosController extends Controller
           $fact_temp->monto_neto = $monto_neto;
           $fact_temp->iva = $iva;
           $fact_temp->total = $total;
+          $fact_temp->excento = $excento;
+          $fact_temp->fecha_ingreso = $fecha_ingreso;
           $fact_temp->save();
           $e_t_d = new Eventos_tienen_documentos;
           $e_t_d->id_documento = $fact_temp->id;
@@ -148,7 +154,7 @@ class IngresosController extends Controller
             }else{
                   $cmf_temp->glosa = '';
             }
-            $cmf_temp->fecha = $fecha_documento;
+            $cmf_temp->fecha = $fecha_ingreso;
 
             $cmf_temp->save();
             $cont++;
@@ -197,7 +203,7 @@ class IngresosController extends Controller
         ->join('clientes as cli', 'cli.id', '=', 'df.id_tercero')
         ->join('eventos_tienen_documentos as etd', 'etd.id_documento', '=', 'df.id')
         ->join('eventos as eve', 'eve.id', '=', 'etd.id_evento')
-        ->whereBetween('fecha_documento', array($date_1, $date_2))
+        ->whereBetween('fecha_ingreso', array($date_1, $date_2))
         ->select('numero_documento', 'cli.nombre','df.id as id_doc','eve.id as id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre', 'apellido','monto_neto', 'iva', 'total')
         ->groupBy('numero_documento', 'cli.nombre','id_doc', 'id_eve','fecha_hora', 'direccion','fecha_documento','tipo_documento','cli.rut', 'nombre','apellido','monto_neto', 'iva', 'total')
         ->orderBy('id_doc', 'asc')

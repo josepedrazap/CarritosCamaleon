@@ -89,6 +89,7 @@ Route::get('/', function () {
   Route::resource('carritos/utilidad_costos', 'Utilidad_costosController');
   Route::resource('carritos/cuentas_contables', 'Cuentas_contablesController');
   Route::resource('carritos/ingresos', 'IngresosController');
+  Route::resource('carritos/ajustes', 'AjustesController');
 
 
   Auth::routes();

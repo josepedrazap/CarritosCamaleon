@@ -103,7 +103,7 @@ class HonorariosController extends Controller
         }else{
               $cmf_temp->glosa = '';
         }
-        $cmf_temp->fecha = $fecha_documento;
+        $cmf_temp->fecha = $fecha_ingreso;
 
         $cmf_temp->save();
         $cont++;

@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use DB;
 
-class ComprasController extends Controller
+class AjustesController extends Controller
 {
   public function __construct(){
     $this->middleware('auth');
@@ -23,61 +23,56 @@ class ComprasController extends Controller
       $date_2 = $request->get('date_2');
 
         $facturas = DB::table('documento_financiero as df')
-        ->where('tipo_dato', '=', 'compra')
-        ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
+        ->where('tipo_dato', '=', 'ajuste')
         ->whereBetween('fecha_ingreso', array($date_1, $date_2))
-        ->select('df.id', 'tipo_documento', 'excento', 'otros_impuestos','df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
-        ->groupBy('df.id', 'tipo_documento', 'excento', 'otros_impuestos', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->orderBy('id','desc')
         ->paginate(7);
-        return View('carritos.compras.index', ["facturas"=>$facturas, "date_1"=>$date_1, "date_2"=>$date_2]);
+        return View('carritos.ajustes.index', ["facturas"=>$facturas, "date_1"=>$date_1, "date_2"=>$date_2]);
     }
     public function create(){
 
-      $prov = DB::table('proveedores')
-      ->get();
       $serie_comprobante = Documento_financiero::all();
       $serie = $serie_comprobante->last();
       $cuentas = DB::table('cuentas_contables')
       ->get();
-      return View('carritos.compras.create', ["prov"=>$prov, "cuentas"=>$cuentas, "serie"=>$serie]);
+      return View('carritos.ajustes.create', [ "cuentas"=>$cuentas, "serie"=>$serie]);
     }
 
     public function show($id){
-      $factura = DB::table('documento_financiero as df')
-      ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
+      $fecha_ingreso = DB::table('documento_financiero as df')
       ->where('df.id', '=', $id)
+      ->select('fecha_ingreso')
       ->get();
       $cuentas = DB::table('cuentas_movimientos as cm')
       ->join('cuentas_contables as cc', 'cc.id', '=', 'cm.id_cuenta')
       ->where('cm.id_documento', '=', $id)
       ->get();
-      return View('carritos.compras.ver', ["factura"=>$factura, "cuentas"=>$cuentas, "id"=>$id]);
+      return View('carritos.ajustes.ver', ["fecha_ingreso"=>$fecha_ingreso, "cuentas"=>$cuentas, "id"=>$id]);
     }
 
     public function store(Request $request){
       DB::beginTransaction();
 
       try{
-        $id_tercero = $request->get('id_proveedor');
-        $tipo_documento = $request->get('tipo_documento');
-        $numero_documento = $request->get('numero_documento');
-        $fecha_documento = $request->get('fecha_documento');
-        $monto_neto = $request->get('monto_neto');
-        $iva = $request->get('iva');
-        $total = $request->get('total');
+
+        $tipo_documento = 'no aplica';
+        $numero_documento = 0;
+        $fecha_documento = $request->get('fecha_ingreso');
+        $monto_neto = 0;
+        $iva = 0;
+        $total = 0;
         $fecha_ingreso = $request->get('fecha_ingreso');
         $id_cuenta = $request->get('id_cuenta');
         $debe_cuenta = $request->get('debe_cuenta');
         $haber_cuenta = $request->get('haber_cuenta');
         $glosa_cuenta = $request->get('glosa_cuenta');
-        $otros_impuestos = $request->get('otros_impuestos');
-        $excento = $request->get('excento');
+        $otros_impuestos = 0;
+        $excento = 0;
 
         $fact_temp = new Documento_financiero;
-        $fact_temp->id_tercero = $id_tercero;
+        $fact_temp->id_tercero = -1;
         $fact_temp->tipo_tercero = 'prov';
-        $fact_temp->tipo_dato = 'compra';
+        $fact_temp->tipo_dato = 'ajuste';
         $fact_temp->tipo_documento = $tipo_documento;
         $fact_temp->numero_documento = $numero_documento;
         $fact_temp->fecha_documento = $fecha_documento;
@@ -120,13 +115,13 @@ class ComprasController extends Controller
       }catch(Exception $e){
         DB::rollback();
       }
-      return Redirect::to("carritos/compras");
+      return Redirect::to("carritos/ajustes");
 
     }
     public function index_excel ($date_1, $date_2){
 
         $data = DB::table('documento_financiero as df')
-        ->where('tipo_dato', '=', 'compra')
+        ->where('tipo_dato', '=', 'ajuste')
         ->join('proveedores as prov', 'prov.id', '=', 'df.id_tercero')
         ->whereBetween('fecha_ingreso', array($date_1, $date_2))
         ->select('df.id', 'tipo_documento', 'df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
@@ -139,7 +134,7 @@ class ComprasController extends Controller
        Excel::create($nombre, function($excel) use ($data) {
 
            $excel->sheet('Honorarios', function($sheet) use ($data) {
-               $sheet->loadView('carritos.aux_views.4')
+               $sheet->loadView('carritos.aux_views.6')
                ->with('data', $data);
                $sheet->setOrientation('landscape');
            });

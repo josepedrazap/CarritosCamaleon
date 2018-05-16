@@ -105,7 +105,10 @@ function ocultar_buttons(){
 
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
-    <h3>Generar ingreso del evento {{$id}} </h3>
+    <h3>Generar ingreso del evento {{$id}} número de comprobante {{$serie->id + 1501}} </h3>
+    <label>Fecha de ingreso</label>
+
+    <input name="fecha_doc" class="form-control" type="date" required>
     <hr></hr>
   </div>
 </div>
@@ -157,6 +160,13 @@ function ocultar_buttons(){
     <div class="input-group">
       <span class="input-group-addon">$</span>
       <input name="valor_neto" class="form-control" readonly="readonly" type="number" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->iva_por_pagar}}">
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3">
+    <label>Excento</label>
+    <div class="input-group">
+      <span class="input-group-addon">$</span>
+      <input name="excento" class="form-control" readonly="readonly" type="number">
     </div>
   </div>
   <div class="col-lg-3 col-md-3">
