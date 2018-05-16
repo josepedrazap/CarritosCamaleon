@@ -13,13 +13,13 @@
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-condensed table-hover">
           <thead style="background-color:#ABEBC6">
-            <th>Serie de comprobante</th>
+            <th>Número de comprobante</th>
             <th>Fecha de comprobante</th>
             <th>Opciones</th>
           </thead>
           @foreach($facturas as $fac)
           <tr>
-            <td># {{$fac->id + 1500}}</td>
+            <td># {{$fac->numero_comprobante}}</td>
             <td>{{$fac->fecha_ingreso}}</td>
 
             <th>
