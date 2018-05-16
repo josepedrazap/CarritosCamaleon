@@ -29,7 +29,7 @@ class ComprasController extends Controller
         ->select('df.id', 'tipo_documento', 'excento', 'otros_impuestos','df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->groupBy('df.id', 'tipo_documento', 'excento', 'otros_impuestos', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->orderBy('id','desc')
-        ->paginate(7);
+        ->get();
         return View('carritos.compras.index', ["facturas"=>$facturas, "date_1"=>$date_1, "date_2"=>$date_2]);
     }
     public function create(){
