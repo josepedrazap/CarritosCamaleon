@@ -41,9 +41,9 @@ var haber_sum = 0;
     document.getElementById('total_extra').value = parseInt(total_2);
     document.getElementById('costo_ingr_total').value = parseInt(total) + parseInt(total_3);
     document.getElementById('costo_total_evento').value = parseInt(total) +  parseInt(total_3) + parseInt(total_2) + {{$eventos_detalle[0]->pago_cocineros}};
-    document.getElementById('IVA_ingredientes').value = parseInt(total * 0.19) + parseInt(total_3*0.19);
-    document.getElementById('IVA_ajustado').value = parseInt({{$eventos_detalle[0]->precio_evento*0.19}} - total * 0.19 - total_3*0.19);
-    document.getElementById('Utilidad_final').value = Math.round(parseInt({{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento*0.19}} + (total + total_3)* 0.19 - total - {{$eventos_detalle[0]->pago_cocineros}} - total_2 - total_3));
+    document.getElementById('IVA_ingredientes').value = parseInt(total / 1.19) + parseInt(total_3 / 1.19);
+    document.getElementById('IVA_ajustado').value = parseInt({{$eventos_detalle[0]->precio_evento / 1.19}} - total / 1.19 - total_3 / 1.19);
+    document.getElementById('Utilidad_final').value = Math.round(parseInt({{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento / 1.19}} + (total + total_3) / 1.19 - total - {{$eventos_detalle[0]->pago_cocineros}} - total_2 - total_3));
 
     let pu = ($('#Utilidad_final').val()/{{$eventos_detalle[0]->precio_evento}})*100;
     document.getElementById('porcentaje_utilidad').value = Math.round(pu.toFixed(2));
@@ -238,28 +238,31 @@ var haber_sum = 0;
     <label for="IVA del evento">IVA del evento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->precio_evento * 0.19}}">
+      <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Iva ingredientes">IVA ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{$total * 0.19 + $total_ingr_ext*0.19}}">
+      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{($total - $total / 1.19) + ($total_ingr_ext - $total_ingr_ext / 1.19)}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">IVA ajustado</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" id="IVA_ajustado" value="{{$eventos_detalle[0]->precio_evento * 0.19 - $total*0.19 - $total_ingr_ext*0.19}}">
+      <input class="form-control" readonly="readonly" id="IVA_ajustado" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19 - (($total - $total / 1.19) + ($total_ingr_ext - $total_ingr_ext / 1.19))}}">
     </div>
   </div>
+  <?php
+      $iva_ = ($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19) - (($total - $total / 1.19) + ($total_ingr_ext - $total_ingr_ext / 1.19));
+   ?>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Utilidad final">Utilidad final</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{round($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 + $total_ingr_ext*0.19 - $total - $total_ingr_ext - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)}}">
+      <input class="form-control" readonly="readonly" name="Utilidad_final" id="Utilidad_final" value="{{round($eventos_detalle[0]->precio_evento - $iva_ - $total - $total_ingr_ext - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">

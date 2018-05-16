@@ -25,7 +25,7 @@ function calculo_total(valor){
 
       document.getElementById('IVA').value = parseFloat(total * 0.19);
       document.getElementById('Display').value = total;
-      document.getElementById('iva_total').value = total * 0.19;
+      document.getElementById('iva_total').value = total / 1.19;
 
     //  document.getElementById('total_sum').value = aux1;
       //document.getElementById('iva_sum').value = aux2;
@@ -97,9 +97,9 @@ function calculo_precio(t, i){
   v2 = $("#cant_prod_" + i).val();
   total =  0.19 * parseInt(v1) * parseInt(v2);
   document.getElementById('IVA_por_pagar_'+i).value = total;
-  document.getElementById('precio_liquido_'+i).value = v1 - v1*0.19;
+  document.getElementById('precio_liquido_'+i).value = v1 * 1.19;
   total = parseInt(v1) * parseInt(v2);
-  document.getElementById('total_'+i).value = total;
+  document.getElementById('total_'+i).value = parseInt(v1*1.19);
   calculo_total_productos();
 }
 function calculo_costos_total(){
@@ -238,8 +238,8 @@ function calculo_total_productos(){
               <th>Productos</th>
               <th>Cantidad</th>
               <th>Precio sugerido unidad</th>
+              <th>Precio neto unidad</th>
               <th>Precio bruto unidad</th>
-              <th>Precio líquido unidad</th>
               <th>IVA total por pagar</th>
               <th>Total</th>
             </thead>
