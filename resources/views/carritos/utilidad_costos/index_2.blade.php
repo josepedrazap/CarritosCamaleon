@@ -2,7 +2,7 @@
 @section('contenido')
   <div class="row">
     <div class="col-lg-9 col-md-9 col-sm-6">
-      <h3></h3>
+      <h3>Eventos Aprobados</h3>
 
     </div>
   </div>
