@@ -100,7 +100,9 @@ function ocultar_buttons(){
 
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
-      <h3>Ingresar comprobante número {{$serie->id + 1501}}</h3>
+      <h3>Ingresar comprobante</h3>
+      <label for="fecha">Número de comprobante</label>
+      <input name="numero_comprobante" value="{{$serie->id + 1501}}" class="form-control"></input>
       <label for="fecha">Fecha de ingreso</label>
       <input name="fecha_ingreso" type="date" class="form-control" required></input>
     <hr/>
@@ -196,7 +198,7 @@ function ocultar_buttons(){
     <div class="row">
 
         <input name="_token value={{csrf_token()}}" type="hidden"></input>
-        <a href=""><button class="btn btn-primary" type="submit">Ingresar compra</button></a>
+        <a href=""><button class="btn btn-primary" type="submit">Ingresar comprobante</button></a>
         <button class="btn btn-danger" type="reset">Limpiar campos</button>
 
   </div>

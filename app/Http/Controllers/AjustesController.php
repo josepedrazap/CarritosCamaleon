@@ -80,6 +80,7 @@ class AjustesController extends Controller
         $fact_temp->monto_neto = $monto_neto;
         $fact_temp->iva = $iva;
         $fact_temp->total = $total;
+        $fact_temp->numero_comprobante = $request->get('numero_comprobante');
         $fact_temp->excento = $excento;
         $fact_temp->otros_impuestos;
         $fact_temp->save();
