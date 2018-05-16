@@ -159,7 +159,7 @@ function ocultar_buttons(){
     <label>Valor neto</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_neto" class="form-control" readonly="readonly" type="number" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento/1.19}}">
+      <input name="valor_neto" class="form-control" readonly="readonly" type="number" value="{{$eventos_detalle[0]->precio_evento/1.19}}">
     </div>
   </div>
   <div class="col-lg-3 col-md-3">
@@ -173,7 +173,7 @@ function ocultar_buttons(){
     <label>Iva (19%)</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_iva" class="form-control" readonly="readonly" type="number" value="{{$eventos_detalle[0]->iva_por_pagar}}">
+      <input name="valor_iva" class="form-control" readonly="readonly" type="number" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento/1.19}}">
     </div>
   </div>
   <div class="col-lg-3 col-md-3">
