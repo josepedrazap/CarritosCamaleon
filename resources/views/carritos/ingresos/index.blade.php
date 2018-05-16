@@ -26,7 +26,7 @@
             <td>{{$dat->fecha_hora}}</td>
             <td>{{$dat->nombre_cliente}}</td>
             <td>$ {{$dat->precio_evento - $dat->precio_evento*0.19}}</td>
-            <td>$ {{$dat->precio_evento*0.19}}</td>
+            <td>$ {{$dat->precio_evento - $dat->precio_evento / 1.19}}</td>
             <td>$ {{$dat->precio_evento}}</td>
             <th>
               <a href="/carritos/ingresos/{{$dat->id}}"><button class="btn btn-info">Ingresar</button></a>
