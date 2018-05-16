@@ -25,7 +25,7 @@ function calculo_total(valor){
 
       document.getElementById('IVA').value = parseFloat(total * 0.19);
       document.getElementById('Display').value = total;
-      document.getElementById('iva_total').value = total / 1.19;
+      document.getElementById('iva_total').value = total - total / 1.19;
 
     //  document.getElementById('total_sum').value = aux1;
       //document.getElementById('iva_sum').value = aux2;
