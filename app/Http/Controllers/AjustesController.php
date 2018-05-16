@@ -82,12 +82,7 @@ class AjustesController extends Controller
         $fact_temp->total = $total;
 
         $num_ = $request->get('numero_comprobante');
-        $num = DB::table('documento_financiero as df')
-               ->where('numero_comprobante', '=', $num_)
-               ->sum('numero_comprobante');
-        if($num == $num_){
-          return Redirect::to("carritos/error");
-        }
+        
         $fact_temp->numero_comprobante = $num_;
         $fact_temp->excento = $excento;
         $fact_temp->otros_impuestos;
