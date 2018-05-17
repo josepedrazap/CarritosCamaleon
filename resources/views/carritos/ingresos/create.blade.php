@@ -160,28 +160,28 @@ function ocultar_buttons(){
     <label>Valor neto</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_neto" class="form-control" readonly="readonly" type="number" value="{{$eventos_detalle[0]->precio_evento/1.19}}">
+      <input name="valor_neto" class="form-control"  type="number" value="{{$eventos_detalle[0]->precio_evento/1.19}}">
     </div>
   </div>
   <div class="col-lg-3 col-md-3">
     <label>Excento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="excento" class="form-control" readonly="readonly" type="number">
+      <input name="excento" class="form-control"  type="number">
     </div>
   </div>
   <div class="col-lg-3 col-md-3">
     <label>Iva (19%)</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_iva" class="form-control" readonly="readonly" type="number" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento/1.19}}">
+      <input name="valor_iva" class="form-control"  type="number" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento/1.19}}">
     </div>
   </div>
   <div class="col-lg-3 col-md-3">
     <label>Valor total</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_total" id="total_final" readonly="readonly  " class="form-control" type="number" value="{{$eventos_detalle[0]->precio_evento}}">
+      <input name="valor_total" id="total_final"  class="form-control" type="number" value="{{$eventos_detalle[0]->precio_evento}}">
     </div>
   </div>
 </div>
