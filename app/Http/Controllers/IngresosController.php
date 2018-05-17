@@ -102,7 +102,7 @@ class IngresosController extends Controller
           $monto_neto = $request->get('valor_neto');
           $iva = $request->get('valor_iva');
           $total = $request->get('valor_total');
-          $fecha_ingreso = $request->get('fecha_ingreso');
+          $fecha_ingreso = $request->get('fecha_doc');
           $excento = $request->get('excento');
 
           $id_cuenta = $request->get('id_cuenta');
