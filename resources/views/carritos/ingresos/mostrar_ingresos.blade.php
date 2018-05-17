@@ -38,9 +38,9 @@
             <td>{{$dat->tipo_documento}}</td>
             <td>{{$dat->nombre}}</td>
             <td>{{$dat->rut}}</td>
-            <th>$ {{$dat->monto_neto}}</th>
-            <th>$ {{$dat->iva}}</th>
-            <th>$ {{$dat->total}}</th>
+            <th>{{$dat->monto_neto}}</th>
+            <th>{{$dat->iva}}</th>
+            <th>{{$dat->total}}</th>
             <th>
               <a href="/carritos/ingresos/show_2/{{$dat->id_doc}}"><button class="btn btn-info">Ver</button></a>
               <div class="btn-group">
