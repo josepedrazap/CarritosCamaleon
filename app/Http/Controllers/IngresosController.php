@@ -125,6 +125,8 @@ class IngresosController extends Controller
           $fact_temp->monto_neto = $monto_neto;
           $fact_temp->iva = $iva;
           $fact_temp->total = $total;
+          $num_ = $request->get('numero_comprobante');
+          $fact_temp->numero_comprobante = $num_;
           $fact_temp->excento = $excento;
           $fact_temp->fecha_ingreso = $fecha_ingreso;
           $fact_temp->save();

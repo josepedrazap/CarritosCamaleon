@@ -105,9 +105,10 @@ function ocultar_buttons(){
 
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
-    <h3>Generar ingreso del evento {{$id}} número de comprobante {{$serie->id + 1501}} </h3>
+    <h3>Generar ingreso del evento {{$id}}</h3>
+    <label for="fecha">Número de comprobante</label>
+    <input name="numero_comprobante" value="{{$serie->id + 1501}}" class="form-control"></input>
     <label>Fecha de ingreso</label>
-
     <input name="fecha_doc" class="form-control" type="date" required>
     <hr></hr>
   </div>
