@@ -252,7 +252,7 @@
                   </div>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body" id="app">
                   	<div class="row">
 	                  	<div class="col-md-12">
 		                          <!--Contenido-->
@@ -287,6 +287,7 @@
     <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('js/app.min.js')}}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   </body>
 </html>

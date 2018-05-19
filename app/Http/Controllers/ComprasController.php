@@ -36,8 +36,8 @@ class ComprasController extends Controller
 
       $prov = DB::table('proveedores')
       ->get();
-      $serie_comprobante = Documento_financiero::all();
-      $serie = $serie_comprobante->last();
+      $serie = DB::table('documento_financiero as df')
+      ->max('df.numero_comprobante');
       $cuentas = DB::table('cuentas_contables')
       ->get();
       return View('carritos.compras.create', ["prov"=>$prov, "cuentas"=>$cuentas, "serie"=>$serie]);

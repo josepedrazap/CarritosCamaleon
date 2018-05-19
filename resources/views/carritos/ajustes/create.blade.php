@@ -2,10 +2,57 @@
 @section('contenido')
 <script>
 
+
 var cont = 0;
 var cont_ = 0;
 var debe_sum = 0;
 var haber_sum = 0;
+
+arr = [];
+function axios_verificar_num(){
+  let me = this;
+  var numero = $("#numero_comprobante").val();
+  var url = '/axios/prueba_numero_comprobante?serie_comprobante=' + numero;
+
+          axios.get(url, {
+
+          }).then(function (response) {
+            var respuesta = response.data;
+            me.arr = respuesta;
+            console.log(me.arr);
+            if(me.arr == 0){
+              console.log('El numero de comprobante esta disponible');
+              $("#numero_comprobante").css("background-color", "#74DF00");
+            }else{
+              console.log('El numero de comprobante esta ocupado');
+              $("#numero_comprobante").css("background-color", "#FF4000");
+
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+}
+function axios_obtener_num(){
+  let me = this;
+  var url = '/axios/obtener_numero_comprobante';
+
+          axios.get(url, {
+
+          }).then(function (response) {
+            var respuesta = response.data;
+            me.arr = respuesta;
+            console.log(me.arr);
+            document.getElementById('numero_comprobante').value =  me.arr + 1;
+            axios_verificar_num();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+}
+
 
 function addCuentas(){
 
@@ -100,9 +147,12 @@ function ocultar_buttons(){
 
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
+
       <h3>Ingresar comprobante</h3>
+
       <label for="fecha">Número de comprobante</label>
-      <input name="numero_comprobante" value="{{$serie->id + 1501}}" class="form-control"></input>
+      <input type="number" class="form-control" value="{{$serie + 1}}" name="numero_comprobante" id="numero_comprobante" onkeyup="axios_verificar_num()" placeholder="Número comprobante">
+
       <label for="fecha">Fecha de ingreso</label>
       <input name="fecha_ingreso" type="date" class="form-control" required></input>
     <hr/>

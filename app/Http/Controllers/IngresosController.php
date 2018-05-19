@@ -81,8 +81,8 @@ class IngresosController extends Controller
         ->get();
         $evento=Eventos::findOrFail($id);
         $cliente=Clientes::findOrFail($evento->id_cliente);
-        $serie_comprobante = Documento_financiero::all();
-        $serie = $serie_comprobante->last();
+        $serie = DB::table('documento_financiero as df')
+        ->max('df.numero_comprobante');
 
         return view('carritos.ingresos.create', ["eventos_detalle"=>$eventos_detalle, "cliente"=>$cliente, "serie"=>$serie,
                                                  "cuentas"=>$cuentas, "id"=>$id, "eci"=>$eci, "extras"=>$extras]);

@@ -45,124 +45,13 @@ class GastosController extends Controller
   function create(){
     $prov = DB::table('proveedores')
     ->get();
-    $serie_comprobante = Documento_financiero::all();
-    $serie = $serie_comprobante->last();
-
+    $serie = DB::table('documento_financiero as df')
+    ->max('df.numero_comprobante');
     $cuentas = DB::table('cuentas_contables')
     ->get();
     return View('carritos.gastos.create', ["prov"=>$prov, "cuentas"=>$cuentas, "serie"=>$serie]);
   }
 
-  function resumen(Request $request){
-
-    $mes = $request->get('mes');
-    $año = $request->get('año');
-
-    if($año == 0){
-      return view('carritos.gastos.error');
-    }else if($mes == 0){
-      $date_1 = Carbon::create($año, 1, 1);
-      $date_2 = Carbon::create($año, 1, 1);
-      $date_2->addYear(1);
-      $date_1 = $date_1->format('Y-m-d');
-      $date_2 = $date_2->format('Y-m-d');
-    }else{
-      $date_1 = Carbon::create($año, $mes, 1);
-      $date_2 = Carbon::create($año, $mes, 1);
-      $date_2->addMonth();
-      $date_1 = $date_1->format('Y-m-d');
-      $date_2 = $date_2->format('Y-m-d');
-    }
-
-    $condicional = DB::table('eventos as eve') //numero de eventos no aprobados
-    ->where('eve.aprobado', '=', 0)
-    ->whereIn('eve.condicion', [2,3])
-    ->whereBetween('fecha_hora', array($date_1, $date_2))
-    ->count('eve.id');
-
-    $gastos_totales = DB::table('gastos') //suma gastos totales brutos
-    ->whereBetween('fecha', array($date_1, $date_2))
-    ->sum('monto_gasto');
-    $iva_total_gastos = DB::table('gastos') //iva de gastos totales
-    ->whereBetween('fecha', array($date_1, $date_2))
-    ->sum('iva');
-    $valor_total_gastos_liquido = DB::table('gastos') //gastos liquidos
-    ->whereBetween('fecha', array($date_1, $date_2))
-    ->sum('valor_real');
-    $numero_gastos =  DB::table('gastos') //gastos liquidos
-    ->whereBetween('fecha', array($date_1, $date_2))
-    ->count('id');
-
-    $ingreso_eventos_bruto = DB::table('eventos_detalle as ed') //suma ingreso eventos
-    ->join('eventos as eve', 'eve.id', '=', 'ed.id_evento')
-    ->whereIn('eve.condicion', [2,3])
-    ->where('eve.aprobado', '=', 1)
-    ->whereBetween('fecha_hora', array($date_1, $date_2))
-    ->sum('precio_evento');
-
-    $iva_eventos = $ingreso_eventos_bruto * 0.19; //iva de eventos
-
-    $numero_eventos = DB::table('eventos_detalle as ed') //numero de eventos
-    ->join('eventos as eve', 'eve.id', '=', 'ed.id_evento')
-    ->where('eve.aprobado', '=', 1)
-    ->whereIn('eve.condicion', [2,3])
-    ->whereBetween('fecha_hora', array($date_1, $date_2))
-    ->count('eve.id');
-
-    $gasto_eventos_extra = DB::table('eventos_detalle as ed') //suma eventos extra
-    ->join('eventos as eve', 'eve.id', '=', 'ed.id_evento')
-    ->where('eve.aprobado', '=', 1)
-    ->whereIn('eve.condicion', [2,3])
-    ->whereBetween('fecha_hora', array($date_1, $date_2))
-    ->sum('gasto_extra');
-
-    $gasto_eventos_bruto_ingr = DB::table('eventos_detalle as ed') //suma gastos eventos brutos en ingredientes
-    ->join('eventos as eve', 'eve.id', '=', 'ed.id_evento')
-    ->where('eve.aprobado', '=', 1)
-    ->whereIn('eve.condicion', [2,3])
-    ->whereBetween('fecha_hora', array($date_1, $date_2))
-    ->sum('total_ingredientes');
-
-    $costo_eventos = DB::table('eventos_detalle as ed') //suma gastos eventos brutos en ingredientes
-    ->join('eventos as eve', 'eve.id', '=', 'ed.id_evento')
-    ->where('eve.aprobado', '=', 1)
-    ->whereIn('eve.condicion', [2,3])
-    ->whereBetween('fecha_hora', array($date_1, $date_2))
-    ->sum('costo_final');
-
-    $gasto_eventos_iva_ingr = $gasto_eventos_bruto_ingr * 0.19; //iva de suma de gastos
-    $gasto_eventos_liquido_ingr = $gasto_eventos_bruto_ingr - $gasto_eventos_iva_ingr; //suma de gastos liquidos
-
-    $iva_ajustado_eventos = $iva_eventos - $gasto_eventos_iva_ingr; //iva ajustado por pagar menos por cobrar
-
-    $pagos_cocineros = DB::table('eventos_tienen_trabajadores as ett') //pagos cocineros totales
-    ->join('eventos as eve', 'eve.id', '=', 'ett.id_evento')
-    ->where('eve.aprobado', '=', 1)
-    ->whereIn('eve.condicion', [2,3])
-    ->whereBetween('fecha_hora', array($date_1, $date_2))
-    ->sum('monto');
-    $cant_pagos_cocineros = DB::table('eventos_tienen_trabajadores as ett') //numero de pagos de cocineros efectuados en el periodo
-    ->join('eventos as eve', 'eve.id', '=', 'ett.id_evento')
-    ->where('eve.aprobado', '=', 1)
-    ->whereIn('eve.condicion', [2,3])
-    ->whereBetween('fecha_hora', array($date_1, $date_2))
-    ->count('monto');
-
-    $gasto_final = $pagos_cocineros + $gastos_totales;
-    $iva_final = $iva_eventos - $iva_total_gastos;
-    $utilidad_final = $ingreso_eventos_bruto - $gasto_final - $iva_final;
-
-    return view('carritos.gastos.resumen',["gastos_totales"=>$gastos_totales, "iva_total_gastos"=>$iva_total_gastos,
-                                           "valor_total_gastos_liquido"=>$valor_total_gastos_liquido,
-                                           "ingreso_eventos_bruto"=>$ingreso_eventos_bruto, "numero_gastos"=>$numero_gastos,
-                                           "iva_eventos"=>$iva_eventos, "numero_eventos"=>$numero_eventos,
-                                           "pagos_cocineros"=>$pagos_cocineros, "cant_pagos_cocineros"=>$cant_pagos_cocineros,
-                                           "date_1"=>$date_1, "date_2"=>$date_2, "utilidad_final" => $utilidad_final,
-                                           "gasto_final"=>$gasto_final, "iva_final" => $iva_final,
-                                           "gasto_eventos_bruto_ingr" =>$gasto_eventos_bruto_ingr, "gasto_eventos_extra"=>$gasto_eventos_extra,
-                                           "gasto_eventos_iva_ingr"=>$gasto_eventos_iva_ingr, "condicional"=>$condicional]);
-
-  }
   function store(Request $request){
     DB::beginTransaction();
     try{
@@ -190,6 +79,9 @@ class GastosController extends Controller
       $fact_temp->iva = $iva;
       $fact_temp->total = $total;
       $fact_temp->fecha_ingreso = $fecha_ingreso;
+      $num_ = $request->get('numero_comprobante');
+
+      $fact_temp->numero_comprobante = $num_;
       $fact_temp->save();
 
       $nombre_pagador = $request->get('nombre_pagador');

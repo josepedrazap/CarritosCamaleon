@@ -6,6 +6,36 @@ var cont = 0;
 var cont_ = 0;
 var debe_sum = 0;
 var haber_sum = 0;
+arr = [];
+aprobado = 1;
+function axios_verificar_num(){
+  let me = this;
+  var numero = $("#numero_comprobante").val();
+  var url = '/axios/prueba_numero_comprobante?serie_comprobante=' + numero;
+
+          axios.get(url, {
+
+          }).then(function (response) {
+            var respuesta = response.data;
+            me.arr = respuesta;
+            console.log(me.arr);
+            if(me.arr == 0){
+              console.log('El numero de comprobante esta disponible');
+              $("#numero_comprobante").css("background-color", "#74DF00");
+              aprobado = 1;
+            }else{
+              console.log('El numero de comprobante esta ocupado');
+              $("#numero_comprobante").css("background-color", "#FF4000");
+              aprobado = 0;
+
+            }
+            comprobar();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+}
 
 function addCuentas(){
 
@@ -50,7 +80,7 @@ function comprobar(){
     $("#total_debe").css("background-color", "#F6CED8");
     $("#total_haber").css("background-color", "#F6CED8");
   }
-  if($("#total_final").val() == $("#total_debe").val() && $("#total_final").val() == $("#total_haber").val()) {
+  if($("#total_final").val() == $("#total_debe").val() && $("#total_final").val() == $("#total_haber").val() && aprobado == 1) {
     $("#total_final").css("background-color", "#CEF6CE");
     mostrar_buttons();
   }else{
@@ -107,9 +137,9 @@ function ocultar_buttons(){
   <div class="col-lg-8 col-md-8 col-sm-8">
     <h3>Generar ingreso del evento {{$id}}</h3>
     <label for="fecha">Número de comprobante</label>
-    <input name="numero_comprobante" value="{{$serie->id + 1501}}" class="form-control"></input>
-    <label>Fecha de ingreso</label>
-    <input name="fecha_doc" class="form-control" type="date" required>
+    <input type="number" class="form-control" value="{{$serie + 1}}" name="numero_comprobante" id="numero_comprobante" onkeyup="axios_verificar_num()" placeholder="Número comprobante">
+    <label for="fecha">Fecha de ingreso</label>
+    <input name="fecha_ingreso" type="date" class="form-control" required></input>
     <hr></hr>
   </div>
 </div>
@@ -160,7 +190,7 @@ function ocultar_buttons(){
     <label>Valor neto</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_neto" class="form-control"  type="number" value="{{$eventos_detalle[0]->precio_evento/1.19}}">
+      <input name="valor_neto" class="form-control" value="{{number_format(round($eventos_detalle[0]->precio_evento/1.19), 0, ',', '.')}}">
     </div>
   </div>
   <div class="col-lg-3 col-md-3">
@@ -174,14 +204,14 @@ function ocultar_buttons(){
     <label>Iva (19%)</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_iva" class="form-control"  type="number" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento/1.19}}">
+      <input name="valor_iva" class="form-control"  value="{{number_format($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento/1.19, 0, ',', '.')}}">
     </div>
   </div>
   <div class="col-lg-3 col-md-3">
     <label>Valor total</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_total" id="total_final"  class="form-control" type="number" value="{{$eventos_detalle[0]->precio_evento}}">
+      <input name="valor_total" id="total_final"  class="form-control" value="{{number_format($eventos_detalle[0]->precio_evento, 0, ',', '.')}}">
     </div>
   </div>
 </div>
@@ -209,7 +239,7 @@ function ocultar_buttons(){
       <div class="col-lg-2 col-sm-2 col-md-12 col-xs-12">
         <div class="form-group">
           <label>Haber</label>
-          <input type="text" name="haber" id="haber" class="form-control" >
+          <input type="number" name="haber" id="haber" class="form-control" >
         </div>
       </div>
       <div class="col-lg-2 col-sm-2 col-md-12 col-xs-12">

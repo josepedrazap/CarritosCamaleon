@@ -91,6 +91,8 @@ Route::get('/', function () {
   Route::resource('carritos/ingresos', 'IngresosController');
   Route::resource('carritos/ajustes', 'AjustesController');
 
+  Route::get('/axios/obtener_numero_comprobante', 'AjustesController@axios_onc');
+  Route::get('/axios/prueba_numero_comprobante', 'AjustesController@axios_pnc');
 
   Auth::routes();
 

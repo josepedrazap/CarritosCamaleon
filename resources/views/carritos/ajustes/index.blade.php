@@ -1,13 +1,12 @@
 @extends ('layouts.admin')
 @section('contenido')
+
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
       <h3>Comprobantes <a href="ajustes/create"><button class="btn btn-success">Nuevo</button></a></h3>
       @include('carritos.ajustes.search2')
     </div>
   </div>
-
-
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="table-responsive">

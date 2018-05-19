@@ -51,7 +51,9 @@ class HonorariosController extends Controller
     ->get();
     $cuentas = DB::table('cuentas_contables')
     ->get();
-    return View('carritos.honorarios.create', ["tra"=>$tra, "prov"=>$prov, "cuentas"=>$cuentas]);
+    $serie = DB::table('documento_financiero as df')
+    ->max('df.numero_comprobante');
+    return View('carritos.honorarios.create', ["tra"=>$tra, "prov"=>$prov, "serie"=>$serie, "cuentas"=>$cuentas]);
   }
 
   function store(Request $request){
@@ -64,7 +66,7 @@ class HonorariosController extends Controller
       $monto_neto = $request->get('monto_neto');
       $iva = $request->get('iva');
       $total = $request->get('total');
-
+      $fecha_ingreso = $request->get('fecha_ingreso');
       $id_cuenta = $request->get('id_cuenta');
       $debe_cuenta = $request->get('debe_cuenta');
       $haber_cuenta = $request->get('haber_cuenta');
@@ -80,6 +82,9 @@ class HonorariosController extends Controller
       $fact_temp->monto_neto = $monto_neto;
       $fact_temp->iva = $iva;
       $fact_temp->total = $total;
+      $num_ = $request->get('numero_comprobante');
+      $fact_temp->fecha_ingreso = $fecha_ingreso;
+      $fact_temp->numero_comprobante = $num_;
       $fact_temp->save();
 
       $cont = 0;

@@ -31,8 +31,8 @@ class AjustesController extends Controller
     }
     public function create(){
 
-      $serie_comprobante = Documento_financiero::all();
-      $serie = $serie_comprobante->last();
+      $serie = DB::table('documento_financiero as df')
+      ->max('df.numero_comprobante');
       $cuentas = DB::table('cuentas_contables')
       ->get();
       return View('carritos.ajustes.create', [ "cuentas"=>$cuentas, "serie"=>$serie]);
@@ -82,7 +82,7 @@ class AjustesController extends Controller
         $fact_temp->total = $total;
 
         $num_ = $request->get('numero_comprobante');
-        
+
         $fact_temp->numero_comprobante = $num_;
         $fact_temp->excento = $excento;
         $fact_temp->otros_impuestos;
@@ -144,5 +144,18 @@ class AjustesController extends Controller
            });
 
        })->export('xlsx');
+    }
+    public function axios_pnc(Request $request){
+      $num = $request->get('serie_comprobante');
+      $data = DB::table('documento_financiero as df')
+      ->where('df.numero_comprobante', '=', $num)
+      ->sum('df.numero_comprobante');
+      return $data;
+    }
+
+    public function axios_onc(){
+      $data = DB::table('documento_financiero as df')
+      ->max('df.numero_comprobante');
+      return $data;
     }
 }

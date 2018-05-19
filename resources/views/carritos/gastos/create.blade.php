@@ -1,6 +1,34 @@
 @extends ('layouts.admin')
 @section('contenido')
 <script>
+aprobado = 1;
+function axios_verificar_num(){
+  let me = this;
+  var numero = $("#numero_comprobante").val();
+  var url = '/axios/prueba_numero_comprobante?serie_comprobante=' + numero;
+
+          axios.get(url, {
+
+          }).then(function (response) {
+            var respuesta = response.data;
+            me.arr = respuesta;
+            console.log(me.arr);
+            if(me.arr == 0){
+              console.log('El numero de comprobante esta disponible');
+              $("#numero_comprobante").css("background-color", "#74DF00");
+              aprobado = 1;
+            }else{
+              console.log('El numero de comprobante esta ocupado');
+              $("#numero_comprobante").css("background-color", "#FF4000");
+              aprobado = 0;
+            }
+            comprobar();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+}
   function iva_calc(){
     if($("#tipo option:selected").text() != 'Factura exenta'){
       v1 = $("#monto").val();
@@ -61,7 +89,7 @@ function comprobar(){
     $("#total_debe").css("background-color", "#F6CED8");
     $("#total_haber").css("background-color", "#F6CED8");
   }
-  if($("#total_final").val() == $("#total_debe").val() && $("#total_final").val() == $("#total_haber").val()) {
+  if($("#total_final").val() == $("#total_debe").val() && $("#total_final").val() == $("#total_haber").val() && aprobado == 1) {
     $("#total_final").css("background-color", "#CEF6CE");
     mostrar_buttons();
   }else{
@@ -106,9 +134,18 @@ function ocultar_buttons(){
 }
 </script>
 
+{!!Form::open(array('url'=>'carritos/gastos','method'=>'POST','autocomplete'=>'off'))!!}
+{{Form::Token()}}
+
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
-    <h3>Ingresar Gasto número de comprobante {{$serie->id + 1501}}</h3>
+    <h3>Ingresar Gasto</h3>
+
+    <label for="fecha">Número de comprobante</label>
+
+    <input type="number" class="form-control" value="{{$serie + 1}}" name="numero_comprobante" id="numero_comprobante" onkeyup="axios_verificar_num()" placeholder="Número comprobante">
+
+    <label for="fecha">Fecha de ingreso</label>
     <input name="fecha_ingreso" type="date" class="form-control" required></input>
 
     <hr/>
@@ -124,8 +161,6 @@ function ocultar_buttons(){
   </div>
 </div>
 
-    {!!Form::open(array('url'=>'carritos/gastos','method'=>'POST','autocomplete'=>'off'))!!}
-    {{Form::Token()}}
 
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
