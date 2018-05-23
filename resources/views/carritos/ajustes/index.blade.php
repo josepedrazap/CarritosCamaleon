@@ -20,7 +20,6 @@
           <tr>
             <td># {{$fac->numero_comprobante}}</td>
             <td>{{$fac->fecha_ingreso}}</td>
-
             <th>
               <a href="/carritos/ajustes/{{$fac->id}}"><button class="btn btn-info">Ver / Editar </button></a>
             </th>
