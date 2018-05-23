@@ -5,7 +5,8 @@
         <table>
 
           <tr>
-            <th>Número evento</th>
+            <th>Número comprobante</th>
+            <th>Fecha de ingreso</th>
             <th>Fecha documento</th>
             <th>Número documento</th>
             <th>Tipo documento</th>
@@ -15,10 +16,10 @@
             <th>Iva</th>
             <th>Total</th>
           </tr>
-
           @foreach($data as $dat)
           <tr>
-            <td># {{$dat->id_eve}}</td>
+            <th>{{$dat->numero_comprobante}}</th>
+            <th>{{$dat->fecha_ingreso}}</th>
             <td>{{$dat->fecha_documento}}</td>
             <td>{{$dat->numero_documento}}</td>
             <td>{{$dat->tipo_documento}}</td>

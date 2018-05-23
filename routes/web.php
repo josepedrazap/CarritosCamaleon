@@ -62,7 +62,8 @@ Route::get('/', function () {
 
   Route::get('/carritos/ajustes/editar', 'AjustesController@editar');
   Route::get('/carritos/compras/editar', 'ComprasController@editar');
-
+  Route::get('/carritos/ingresos/crear', 'IngresosController@crear');
+  Route::get('/carritos/ingresos/guardar', 'IngresosController@guardar');
 
   Route::get('carritos/eventos/cotizacion', 'EventosController@cotizacion');
   Route::get('carritos/gastos/resumen', 'GastosController@resumen');

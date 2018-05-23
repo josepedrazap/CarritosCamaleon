@@ -189,6 +189,8 @@
                 <li><a href="/carritos/pagos"><i class="far fa-circle"></i> Pagos pendientes</a></li>
                 <li><a href="/carritos/cuentas_contables/balance?año=1"><i class="far fa-circle"></i> Resumen y balance</a></li>
                 <li><a href="/carritos/ajustes"><i class="far fa-circle"></i> Comprobantes</a></li>
+                <li><a href="/carritos/ingresos/crear"><i class="far fa-circle"></i> Crear ingreso</a></li>
+
 
               </ul>
             </li>
