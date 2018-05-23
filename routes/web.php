@@ -61,6 +61,7 @@ Route::get('/', function () {
   Route::get('carritos/excel/index_excel_gastos/{date_1}/{date_2}','GastosController@index_excel');
 
   Route::get('/carritos/ajustes/editar', 'AjustesController@editar');
+  Route::get('/carritos/compras/editar', 'ComprasController@editar');
 
 
   Route::get('carritos/eventos/cotizacion', 'EventosController@cotizacion');

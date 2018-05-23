@@ -49,7 +49,7 @@
             <td style="background-color:#BCF5A9">$ {{$fac->total}}</td>
             @endif
             <th>
-              <a href="/carritos/compras/{{$fac->id}}"><button class="btn btn-info">Ver</button></a>
+              <a href="/carritos/compras/{{$fac->id}}"><button class="btn btn-info">Ver / Editar</button></a>
             </th>
           </tr>
           @endforeach
