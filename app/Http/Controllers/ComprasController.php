@@ -28,7 +28,7 @@ class ComprasController extends Controller
         ->whereBetween('fecha_ingreso', array($date_1, $date_2))
         ->select('df.id', 'df.numero_comprobante','tipo_documento', 'excento', 'otros_impuestos','df.fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
         ->groupBy('df.id', 'df.numero_comprobante','tipo_documento', 'excento', 'otros_impuestos', 'fecha_documento','numero_documento', 'monto_neto', 'iva', 'total', 'rut')
-        ->orderBy('id','desc')
+        ->orderBy('fecha_ingreso','desc')
         ->get();
         return View('carritos.compras.index', ["facturas"=>$facturas, "date_1"=>$date_1, "date_2"=>$date_2]);
     }
