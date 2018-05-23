@@ -3,7 +3,7 @@
 @section('contenido')
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8">
-      <h3>Ajuste comprobante número {{$id + 1500}}</h3>
+      <h3>Ajuste comprobante número {{$doc[0]->numero_comprobante}}</h3>
       <h4>{{$fecha_ingreso}}</h4>
     </div>
   </div>

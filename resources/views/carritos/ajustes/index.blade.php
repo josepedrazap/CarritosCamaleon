@@ -13,7 +13,7 @@
         <table class="table table-striped table-bordered table-condensed table-hover">
           <thead style="background-color:#ABEBC6">
             <th>Número de comprobante</th>
-            <th>Fecha de comprobante</th>
+            <th>Fecha de ingreso comprobante</th>
             <th>Opciones</th>
           </thead>
           @foreach($facturas as $fac)
@@ -22,7 +22,7 @@
             <td>{{$fac->fecha_ingreso}}</td>
 
             <th>
-              <a href="/carritos/ajustes/{{$fac->id}}"><button class="btn btn-info">Ver</button></a>
+              <a href="/carritos/ajustes/{{$fac->id}}"><button class="btn btn-info">Ver / Editar </button></a>
             </th>
           </tr>
           @endforeach

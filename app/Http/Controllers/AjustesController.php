@@ -39,15 +39,82 @@ class AjustesController extends Controller
     }
 
     public function show($id){
-      $fecha_ingreso = DB::table('documento_financiero as df')
-      ->where('df.id', '=', $id)
-      ->select('fecha_ingreso')
+      $doc = DB::table('documento_financiero as dc')
+      ->where('dc.id', '=', $id)
       ->get();
-      $cuentas = DB::table('cuentas_movimientos as cm')
-      ->join('cuentas_contables as cc', 'cc.id', '=', 'cm.id_cuenta')
+
+      $cuentas = DB::table('cuentas_contables')
+      ->get();
+
+      $ct_usadas = DB::table('cuentas_movimientos as cm')
       ->where('cm.id_documento', '=', $id)
+      ->join('cuentas_contables as cc', 'cm.id_cuenta', '=', 'cc.id')
+      ->select('cm.debe', 'cm.haber', 'cm.glosa', 'cc.nombre_cuenta', 'cm.id_cuenta')
       ->get();
-      return View('carritos.ajustes.ver', ["fecha_ingreso"=>$fecha_ingreso, "cuentas"=>$cuentas, "id"=>$id]);
+
+      $cont = count($ct_usadas);
+
+      $total_debe = DB::table('cuentas_movimientos as cm')
+      ->where('cm.id_documento', '=', $id)
+      ->sum('debe');
+
+      $total_haber = DB::table('cuentas_movimientos as cm')
+      ->where('cm.id_documento', '=', $id)
+      ->sum('haber');
+
+      return View('carritos.ajustes.edit', [ "cuentas"=>$cuentas, "cont"=>$cont, "id"=>$id,
+                                             "cuentas_usadas"=>$ct_usadas, "total_debe"=>$total_debe,
+                                             "total_haber"=>$total_haber, "doc"=>$doc]);
+    }
+
+    public function editar(Request $request){
+      DB::beginTransaction();
+      try{
+        $id = $request->get('id_documento');
+        $dc_tmp = Documento_financiero::findOrFail($id);
+        $dc_tmp->numero_comprobante = $request->get('numero_comprobante');
+        $dc_tmp->fecha_ingreso = $request->get('fecha_ingreso');
+        $dc_tmp->update();
+
+        $id_cuenta = $request->get('id_cuenta');
+        $debe_cuenta = $request->get('debe_cuenta');
+        $haber_cuenta = $request->get('haber_cuenta');
+        $glosa_cuenta = $request->get('glosa_cuenta');
+
+        $d = Cuentas_movimientos::where('id_documento', '=', $id)->delete();
+
+        $cont = 0;
+        while($cont < count($id_cuenta)){
+
+          $cmf_temp = new Cuentas_movimientos;
+          $cmf_temp->id_cuenta = $id_cuenta[$cont];
+          $cmf_temp->id_documento = $id;
+          if($debe_cuenta[$cont] != ''){
+                $cmf_temp->debe =  $debe_cuenta[$cont];
+          }else{
+                $cmf_temp->debe = 0;
+          }
+          if($haber_cuenta[$cont] != ''){
+                $cmf_temp->haber = $haber_cuenta[$cont];
+          }else{
+                $cmf_temp->haber = 0;
+          }
+          if($glosa_cuenta[$cont] != ''){
+                $cmf_temp->glosa = $glosa_cuenta[$cont];
+          }else{
+                $cmf_temp->glosa = '';
+          }
+          $cmf_temp->fecha = $dc_tmp->fecha_ingreso;
+
+          $cmf_temp->save();
+          $cont++;
+        }
+
+        DB::commit();
+      }catch(Exception $e){
+        DB::rollback();
+      }
+        return Redirect::to("carritos/ajustes");
     }
 
     public function store(Request $request){

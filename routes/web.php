@@ -60,6 +60,7 @@ Route::get('/', function () {
   Route::get('carritos/excel/index_excel_compras/{date_1}/{date_2}','ComprasController@index_excel');
   Route::get('carritos/excel/index_excel_gastos/{date_1}/{date_2}','GastosController@index_excel');
 
+  Route::get('/carritos/ajustes/editar', 'AjustesController@editar');
 
 
   Route::get('carritos/eventos/cotizacion', 'EventosController@cotizacion');
@@ -93,7 +94,6 @@ Route::get('/', function () {
 
   Route::get('/axios/obtener_numero_comprobante', 'AjustesController@axios_onc');
   Route::get('/axios/prueba_numero_comprobante', 'AjustesController@axios_pnc');
-
   Auth::routes();
 
   Route::get('/home', 'EventosController@index')->name('home');
