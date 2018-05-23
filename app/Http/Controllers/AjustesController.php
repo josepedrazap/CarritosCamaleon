@@ -21,13 +21,22 @@ class AjustesController extends Controller
 
       $date_1 = $request->get('date_1');
       $date_2 = $request->get('date_2');
+      $num_com = $request->get('num_com');
 
+      if($num_com != ''){
+        $facturas = DB::table('documento_financiero as df')
+        ->where('tipo_dato', '=', 'ajuste')
+        ->where('numero_comprobante', '=', $num_com)
+        ->orderBy('id','desc')
+        ->get();
+      }else{
         $facturas = DB::table('documento_financiero as df')
         ->where('tipo_dato', '=', 'ajuste')
         ->whereBetween('fecha_ingreso', array($date_1, $date_2))
         ->orderBy('id','desc')
-        ->paginate(7);
-        return View('carritos.ajustes.index', ["facturas"=>$facturas, "date_1"=>$date_1, "date_2"=>$date_2]);
+        ->get();
+      }
+        return View('carritos.ajustes.index', ["facturas"=>$facturas, "num_com"=>$num_com,"date_1"=>$date_1, "date_2"=>$date_2]);
     }
     public function create(){
 
@@ -37,7 +46,6 @@ class AjustesController extends Controller
       ->get();
       return View('carritos.ajustes.create', [ "cuentas"=>$cuentas, "serie"=>$serie]);
     }
-
     public function show($id){
       $doc = DB::table('documento_financiero as dc')
       ->where('dc.id', '=', $id)
@@ -66,7 +74,6 @@ class AjustesController extends Controller
                                              "cuentas_usadas"=>$ct_usadas, "total_debe"=>$total_debe,
                                              "total_haber"=>$total_haber, "doc"=>$doc]);
     }
-
     public function editar(Request $request){
       DB::beginTransaction();
       try{
@@ -116,7 +123,6 @@ class AjustesController extends Controller
       }
         return Redirect::to("carritos/ajustes");
     }
-
     public function store(Request $request){
       DB::beginTransaction();
 
@@ -219,7 +225,6 @@ class AjustesController extends Controller
       ->sum('df.numero_comprobante');
       return $data;
     }
-
     public function axios_onc(){
       $data = DB::table('documento_financiero as df')
       ->max('df.numero_comprobante');

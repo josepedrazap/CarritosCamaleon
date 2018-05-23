@@ -28,7 +28,6 @@
           @endforeach
         </table>
       </div>
-      {{$facturas->render()}}
     </div>
   </div>
 @endsection
