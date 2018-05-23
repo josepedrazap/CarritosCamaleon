@@ -18,6 +18,7 @@
         <table class="table table-striped table-bordered table-condensed table-hover">
           <thead style="background-color:#ABEBC6">
             <th>Número documento</th>
+            <th>Número comprobante</th>
             <th>Fecha de documento</th>
             <th>Tipo documento</th>
             <th>Rut proveedor</th>
@@ -31,8 +32,9 @@
             @if( ($fac->monto_neto + $fac->iva) != $fac->total)
             <td style="background-color:#F5A9A9"># {{$fac->numero_documento}}</td>
             @else
-            <td style="background-color:#BCF5A9"># {{$fac->numero_documento}}</td>
+            <td ># {{$fac->numero_documento}}</td>
             @endif
+            <td>{{$fac->numero_comprobante}}</td>
             <td>{{$fac->fecha_documento}}</td>
             <td>{{$fac->tipo_documento}}</td>
             <td>{{$fac->rut}}</td>
