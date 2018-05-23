@@ -28,12 +28,16 @@
           </thead>
           @foreach($facturas as $fac)
           <tr>
-            <td># {{$fac->numero_documento}}</td>
+            @if( ($fac->monto_neto + $fac->iva) != $fac->total)
+            <td style="background-color:#F5A9A9"># {{$fac->numero_documento}}</td>
+            @else
+            <td style="background-color:#BCF5A9"># {{$fac->numero_documento}}</td>
+            @endif
             <td>{{$fac->fecha_documento}}</td>
             <td>{{$fac->tipo_documento}}</td>
             <td>{{$fac->rut}}</td>
 
-            @if( ($fac->monto_neto + $fac->iva) != $fac->total)
+            @if(($fac->monto_neto + $fac->iva) != $fac->total)
             <td style="background-color:#F5A9A9">$ {{$fac->monto_neto}}</td>
             <td style="background-color:#F5A9A9">$ {{$fac->iva}}</td>
             <td style="background-color:#F5A9A9">$ {{$fac->total}}</td>
