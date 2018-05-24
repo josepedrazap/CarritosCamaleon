@@ -238,7 +238,7 @@ var haber_sum = 0;
     <label for="IVA del evento">IVA del evento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19}}">
+      <input class="form-control" readonly="readonly" value="{{round($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19)}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
