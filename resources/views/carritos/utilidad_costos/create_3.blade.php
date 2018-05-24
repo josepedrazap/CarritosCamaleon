@@ -183,21 +183,21 @@ var haber_sum = 0;
     <label for="IVA del evento">IVA del evento</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19}}">
+      <input class="form-control" readonly="readonly" value="{{round($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19)}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="Iva ingredientes">IVA ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{($total - $total / 1.19) + ($total_ingr_ext - $total_ingr_ext / 1.19)}}">
+      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{round(($total - $total / 1.19) + ($total_ingr_ext - $total_ingr_ext / 1.19))}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
     <label for="IVA del evento">IVA ajustado</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" id="IVA_ajustado" value="{{$eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19 - (($total - $total / 1.19) + ($total_ingr_ext - $total_ingr_ext / 1.19))}}">
+      <input class="form-control" readonly="readonly" id="IVA_ajustado" value="{{round($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento / 1.19 - (($total - $total / 1.19) + ($total_ingr_ext - $total_ingr_ext / 1.19)))}}">
     </div>
   </div>
   <?php
