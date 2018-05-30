@@ -78,13 +78,13 @@
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
           <label for="numero_cuenta">Número de cuenta</label>
-          <input type="number" name="numero_cuenta" class="form-control" placeholder="número de cuenta">
+          <input type="text" name="numero_cuenta" class="form-control" placeholder="número de cuenta">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
           <label for="rut">Rut</label>
-          <input type="number" name="rut" class="form-control" placeholder="Rut">
+          <input type="text" name="rut" class="form-control" placeholder="Rut">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
