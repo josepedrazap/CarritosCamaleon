@@ -74,7 +74,7 @@ function addProducto(){
 function llenar_select_productos(a, sv){
   @foreach($productos as $p)
     id = "{{$p->id}}";
-    aux = "{{$p->nombre}}";
+    aux = "{{$p->nombre}} (${{$p->precio}})";
     $(sv).append('<option value="'+id+'">'+aux+'</option>');
   @endforeach
 }

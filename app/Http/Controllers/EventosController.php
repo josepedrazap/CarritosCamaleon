@@ -32,7 +32,7 @@ class EventosController extends Controller
     ->where('fecha_hora', '<',  Carbon::now())
     ->where('condicion', '=', 2)
     ->get();
-    
+
     $cont = 0;
 
     while($cont < count($eventos_ejecutados)){
@@ -100,6 +100,7 @@ class EventosController extends Controller
 
         $productos=DB::table('productos')
         ->where('condicion', '=', '1')
+        ->orderBy('nombre', 'desc')
         ->get();
         $ingredientes=DB::table('ingredientes as ingr')
         ->where('ingr.condicion', '=', '1')
@@ -318,6 +319,7 @@ class EventosController extends Controller
   function cotizacion(){
     $productos=DB::table('productos')
     ->where('condicion', '=', '1')
+    ->orderBy('nombre', 'desc')
     ->get();
     $ingredientes=DB::table('ingredientes as ingr')
     ->where('ingr.condicion', '=', '1')
