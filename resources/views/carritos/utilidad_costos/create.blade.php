@@ -269,7 +269,7 @@ var haber_sum = 0;
     <label for="IVA del evento">Porcentaje de ganancia</label>
     <div class="input-group">
       <span class="input-group-addon">%</span>
-      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{round(100*($eventos_detalle[0]->precio_evento - $eventos_detalle[0]->precio_evento * 0.19 + $total*0.19 - $total + $total_ingr_ext*0.19 - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)/$eventos_detalle[0]->precio_evento)}}">
+      <input class="form-control" readonly="readonly" id="porcentaje_utilidad" value="{{round(100*($eventos_detalle[0]->precio_evento - $iva_ - $total - $total_ingr_ext - $eventos_detalle[0]->gasto_extra - $eventos_detalle[0]->pago_cocineros)/$eventos_detalle[0]->precio_evento)}}">
     </div>
   </div>
 </div>
