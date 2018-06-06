@@ -45,7 +45,7 @@ var haber_sum = 0;
     document.getElementById('costo_total_evento').value = parseInt(total) +  parseInt(total_3) + parseInt(total_2) + {{$eventos_detalle[0]->pago_cocineros}};
     document.getElementById('IVA_ingredientes').value = parseInt($('#costo_ingr_total').val() - $('#costo_ingr_total').val() / 1.19);
     document.getElementById('IVA_ajustado').value = parseInt(t_iva - $('#IVA_ingredientes').val());
-    document.getElementById('Utilidad_final').value = t_iva;
+    document.getElementById('Utilidad_final').value =  {{$eventos_detalle[0]->precio_evento}} - $('#IVA_ajustado').val() - $('#costo_total_evento').val();
 
     let pu = ($('#Utilidad_final').val()/{{$eventos_detalle[0]->precio_evento}})*100;
     document.getElementById('porcentaje_utilidad').value = Math.round(pu.toFixed(2));
