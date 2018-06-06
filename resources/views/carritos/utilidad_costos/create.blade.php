@@ -17,11 +17,11 @@ var haber_sum = 0;
         sv = "costo_ingr_" + i;
         document.getElementById(sv).value = v1 * v2;
     }
-    total = 0;
-    total_2 = 0;
-    total_3 = 0;
-    aux = 0;
-    aux2 = 0;
+    var total = 0;
+    var total_2 = 0;
+    var total_3 = 0;
+    var aux = 0;
+    var aux2 = 0;
 
     for(a = 0; a < {{$ingredientes_num}}; a++){
       sv = "#costo_ingr_" + a;
