@@ -14,7 +14,7 @@
           <thead style="background-color:#ABEBC6">
             <th>Nombre producto</th>
             <th>Precio</th>
-            <th>Ingredientes</th>
+            <th>Ingredientes x unidad </th>
             <th>Opciones</th>
           </thead>
 
