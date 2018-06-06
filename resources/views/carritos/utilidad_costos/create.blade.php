@@ -43,7 +43,7 @@ var haber_sum = 0;
     document.getElementById('costo_total_evento').value = parseInt(total) +  parseInt(total_3) + parseInt(total_2) + {{$eventos_detalle[0]->pago_cocineros}};
     document.getElementById('IVA_ingredientes').value = parseInt(total / 1.19) + parseInt(total_3 / 1.19);
     document.getElementById('IVA_ajustado').value = parseInt({{$eventos_detalle[0]->precio_evento / 1.19}} - total / 1.19 - total_3 / 1.19);
-    document.getElementById('Utilidad_final').value = Math.round(parseInt(({{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento / 1.19}});
+    //document.getElementById('Utilidad_final').value = Math.round(parseInt(({{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento / 1.19}})  ;
 
     let pu = ($('#Utilidad_final').val()/{{$eventos_detalle[0]->precio_evento}})*100;
     document.getElementById('porcentaje_utilidad').value = Math.round(pu.toFixed(2));
