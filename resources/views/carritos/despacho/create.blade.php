@@ -277,7 +277,7 @@ function calculo_total_productos(){
               <td><input class="form-control" id="cant_prod_{{$i}}" value="{{$prod->cantidad}}" onkeyup="calculo_precio(this.value, {{$i}})"></td>
               <td>${{$prod->precio}}</td>
               <th><input name="precio_real[]" type="number" id="precio_real_{{$i}}" required onkeyup="calculo_precio(this.value, {{$i}}, 1)" class="form-control"></th>
-              <th><input name="precio_liquido[]" type="number" id="precio_liquido_{{$i}}" onkeyup="calculo_precio(this.value, {{$i}}, 0)" class="form-control" readonly="readonly"></th>
+              <th><input name="precio_liquido[]" type="number" id="precio_liquido_{{$i}}" onkeyup="calculo_precio(this.value, {{$i}}, 0)" class="form-control"></th>
               <th><input name="IVA_por_pagar[]" id="IVA_por_pagar_{{$i}}" readonly="readonly" class="form-control"></th>
               <th><input name="total_[]" id="total_{{$i}}" readonly="readonly" class="form-control"></th>
               <th><input name="id_etp[]" id="id_etp_{{$i}}" value="{{$prod->id_etp}}"  hidden></th>
