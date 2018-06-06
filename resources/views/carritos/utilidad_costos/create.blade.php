@@ -85,6 +85,7 @@ var haber_sum = 0;
                 <input value="{{round($ingr->sum)}}" class="form-control" name="cantidad_usada[]" id="cant_usada_{{$i}}" onkeyup="calc({{$i}}, 1)"/>
               </th>
               @endif
+
               <td>
                 {{$ingr->uni_inv}}
                 <input value="{{$ingr->uni_inv}}" class="hidden" name="unidades[]"/>
@@ -107,8 +108,6 @@ var haber_sum = 0;
               <th><input class="form-control" readonly="readonly" value="{{round($ingr->sum) * $ingr->precio_bruto}}" id="costo_ingr_{{$i}}" name="costo_ingr[]"></th>
               <th><input class="form-control hidden" readonly="readonly" value="{{round($ingr->sum)}}" id="sum_{{$i}}" ></th>
               @endif
-              <td>
-
             </tr>
             <?php $i++ ?>
             @endforeach
