@@ -39,13 +39,13 @@ var haber_sum = 0;
       total_3 = parseInt(aux2) + total_3;
     }
 
-    var t = {{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento / 1.19}};
+    var t_iva = {{$eventos_detalle[0]->precio_evento}} - {{$eventos_detalle[0]->precio_evento / 1.19}};
     document.getElementById('total_extra').value = parseInt(total_2);
     document.getElementById('costo_ingr_total').value = parseInt(total) + parseInt(total_3);
     document.getElementById('costo_total_evento').value = parseInt(total) +  parseInt(total_3) + parseInt(total_2) + {{$eventos_detalle[0]->pago_cocineros}};
     document.getElementById('IVA_ingredientes').value = parseInt($('#costo_ingr_total').val() - $('#costo_ingr_total').val() / 1.19);
-    document.getElementById('IVA_ajustado').value = parseInt({{$eventos_detalle[0]->precio_evento / 1.19}} - total / 1.19 - total_3 / 1.19);
-    document.getElementById('Utilidad_final').value = t;
+    document.getElementById('IVA_ajustado').value = parseInt(t_iva - $('#IVA_ingredientes').val());
+    document.getElementById('Utilidad_final').value = t_iva;
 
     let pu = ($('#Utilidad_final').val()/{{$eventos_detalle[0]->precio_evento}})*100;
     document.getElementById('porcentaje_utilidad').value = Math.round(pu.toFixed(2));
