@@ -245,7 +245,7 @@ var haber_sum = 0;
     <label for="Iva ingredientes">IVA ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{round(($total / 1.19) + ($total_ingr_ext / 1.19))}}">
+      <input class="form-control" readonly="readonly" name="IVA_ingredientes" id="IVA_ingredientes" value="{{round(($total - $total / 1.19) + ($total_ingr_ext - $total_ingr_ext / 1.19))}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
