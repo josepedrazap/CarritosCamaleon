@@ -199,7 +199,7 @@ var haber_sum = 0;
     <label for="Costo en ingredientes">Costo en ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" id="costo_ingr_total" readonly="readonly" name="costo_ingr_total" value="round({{$total  + $total_ingr_ext}})">
+      <input class="form-control" id="costo_ingr_total" readonly="readonly" name="costo_ingr_total" value="{{round({{$total  + $total_ingr_ext}})}}">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
