@@ -91,16 +91,31 @@ function llenar_select_trabajadores(a, sv){
 
   @endforeach
 }
-function calculo_precio(t, i){
-  var total = 0;
-  v1 = $("#precio_real_" + i).val();
-  v2 = $("#cant_prod_" + i).val();
-  total =  0.19 * parseInt(v1) * parseInt(v2);
-  document.getElementById('IVA_por_pagar_'+i).value = total;
-  document.getElementById('precio_liquido_'+i).value = v1 * 1.19;
-  total = parseInt(v1) * parseInt(v2);
-  document.getElementById('total_'+i).value = parseInt(total*1.19);
-  calculo_total_productos();
+function calculo_precio(t, i, p){
+
+  if(p == 1){
+    var total = 0;
+    v1 = $("#precio_real_" + i).val();
+    v2 = $("#cant_prod_" + i).val();
+    total =  0.19 * parseInt(v1) * parseInt(v2);
+    document.getElementById('IVA_por_pagar_'+i).value = total;
+    document.getElementById('precio_liquido_'+i).value = v1 * 1.19;
+    total = parseInt(v1) * parseInt(v2);
+    document.getElementById('total_'+i).value = parseInt(total*1.19);
+    calculo_total_productos();
+  }else{
+    var total = 0;
+    v1 = $("#precio_liquido_" + i).val();
+    v2 = $("#cant_prod_" + i).val();
+    v1 = v1 / 1.19;
+    total =  0.19 * parseInt(v1) * parseInt(v2);
+    document.getElementById('IVA_por_pagar_'+i).value = total;
+    document.getElementById('precio_real_'+i).value = v1;
+    total = parseInt(v1) * parseInt(v2);
+    document.getElementById('total_'+i).value = parseInt(total*1.19);
+    calculo_total_productos();
+  }
+
 }
 function calculo_costos_total(){
   var total = 0;
@@ -261,8 +276,8 @@ function calculo_total_productos(){
               <td>{{$prod->nombre}}</td>
               <td><input class="form-control" id="cant_prod_{{$i}}" value="{{$prod->cantidad}}" onkeyup="calculo_precio(this.value, {{$i}})"></td>
               <td>${{$prod->precio}}</td>
-              <th><input name="precio_real[]" type="number" id="precio_real_{{$i}}" required onkeyup="calculo_precio(this.value, {{$i}})" class="form-control"></th>
-              <th><input name="precio_liquido[]" type="number" id="precio_liquido_{{$i}}" class="form-control" readonly="readonly"></th>
+              <th><input name="precio_real[]" type="number" id="precio_real_{{$i}}" required onkeyup="calculo_precio(this.value, {{$i}}, 1)" class="form-control"></th>
+              <th><input name="precio_liquido[]" type="number" id="precio_liquido_{{$i}}" onkeyup="calculo_precio(this.value, {{$i}}, 0)" class="form-control" readonly="readonly"></th>
               <th><input name="IVA_por_pagar[]" id="IVA_por_pagar_{{$i}}" readonly="readonly" class="form-control"></th>
               <th><input name="total_[]" id="total_{{$i}}" readonly="readonly" class="form-control"></th>
               <th><input name="id_etp[]" id="id_etp_{{$i}}" value="{{$prod->id_etp}}"  hidden></th>
