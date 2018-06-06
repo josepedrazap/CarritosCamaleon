@@ -43,7 +43,7 @@ var haber_sum = 0;
     document.getElementById('total_extra').value = parseInt(total_2);
     document.getElementById('costo_ingr_total').value = parseInt(total) + parseInt(total_3);
     document.getElementById('costo_total_evento').value = parseInt(total) +  parseInt(total_3) + parseInt(total_2) + {{$eventos_detalle[0]->pago_cocineros}};
-    document.getElementById('IVA_ingredientes').value = parseInt(total / 1.19) + parseInt(total_3 / 1.19);
+    document.getElementById('IVA_ingredientes').value = parseInt(total)/1.19 + parseInt(total_3)/1.19;
     document.getElementById('IVA_ajustado').value = parseInt({{$eventos_detalle[0]->precio_evento / 1.19}} - total / 1.19 - total_3 / 1.19);
     document.getElementById('Utilidad_final').value = t;
 
