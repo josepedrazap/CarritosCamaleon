@@ -99,7 +99,7 @@ function calculo_precio(t, i, p){
     v2 = $("#cant_prod_" + i).val();
     total =  0.19 * parseInt(v1) * parseInt(v2);
     document.getElementById('IVA_por_pagar_'+i).value = total;
-    document.getElementById('precio_liquido_'+i).value = v1 * 1.19;
+    document.getElementById('precio_liquido_'+i).value = Math.round( v1 * 1.19);
     total = parseInt(v1) * parseInt(v2);
     document.getElementById('total_'+i).value = parseInt(total*1.19);
     calculo_total_productos();
@@ -110,7 +110,7 @@ function calculo_precio(t, i, p){
     v1 = v1 / 1.19;
     total =  0.19 * parseInt(v1) * parseInt(v2);
     document.getElementById('IVA_por_pagar_'+i).value = total;
-    document.getElementById('precio_real_'+i).value = v1;
+    document.getElementById('precio_real_'+i).value =  Math.round(v1);
     total = parseInt(v1) * parseInt(v2);
     document.getElementById('total_'+i).value = parseInt(total*1.19);
     calculo_total_productos();
