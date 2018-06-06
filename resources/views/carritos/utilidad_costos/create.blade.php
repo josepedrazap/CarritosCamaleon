@@ -100,7 +100,7 @@ var haber_sum = 0;
 
 
               @if($ingr->uni_inv == 'Kg')
-              <?php $total += $ingr->sum/1000 * $ingr->precio_bruto;
+              <?php $total += round($ingr->sum/1000, 1) * $ingr->precio_bruto;
               ?>
               <th><input class="form-control" readonly="readonly" value="{{round($ingr->sum/1000, 1) * $ingr->precio_bruto}}" id="costo_ingr_{{$i}}" name="costo_ingr[]"></th>
               <th><input class="form-control hidden" readonly="readonly" value="{{$ingr->sum/1000}}" id="sum_{{$i}}" ></th>
@@ -199,7 +199,7 @@ var haber_sum = 0;
     <label for="Costo en ingredientes">Costo en ingredientes</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input class="form-control" id="costo_ingr_total" readonly="readonly" name="costo_ingr_total" value="{{$total  + $total_ingr_ext}}">
+      <input class="form-control" id="costo_ingr_total" readonly="readonly" name="costo_ingr_total" value="round({{$total  + $total_ingr_ext}})">
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
