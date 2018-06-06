@@ -101,8 +101,7 @@ var haber_sum = 0;
               ?>
               <th><input class="form-control" readonly="readonly" value="{{round($ingr->sum/1000, 1) * $ingr->precio_bruto}}" id="costo_ingr_{{$i}}" name="costo_ingr[]"></th>
               <th><input class="form-control hidden" readonly="readonly" value="{{$ingr->sum/1000}}" id="sum_{{$i}}" ></th>
-              @endif
-              @if($ingr->uni_inv == 'unidad' || $ingr->uni_inv == 'lámina')
+              @else
               <?php $total += round($ingr->sum) * $ingr->precio_bruto;
               ?>
               <th><input class="form-control" readonly="readonly" value="{{round($ingr->sum) * $ingr->precio_bruto}}" id="costo_ingr_{{$i}}" name="costo_ingr[]"></th>
