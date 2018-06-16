@@ -98,4 +98,8 @@ Route::get('/', function () {
   Route::get('/axios/prueba_numero_comprobante', 'AjustesController@axios_pnc');
   Auth::routes();
 
+  Route::get('/calendario_eventos', 'calendarioController@index_eventos');
+  Route::get('/calendario_cotizaciones', 'calendarioController@index_cotizaciones');
+  Route::get('/calendario_financiero', 'calendarioController@index_financiero');
+
   Route::get('/home', 'EventosController@index')->name('home');

@@ -16,10 +16,13 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}">
-    <link rel="icon" href="{{asset('img/logoi.png')}}">
-    <link rel="shortcut icon" href="{{asset('img/logoi.png')}}">
+    <link rel="icon" href="{{asset('img/logo_2i.png')}}">
+    <link rel="shortcut icon" href="{{asset('img/logo_2i.png')}}">
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+     @yield('style')
 
   </head>
   <body class="hold-transition skin-green sidebar-mini">
@@ -30,10 +33,10 @@
         <!-- Logo -->
         <a href="/carritos/eventos" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><IMG SRC="{{ asset('img/logoi.png') }}" WIDTH=50 HEIGHT=50/></span>
+          <span class="logo-mini"><IMG SRC="{{ asset('img/logo_2i.png') }}" WIDTH=50 HEIGHT=50/></span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg">
-            <IMG SRC="{{ asset('img/logo_new2.png') }}" WIDTH=140 HEIGHT=45/>
+            <IMG SRC="{{ asset('img/logo_2.png') }}" WIDTH=155 HEIGHT=50/>
 
           </span>
         </a>
@@ -102,6 +105,19 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header"></li>
+
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-calendar-alt"></i>
+                <span>Calendarios</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/calendario_eventos"><i class="far fa-circle"></i> Calendario eventos</a></li>
+                <li><a href="/calendario_cotizaciones"><i class="far fa-circle"></i> Calendario cotizaciones</a></li>
+                <li><a href="/calendario_financiero"><i class="far fa-circle"></i> Calendario financiero</a></li>
+              </ul>
+            </li>
 
             <li class="treeview">
               <a href="#">
@@ -282,14 +298,17 @@
 
 
     <!-- jQuery 2.1.4 -->
-    <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
     @stack('scripts')
+    <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
+
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('js/app.min.js')}}"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    @yield('script')
+
 
   </body>
 </html>
