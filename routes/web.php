@@ -86,6 +86,7 @@ Route::get('/', function () {
   Route::resource('carritos/inventario', 'InventarioController');
   Route::resource('carritos/despacho', 'DespachoController');
   Route::resource('carritos/cotizaciones', 'CotizacionesController');
+
   Route::resource('carritos/gastos', 'GastosController');
   Route::resource('carritos/mercaderiaproxeventos', 'MercaderiaProxEventosController');
   Route::resource('registro', 'AuxController');
@@ -96,6 +97,9 @@ Route::get('/', function () {
 
   Route::get('/axios/obtener_numero_comprobante', 'AjustesController@axios_onc');
   Route::get('/axios/prueba_numero_comprobante', 'AjustesController@axios_pnc');
+  Route::get('/axios/fecha', 'CotizacionesController@axios_fecha');
+  Route::get('/axios/id', 'CotizacionesController@axios_id');
+
   Auth::routes();
 
   Route::get('/calendario_eventos', 'calendarioController@index_eventos');
@@ -103,3 +107,12 @@ Route::get('/', function () {
   Route::get('/calendario_financiero', 'calendarioController@index_financiero');
 
   Route::get('/home', 'EventosController@index')->name('home');
+
+  Route::get('/eventos', 'calendarioController@eventos');
+
+  Route::get('/calendario', 'calendarioController@calendario');
+  Route::get('/carritos/cotizaciones_text', 'CotizacionesController@cotizaciones_text');
+  Route::get('/carritos/cotizaciones_text_2', 'CotizacionesController@cotizaciones_text_2');
+
+  Route::get('/carritos/cotizaciones_guardar', 'CotizacionesController@cotizaciones_guardar');
+  Route::get('/carritos/cotizaciones_actualizar', 'CotizacionesController@cotizaciones_actualizar');

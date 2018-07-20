@@ -8,8 +8,12 @@ use Illuminate\Http\Request;
 use CamaleonERP\Productos;
 use CamaleonERP\Eventos;
 use CamaleonERP\Clientes;
+use CamaleonERP\Cotizaciones;
+use CamaleonERP\Selects_valores;
 use CamaleonERP\Eventos_tienen_productos;
 use CamaleonERP\Eventos_tienen_extras;
+use CamaleonERP\AuxModel;
+
 use Illuminate\Support\Facades\Input;
 
 use Illuminate\Support\Facades\Redirect;
@@ -226,6 +230,62 @@ class CotizacionesController extends Controller
     $evento->update();
     return Redirect::to("carritos/cotizaciones");
 
+  }
+
+  function cotizaciones_text (){
+    $s_fecha = AuxModel::where('id', '1')->first();
+    return view("carritos.cotizaciones_text.create", ["fecha"=>$s_fecha]);
+  }
+  function cotizaciones_text_2 (){
+    $id = DB::table('aux')->where('id', '=', 2)->get();
+    $cotizacion = Cotizaciones::where('id', $id[0]->id_buscado)->first();
+    return view("carritos.cotizaciones_text.update", ["cotizacion"=>$cotizacion]);
+  }
+
+  function cotizaciones_guardar(Request $request){
+    DB::beginTransaction();
+    try{
+      $coti_tmp = new Cotizaciones;
+      $coti_tmp->nombre_cliente = $request->get('nombre_cliente');
+      $coti_tmp->descripcion = $request->get('descripcion');
+      $coti_tmp->direccion = $request->get('direccion');
+      $coti_tmp->fecha = $request->get('fecha');
+      $coti_tmp->estado = $request->get('estado');
+      $coti_tmp->save();
+      DB::commit();
+    }catch(Exception $e){
+      DB::rollback();
+    }
+    return "OK";
+  }
+
+  function cotizaciones_actualizar(Request $request){
+    DB::beginTransaction();
+    try{
+      $coti_tmp = Cotizaciones::findOrFail($request->id);
+      $coti_tmp->nombre_cliente = $request->get('nombre_cliente');
+      $coti_tmp->descripcion = $request->get('descripcion');
+      $coti_tmp->direccion = $request->get('direccion');
+      $coti_tmp->fecha = $request->get('fecha');
+      $coti_tmp->estado = $request->get('estado');
+      $coti_tmp->update();
+      DB::commit();
+    }catch(Exception $e){
+      DB::rollback();
+    }
+    return "OK";
+  }
+
+  function axios_id(Request $request){
+    $s_id = AuxModel::findOrFail(2);
+    $s_id->id_buscado = $request->get('id');
+    $s_id->update();
+  }
+
+  function axios_fecha(Request $request){
+    $s_fecha = AuxModel::findOrFail(1);
+    $s_fecha->var = $request->get('fecha');
+    $s_fecha->update();
   }
 
 }

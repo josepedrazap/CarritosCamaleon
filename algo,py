@@ -1,0 +1,37 @@
+from pprint import pprint
+from time import time
+
+import matplotlib.pyplot as plt
+import networkx as nx
+import os
+import random
+
+class graph:
+
+    graph = nx.DiGraph()
+    distances = {}
+
+def create_network(self, source, target, weight):
+
+      self.graph = nx.DiGraph()
+      count = len(source)
+
+      edges = []
+
+      for i in range(0, count):
+          edges.append( (source[i], target[i], weight[i]) )
+
+      self.graph.add_weighted_edges_from(edges)
+      return self.graph
+
+s = []
+t = []
+w = []
+
+for i in range(1,90):
+    s.append(random.randrange(30))
+    t.append(random.randrange(30))
+    w.append(random.randrange(30))
+
+G = g.graph()
+G.create_network(s, t, w)

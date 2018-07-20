@@ -20,6 +20,7 @@
     <link rel="shortcut icon" href="{{asset('img/logo_2i.png')}}">
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.css">
 
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
      @yield('style')
@@ -36,7 +37,7 @@
           <span class="logo-mini"><IMG SRC="{{ asset('img/logo_2i.png') }}" WIDTH=50 HEIGHT=50/></span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg">
-            <IMG SRC="{{ asset('img/logo_2.png') }}" WIDTH=155 HEIGHT=50/>
+            <IMG SRC="{{ asset('img/logo_2.png') }}" WIDTH=160 HEIGHT=45/>
 
           </span>
         </a>
@@ -303,10 +304,15 @@
 
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
+
     <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('js/app.min.js')}}"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="{{asset('js/sweetalert2.all.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.min.js"></script>
+
     @yield('script')
 
 

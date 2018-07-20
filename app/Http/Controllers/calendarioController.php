@@ -139,5 +139,54 @@ class calendarioController extends Controller
 
     }
 
+    public function calendario(){
+      $data =DB::table('cotizaciones')
+        ->select('cotizaciones.nombre_cliente as title', 'cotizaciones.id as id','cotizaciones.fecha as start', 'cotizaciones.estado as estado')
+        ->orderBy('fecha','desc')
+        ->get();
+        $clientes = DB::table('clientes')
+        ->get();
+        $cont = 0;
+        $clientes_;
+        while($cont < count($clientes)){
+          $clientes_[$clientes[$cont]->id] = $clientes[$cont]->nombre . " " . $clientes[$cont]->apellido;
+          $cont++;
+        }
+        $cont = 0;
+
+        while($cont < count($data)){
+          if($data[$cont]->estado == 0){
+            $data[$cont]->color = 'red';
+          }else if($data[$cont]->estado == 1){
+            $data[$cont]->color = 'sky-blue';
+          }else{
+            $data[$cont]->color = 'orange';
+          }
+          $cont++;
+        }
+
+      //return $data;
+      return view('carritos.calendario.calendario', ["data"=>$data, "clientes_"=>$clientes_, "clientes"=>$clientes]);
+    }
+
+    public function eventos(){
+      $data =DB::table('eventos')
+        ->where('condicion', '=', 6)
+        ->select('eventos.nombre_cliente as title', 'eventos.fecha_hora as start')
+        ->orderBy('fecha_hora','desc')
+        ->get();
+
+        $clientes = DB::table('clientes')
+        ->get();
+
+        $cont = 0;
+        $clientes_;
+        while($cont < count($clientes)){
+          $clientes_[$clientes[$cont]->id] = $clientes[$cont]->nombre;
+          $cont++;
+        }
+        return $clientes_;
+    }
+
 
 }
