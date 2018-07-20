@@ -115,7 +115,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/calendario_eventos"><i class="far fa-circle"></i> Calendario eventos</a></li>
-                <li><a href="/calendario_cotizaciones"><i class="far fa-circle"></i> Calendario cotizaciones</a></li>
+                <li><a href="/calendario"><i class="far fa-circle"></i> Calendario cotizaciones</a></li>
                 <li><a href="/calendario_financiero"><i class="far fa-circle"></i> Calendario financiero</a></li>
               </ul>
             </li>
