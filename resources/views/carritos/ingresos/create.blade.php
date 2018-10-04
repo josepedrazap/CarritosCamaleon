@@ -211,7 +211,7 @@ function ocultar_buttons(){
     <label>Valor total</label>
     <div class="input-group">
       <span class="input-group-addon">$</span>
-      <input name="valor_total" id="total_final"  class="form-control" value="{{number_format($eventos_detalle[0]->precio_evento, 0, ',', '.')}}">
+      <input name="valor_total" id="total_final"  class="form-control" value="{{$eventos_detalle[0]->precio_evento}}">
     </div>
   </div>
 </div>
