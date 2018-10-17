@@ -202,8 +202,57 @@
         }
         totales();
       }
-      function adm_nuevos(control){
+      function adm_nuevos(control, index){
+        nuevo = $("#nombre_nuevo_item").val();
+        costo_neto = $("#costo_neto_empresa_nuevo").val();
+        precio_neto = $("#precio_neto_venta_nuevo").val();
+        cantidad = $("#cantidad_nuevo").val();
 
+        if(control == 0){
+          sv = '#precio_neto_unidad_extra_' + index;
+          sv3 = '#costo_neto_extra_' + index;
+          sv2 = '#cantidad_extra_' + index;
+          if($(sv).val() != ''){
+            total_extras_neto_venta = total_extras_neto_venta - parseFloat($(sv).val() * $(sv2).val());
+            costo_extras_neto = costo_extras_neto - parseFloat($(sv3).val() * $(sv2).val());
+          }
+          document.getElementById('costo_total_neto_extras').value = parseFloat(costo_extras_neto);
+          document.getElementById('costo_total_bruto_extras').value = parseFloat(conversor_neto_a_bruto(costo_extras_neto));
+          document.getElementById('precio_total_neto_extras').value = parseFloat(total_extras_neto_venta);
+          document.getElementById('precio_total_bruto_extras').value = parseFloat(conversor_neto_a_bruto(total_extras_neto_venta));
+
+            sv = "#fila_extras_" + index;
+            $(sv).remove();
+            cont_extras--;
+        }
+
+        if(control == 2){
+
+            if(nuevo != "" && precio_neto != "" && costo_neto != "" && cantidad != ""){
+              var bruto = conversor_neto_a_bruto(precio_neto);
+              var costo_bruto = conversor_neto_a_bruto(costo_neto);
+
+              var fila = '<tr class="selected" id="fila_nuevos_' + cont_nuevos + '"><td><button type="button" class="btn btn-warning" onClick="adm_nuevos(0, '+ cont_nuevos +')">X</button></td><td><input class="form-control" readonly value="' + nuevo + '"></td><td><input class="form-control" type="number" id="cantidad_nuevo_'+cont_nuevos+'" name="cant_nuevos_[]" readonly="readonly" value="'+cantidad+'"></td><td><input name="costo_neto_nuevo_'+ cont_nuevos + '" id="costo_neto_nuevo_'+ cont_nuevos + '" class="form-control" readonly="readonly" value="' + costo_neto + '"></td><td><input name="costo_bruto_nuevo_'+ cont_nuevos + '" id="costo_bruto_nuevo_'+ cont_nuevos + '" class="form-control" readonly="readonly" value="' + costo_bruto + '"></td><td><input class="form-control" type="number" id="precio_neto_unidad_nuevo_'+ cont_nuevos + '" readonly="readonly" name="precio_neto_unidad_nuevo[]" value="' + precio_neto + '"></td><td><input class="form-control" name="precio_bruto_unidad_nuevo[]" value="'+ bruto +'"></td><td><input class="form-control" name="costo_total_neto_nuevo[]" value="'+ cantidad * costo_neto +'"></td><td><input class="form-control" name="costo_total_bruto_nuevo[]" value="'+ cantidad * costo_bruto +'"></td><td><input class="form-control" name="precio_total_neto_nuevo[]" value="'+ cantidad * precio_neto +'"></td><td><input class="form-control" name="precio_total_bruto_nuevo[]" value="'+ cantidad * bruto +'"></td></tr>';
+
+              $("#detalles_nuevo").append(fila);
+
+              total_nuevos_neto_venta += precio_neto * cantidad;
+              costo_nuevos_neto += costo_neto * cantidad;
+
+              document.getElementById('costo_total_neto_nuevos').value = parseFloat(costo_nuevos_neto);
+              document.getElementById('costo_total_bruto_nuevos').value = parseFloat(conversor_neto_a_bruto(costo_nuevos_neto));
+              document.getElementById('precio_total_neto_nuevos').value = parseFloat(total_nuevos_neto_venta);
+              document.getElementById('precio_total_bruto_nuevos').value = parseFloat(conversor_neto_a_bruto(total_nuevos_neto_venta));
+
+              document.getElementById('cantidad_nuevo').value = "";
+              document.getElementById('costo_neto_empresa_nuevo').value = "";
+              document.getElementById('precio_neto_venta_nuevo').value = "";
+
+            }else{
+              alert("Faltan campos por rellenar");
+            }
+        }
+        totales();
       }
       function adm_cocineros(){
 
@@ -560,44 +609,50 @@
             <div class="col-lg-3 col-sm-3 col-md-12 col-xs-12">
               <div class="form-group">
                 <label>Nuevos items</label>
-                <input class="form-control" name="nombre_nuevo_item"/>
+                <input class="form-control" name="nombre_nuevo_item" id="nombre_nuevo_item"/>
               </div>
             </div>
             <div class="col-lg-2 col-sm-2 col-md-12 col-xs-12">
               <div class="form-group">
                 <label>Cantidad</label>
-                <input type="number" name="porciones_ingredientes" id="porciones_productos" class="form-control">
+                <input type="number" id="cantidad_nuevo" class="form-control">
               </div>
             </div>
             <div class="col-lg-2 col-sm-2 col-md-12 col-xs-12">
               <div class="form-group">
                 <label>Costo Neto Empresa Unidad  </label>
-                <input type="number" name="costo_neto_empresa_extra" id="costo_neto_empresa_extra" class="form-control">
+                <input type="number" id="costo_neto_empresa_nuevo" class="form-control">
               </div>
             </div>
             <div class="col-lg-2 col-sm-2 col-md-12 col-xs-12">
               <div class="form-group">
                 <label>Precio Neto Venta Unidad</label>
-                <input type="number" name="precio_neto_venta_extra" id="precio_neto_venta_extra" class="form-control" >
+                <input type="number" id="precio_neto_venta_nuevo" class="form-control" >
               </div>
             </div>
             <div class="col-lg-1 col-sm-2 col-md-12 col-xs-12">
               <div class="form-group">
-                <button type="button" onClick="" class="btn btn-primary">+</button>
+                <button type="button" onClick="adm_nuevos(2)" class="btn btn-primary">+</button>
               </div>
             </div>
             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-              <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+              <table id="detalles_nuevo" class="table table-striped table-bordered table-condensed table-hover">
                 <thead style="background-color:#A9D0F5">
                   <th>Quitar</th>
-                  <th>Nuevo</th>
+                  <th>Extra</th>
                   <th>Cantidad</th>
+                  <th>C Neto Unidad</th>
+                  <th>C Bruto Unidad</th>
                   <th>P Neto Unidad</th>
                   <th>P Bruto Unidad</th>
-                  <th>Total Neto</th>
-                  <th>Total Bruto</th>
+                  <th>Total Costo Neto</th>
+                  <th>Total Costo Bruto</th>
+                  <th>Total Venta Neto</th>
+                  <th>Total Venta Bruto</th>
                 </thead>
                 <tfoot>
+                  <th></th>
+                  <th></th>
                   <th></th>
                   <th></th>
                   <th></th>
@@ -606,14 +661,27 @@
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="total_neto_nuevos" class="form-control" required readonly="readonly"></input>
+                        <input id="costo_total_neto_nuevos" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="total_bruto_nuevos" class="form-control" required readonly="readonly"></input>
-                    </div></th>
+                      <input id="costo_total_bruto_nuevos" class="form-control" required readonly="readonly"></input>
+                    </div>
+                  </th>
+                  <th>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input id="precio_total_neto_nuevos" class="form-control" required readonly="readonly"></input>
+                      </div>
+                  </th>
+                  <th>
+                    <div class="input-group">
+                      <span class="input-group-addon">$</span>
+                      <input id="precio_total_bruto_nuevos" class="form-control" required readonly="readonly"></input>
+                    </div>
+                  </th>
                 </tfoot>
                 <tbody>
                 </tbody>

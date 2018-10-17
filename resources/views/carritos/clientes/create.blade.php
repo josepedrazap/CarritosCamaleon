@@ -42,7 +42,7 @@
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
           <label for="rut">Rut</label>
-          <input type="rut" name="rut" class="form-control" placeholder="rut..." required>
+          <input type="rut" name="rut" class="form-control" placeholder="rut...">
         </div>
       </div>
 
@@ -50,7 +50,7 @@
         <label for="telefono">Teléfono</label>
         <div class="input-group">
           <span class="input-group-addon">+</span>
-          <input type="tel" name="contacto" class="form-control" placeholder="569..." required>
+          <input type="tel" name="contacto" class="form-control" placeholder="569...">
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
