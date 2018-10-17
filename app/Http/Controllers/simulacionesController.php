@@ -27,7 +27,10 @@ class simulacionesController extends Controller{
   public function simulador(){
 
     $productos = DB::table('productos')->get();
-    $extras = DB::table('selects_valores')->get();
+    $extras = DB::table('selects_valores')
+    ->where('sv.familia', '=', 'extras')
+    ->where('sv.condicion', '=', 1)
+    ->get();
     $ingr_extras=DB::table('ingredientes')->get();
 
     return view('carritos.simulaciones.simulador', ["productos" => $productos, "ingredientes" => $ingr_extras, "extras" => $extras]);
