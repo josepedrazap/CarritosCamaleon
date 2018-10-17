@@ -56,7 +56,7 @@
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
           <label for="email">E-mail</label>
-          <input type="email" name="email" class="form-control" placeholder="e-mail..." required>
+          <input type="email" name="email" class="form-control" placeholder="e-mail..." >
         </div>
       </div>
     </div>
