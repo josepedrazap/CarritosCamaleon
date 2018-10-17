@@ -209,21 +209,21 @@
         cantidad = $("#cantidad_nuevo").val();
 
         if(control == 0){
-          sv = '#precio_neto_unidad_extra_' + index;
-          sv3 = '#costo_neto_extra_' + index;
-          sv2 = '#cantidad_extra_' + index;
+          sv = '#precio_neto_unidad_nuevo_' + index;
+          sv3 = '#costo_neto_nuevo_' + index;
+          sv2 = '#cantidad_nuevo_' + index;
           if($(sv).val() != ''){
-            total_extras_neto_venta = total_extras_neto_venta - parseFloat($(sv).val() * $(sv2).val());
-            costo_extras_neto = costo_extras_neto - parseFloat($(sv3).val() * $(sv2).val());
+            total_nuevos_neto_venta = total_nuevos_neto_venta - parseFloat($(sv).val() * $(sv2).val());
+            costo_nuevos_neto = costo_nuevos_neto - parseFloat($(sv3).val() * $(sv2).val());
           }
-          document.getElementById('costo_total_neto_extras').value = parseFloat(costo_extras_neto);
-          document.getElementById('costo_total_bruto_extras').value = parseFloat(conversor_neto_a_bruto(costo_extras_neto));
-          document.getElementById('precio_total_neto_extras').value = parseFloat(total_extras_neto_venta);
-          document.getElementById('precio_total_bruto_extras').value = parseFloat(conversor_neto_a_bruto(total_extras_neto_venta));
+          document.getElementById('costo_total_neto_nuevos').value = parseFloat(costo_nuevos_neto);
+          document.getElementById('costo_total_bruto_nuevos').value = parseFloat(conversor_neto_a_bruto(costo_nuevos_neto));
+          document.getElementById('precio_total_neto_nuevos').value = parseFloat(total_nuevos_neto_venta);
+          document.getElementById('precio_total_bruto_nuevos').value = parseFloat(conversor_neto_a_bruto(total_nuevos_neto_venta));
 
-            sv = "#fila_extras_" + index;
+            sv = "#fila_nuevos_" + index;
             $(sv).remove();
-            cont_extras--;
+            cont_nuevos--;
         }
 
         if(control == 2){
@@ -270,12 +270,12 @@
         var sum_precio_total_neto = total_productos_neto_venta + total_extras_neto_venta + total_nuevos_neto_venta + total_ingrs_neto_venta;
         var sum_costo_total_neto = costo_extras_neto + costo_nuevos_neto + costo_ingredientes  + costo_ingrs + costo_cocineros;
 
-        document.getElementById('costo_parcial_neto').value = parseFloat(sum_costo_total_neto);
-        document.getElementById('costo_parcial_bruto').value = parseFloat(conversor_neto_a_bruto(sum_costo_total_neto));
+        document.getElementById('costo_parcial_neto').value = parseInt(sum_costo_total_neto);
+        document.getElementById('costo_parcial_bruto').value = parseInt(conversor_neto_a_bruto(sum_costo_total_neto));
 
-        document.getElementById('total_final_neto').value = parseFloat(sum_precio_total_neto);
-        document.getElementById('total_final_iva').value = parseFloat(sum_precio_total_neto * 0.19);
-        document.getElementById('total_final_bruto').value = parseFloat(conversor_neto_a_bruto(sum_precio_total_neto));
+        document.getElementById('total_final_neto').value = parseInt(sum_precio_total_neto);
+        document.getElementById('total_final_iva').value = parseInt(sum_precio_total_neto * 0.19);
+        document.getElementById('total_final_bruto').value = parseInt(conversor_neto_a_bruto(sum_precio_total_neto));
       }
 
   </script>
