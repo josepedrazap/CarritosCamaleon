@@ -88,6 +88,7 @@ Route::get('/', function () {
   Route::resource('carritos/cotizaciones', 'CotizacionesController');
 
   Route::resource('carritos/gastos', 'GastosController');
+
   Route::resource('carritos/mercaderiaproxeventos', 'MercaderiaProxEventosController');
   Route::resource('registro', 'AuxController');
   Route::resource('carritos/utilidad_costos', 'Utilidad_costosController');
@@ -106,10 +107,12 @@ Route::get('/', function () {
   Route::get('/calendario_cotizaciones', 'calendarioController@index_cotizaciones');
   Route::get('/calendario_financiero', 'calendarioController@index_financiero');
 
+  Route::resource('/carritos/simulaciones', 'simulacionesController');
+
   Route::get('/home', 'EventosController@index')->name('home');
 
   Route::get('/eventos', 'calendarioController@eventos');
-
+  Route::get('/simulador', 'simulacionesController@simulador');
   Route::get('/calendario', 'calendarioController@calendario');
   Route::get('/carritos/cotizaciones_text', 'CotizacionesController@cotizaciones_text');
   Route::get('/carritos/cotizaciones_text_2', 'CotizacionesController@cotizaciones_text_2');

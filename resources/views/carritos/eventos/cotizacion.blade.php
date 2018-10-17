@@ -6,14 +6,24 @@
 a = 0;
 e = 0;
 u = 0;
+ae = 0;
 aux_1 = 0;
 aux_2 = 0;
 aux_3 = 0;
+aux_4 = 0;
+
 function eval(){
     $("#save").show();
 }
 function hide_(){
   $("#save").hide();
+}
+function activar(){
+  if(a != 0 || e != 0 || u != 0 || ae != 0){
+    eval();
+  }else{
+    hide_();
+  }
 }
 function eliminar_producto(){
   if(a > 0){
@@ -25,9 +35,9 @@ function eliminar_producto(){
         $("#nom_prod").remove();
         $("#nom_prod_cant").remove();
         aux_1 = 0;
-        hide_();
     }
     a--;
+    activar();
   }
 }
 function eliminar_extra(){
@@ -42,17 +52,8 @@ function eliminar_extra(){
         aux_2 = 0;
     }
     e--;
+    activar();
   }
-}
-function cargar_cliente(){
-    var x = $("#cliente option:selected").val();
-    @foreach($clientes as $cli)
-    if({{$cli->id}} == x){
-        document.getElementById('nombre_cliente').value = "{{$cli->nombre}} {{$cli->apellido}}";
-        document.getElementById('telefono_cliente').value = "{{$cli->contacto}}";
-        document.getElementById('email_cliente').value = "{{$cli->mail}}";
-    }
-    @endforeach
 }
 function addProducto(){
       a++;
@@ -67,9 +68,9 @@ function addProducto(){
         div.setAttribute('class', 'form-inline');
             div.innerHTML ='<div id="prod_'+a+'" style="clear:both" class="producto_'+a+' col-lg-6 col-md-6 col-sm-6 col-xs-6"><select id="select'+a+'" class="form-control" name="producto[]"></select></div><div id="prod_cant_'+a+'" class="producto_'+a+' col-md-3""><input required class="form-control" name="cant_producto[]" type="number"/></div>';
             document.getElementById('productos').appendChild(div);
-            eval();
             sv = "#select"+a;
             llenar_select_productos(a,sv);
+            activar();
 }
 function llenar_select_productos(a, sv){
   @foreach($productos as $p)
@@ -92,6 +93,7 @@ function addExtras(){
             document.getElementById('extras').appendChild(div);
             sv = "#select2"+e;
             llenar_select_extras(e,sv);
+            activar();
 
 }
 function llenar_select_extras(e, sv){
@@ -113,6 +115,7 @@ function eliminar_extra_ingr(){
         aux_3 = 0;
     }
     u--;
+    activar();
   }
 }
 function addingr_Extras(){
@@ -129,9 +132,9 @@ function addingr_Extras(){
             document.getElementById('extras_ingr').appendChild(div);
             sv = "#select3"+u;
             llenar_select_ingr_extras(u,sv);
+            activar();
 
 }
-
 function llenar_select_ingr_extras(u, sv){
 
   tipo_ = "{{$ingredientes[0]->tipo}}";
@@ -152,11 +155,40 @@ function llenar_select_ingr_extras(u, sv){
   @endforeach
   $(sv).append('<optgroup/>');
 }
+function addNuevo(){
+  ae++;
+  if(ae == 1 && aux_4 == 0){
+    var div = document.createElement('div');
+    div.innerHTML = '<div id="nom_nuevo" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Item</label></div><div id="nom_nuevo_cant" class="col-md-2"><label>Cantidad</label></div>';
+    document.getElementById('contenedor4').appendChild(div);
+    aux_3 = 1;
+  }
+  var div = document.createElement('div');
+  div.setAttribute('class', 'form-inline');
+      div.innerHTML ='<div id="nuevo_'+ae+'" style="clear:both" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><input id="input_nuevo'+ae+'" class="form-control" name="nuevo[]"></input></div><div id="nuevo_cant_'+ae+'" class="col-lg-1"><input required class="form-control" name="cant_nuevo[]" type="number"/></div>';
+      document.getElementById('nuevo').appendChild(div);
+      activar();
+}
+function eliminar_nuevo(){
+  if(ae > 0){
+    sv_1 = "#nuevo_cant_" + ae;
+    sv_2 = "#input_nuevo" + ae;
+    $(sv_1).remove();
+    $(sv_2).remove();
+    if(ae == 1){
+        $("#nom_nuevo").remove();
+        $("#nom_nuevo_cant").remove();
+        aux_4 = 0;
+    }
+    ae--;
+    activar();
+  }
+}
 </script>
 
     <div class="row">
       <div class="col-lg-8 col-md-8 col-sm-8">
-        <h3>Nueva cotización</h3>
+        <h3>Nueva Simulación (EN CONSTRUCCIÓN!!!)</h3>
         <hr/>
         @if(count($errors)>0)
         <div class="alert alert-danger">
@@ -170,58 +202,43 @@ function llenar_select_ingr_extras(u, sv){
       </div>
     </div>
 
-    {!!Form::open(array('url'=>'carritos/eventos','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'carritos/simulaciones','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::Token()}}
 
     <div class="row">
       <div class="col-lg-8 col-md-8 col-sm-8">
-        <h4>Datos de la cotización <input name="condicion" value="4" type="hidden"></h4>
+        <h4>Datos de la simulación  <input name="condicion" value="4" type="hidden"></h4>
       </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-9">
+        <div class="col-lg-3 col-md-2 col-sm-3 col-xs-12">
           <div class="form-group">
-            <label for="nombre_cliente">Cliente</label>
-            <select onchange="cargar_cliente()" id="cliente" class="form-control selectpicker" name="cliente" data-live-search="true">
-              @foreach($clientes as $cli)
-              <option value="{{$cli->id}}">{{$cli->nombre}} {{$cli->apellido}}</option>
-              @endforeach
-            </select>
+            <label for="nombre_cliente">Nombre de la simulación</label>
+            <input class="form-control" name="nombre" required />
           </div>
         </div>
-        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
+        <div class="col-lg-3 col-md-2 col-sm-3 col-xs-12">
           <div class="form-group">
-            <label for="nombre_cliente">Nuevo</label>
-            <a href="/carritos/clientes/create"><button type="button" class="btn btn-info">Nuevo</button></a>
+            <label for="nombre_cliente">Fecha de la simulación</label>
+            <input class="form-control" type="date" value="date" name="fecha" required />
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-          <div class="form-group">
-            <label for="nombre_cliente">Nombre cliente</label>
-            <input type="text" name="nombre_cliente" id="nombre_cliente" class="form-control" disabled placeholder="nombre...">
-          </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+              <label for="nombre_cliente">Descripción de la simulación</label>
+              <textarea name="descripcion" class="form-control"></textarea>
+            </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-          <div class="form-group">
-            <label for="telefono_cliente">Teléfono</label>
-            <input type="tel" name="telefono_cliente" id="telefono_cliente" disabled class="form-control" placeholder="+569...">
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-          <div class="form-group">
-            <label for="email_cliente">E-mail</label>
-            <input type="text" name="email_cliente" id="email_cliente" disabled class="form-control" placeholder="e-mail...">
-          </div>
-        </div>
+
     </div>
 
     <div class="row">
       <hr></hr>
-      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
         <h4>Agregar producto</h4>
-        <input type="button" class="btn btn-success" onClick="addProducto()" value="+ Agregar producto" />
+        <input type="button" class="btn btn-success col-lg-5" onClick="addProducto()" value="+ Agregar producto" />
         <input type="button" class="btn btn-danger" onClick="eliminar_producto()" value="X" />
         </div>
         <div class="form-group">
@@ -232,10 +249,10 @@ function llenar_select_ingr_extras(u, sv){
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+      <div class="col-lg-6 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
         <h4>Agregar ingrediente extra</h4>
-        <input type="button" class="btn btn-success" onClick="addingr_Extras()" value="+ Agregar ingrediente extra" />
+        <input type="button" class="btn btn-success col-lg-5" onClick="addingr_Extras()" value="+ Agregar ingrediente extra" />
         <input type="button" class="btn btn-danger"   onClick="eliminar_extra_ingr()" value="X" />
         </div>
         <div class="form-group">
@@ -245,11 +262,12 @@ function llenar_select_ingr_extras(u, sv){
           </div>
         </div>
       </div>
-
-      <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
         <h4>Agregar extra</h4>
-        <input type="button" class="btn btn-success" onClick="addExtras()" value="+ Agregar extra" />
+        <input type="button" class="btn btn-success col-lg-5" onClick="addExtras()" value="+ Agregar extra" />
         <input type="button" class="btn btn-danger"   onClick="eliminar_extra()" value="X" />
         </div>
         <div class="form-group">
@@ -259,9 +277,23 @@ function llenar_select_ingr_extras(u, sv){
           </div>
         </div>
       </div>
+      <div class="col-lg-6 col-md-3 col-sm-6 col-xs-12">
+        <div class="form-group">
+        <h4>Agregar nuevo</h4>
+        <input type="button" class="btn btn-primary col-lg-5" onClick="addNuevo()" value="+ Agregar nuevo" />
+        <input type="button" class="btn btn-danger"   onClick="eliminar_nuevo()" value="X" />
+        </div>
+        <div class="form-group">
+          <div class="row" id="contenedor4">
+          </div>
+          <div class="row" id="nuevo">
+          </div>
+        </div>
+      </div>
     </div>
 
       <div class="form-group" id="save" hidden>
+        <hr></hr>
         <input name="_token value={{csrf_token()}}" type="hidden"></input>
         <a href=""><button class="btn btn-primary" type="submit"> Siguente</button></a>
         <button class="btn btn-danger" type="reset">Limpiar campos</button>

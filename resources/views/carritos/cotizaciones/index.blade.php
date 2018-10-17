@@ -2,7 +2,7 @@
 @section('contenido')
   <div class="row">
     <div class="col-lg-9 col-md-9 col-sm-6">
-      <h3>{{$busq}} <a href="/carritos/eventos/cotizacion"><button class="btn btn-success">Nueva cotización</button></a></h3>
+      <h3>{{$busq}} <a href="/carritos/eventos/cotizacion"><button class="btn btn-success">Nueva Simulación</button></a></h3>
       @include('carritos.cotizaciones.search')
     </div>
   </div>
