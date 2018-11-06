@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>ERP Carritos Camaleon | www.erpcamaleon.cl Simulador</title>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/css/iziModal.css">
   <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
   <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script>
 
@@ -35,9 +35,50 @@
       var cont_ingrs = 0;
       var cont_nuevos = 0;
 
+      //variables show_hide
+      var productos_div = 0;
+      var extras_div = 0;
+      var ingrs_extra_div = 0;
+      var nuevos_div = 0;
+      var cocineros_div = 0;
       //la variable control debe recibir add para gregar o less para quitar.
-
+      function get_ingrs_prods(id, cantidad, index){
+        console.log('hola')
+        axios.get('/costo_bruto_ingredientes_producto?id=' + id + '&cantidad=' + cantidad)
+            .then(function (response) {
+              costo_ingredientes += parseInt(response.data / 1.19);
+              document.getElementById('costo_neto_prod_' + index).value = parseInt(response.data / 1.19);
+              document.getElementById('costo_bruto_prod_' + index).value = parseFloat(response.data);
+              totales();
+              console.log(response);
+            })
+            .catch(function (error) {
+              // handle error
+              console.log(error);
+            })
+            .then(function () {
+              // always executed
+            });
+      }
       function adm_productos(control, index){
+
+          if(control == 5){
+            alert('mostrar_tabla_ingredientes');
+          }
+          if(control == 4){
+            if(productos_div == 0){
+                $("#productos_div").show();
+                productos_div = 1;
+                $("#btn_prod_div").addClass("btn-danger");
+                $("#btn_prod_div").removeClass("btn-warning");
+            }else{
+                $("#productos_div").hide();
+                productos_div = 0;
+                $("#btn_prod_div").addClass("btn-warning");
+                $("#btn_prod_div").removeClass("btn-danger");
+            }
+            return;
+          }
 
           id = $("#id_producto option:selected").val();
           producto = $("#id_producto option:selected").text();
@@ -48,8 +89,10 @@
 
             sv = '#precio_neto_unidad_producto_' + index;
             sv2 = '#cantidad_producto_' + index;
+            sv3 = '#costo_neto_prod_' + index;
             if($(sv).val() != ''){
               total_productos_neto_venta = total_productos_neto_venta - parseFloat($(sv).val() * $(sv2).val());
+              costo_ingredientes = costo_ingredientes - parseFloat($(sv3).val());
             }
             document.getElementById('total_neto_productos').value = parseFloat(total_productos_neto_venta);
             document.getElementById('total_bruto_productos').value = parseFloat(conversor_neto_a_bruto(total_productos_neto_venta));
@@ -70,7 +113,8 @@
 
               if(producto != "" && precio_neto != "" && cantidad != ""){
                 var bruto = conversor_neto_a_bruto(precio_neto);
-                var fila = '<tr class="selected" id="fila_productos_' + cont_prods + '"><td><button type="button" class="btn btn-warning" onClick="adm_productos(0, '+ cont_prods +')">X</button></td><td><input hidden name="id_producto[]" value="' + id + '"> <input class="form-control" readonly value="' + producto + '"></td><td><input class="form-control" type="number" id="cantidad_producto_'+cont_prods+'" name="cant_prods_[]" readonly="readonly" value="'+cantidad+'"></td><td><input class="form-control" type="number" id="precio_neto_unidad_producto_'+ cont_prods + '" readonly="readonly" name="precio_neto_unidad_producto[]" value="' + precio_neto + '"></td><td><input class="form-control" name="precio_bruto_unidad_producto[]" value="'+ bruto +'"></td><td><input class="form-control" name="total_neto_producto[]" value="'+ cantidad * precio_neto +'"></td><td><input class="form-control" name="total_bruto_producto[]" value="'+ cantidad * bruto +'"></td></tr>';
+                var fila = '<tr class="selected" id="fila_productos_' + cont_prods + '"><td><button type="button" class="btn btn-warning" onClick="adm_productos(0, '+ cont_prods +')">X</button></td><td><input hidden name="id_producto[]" value="' + id + '"> <input class="form-control" readonly value="' + producto + '"></td><td><input class="form-control" type="number" id="cantidad_producto_'+cont_prods+'" name="cant_prods_[]" readonly="readonly" value="'+cantidad+'"></td><td><input class="form-control" readonly="readonly" id="costo_neto_prod_' + cont_prods + '"/></td><td><input class="form-control" readonly="readonly" id="costo_bruto_prod_' + cont_prods + '"/></td><td><input class="form-control" type="number" id="precio_neto_unidad_producto_'+ cont_prods + '" readonly="readonly" name="precio_neto_unidad_producto[]" value="' + precio_neto + '"></td><td><input class="form-control" name="precio_bruto_unidad_producto[]" value="'+ bruto +'"></td><td><input class="form-control" name="total_neto_producto[]" value="'+ cantidad * precio_neto +'"></td><td><input class="form-control" name="total_bruto_producto[]" value="'+ cantidad * bruto +'"></td></tr>';
+                get_ingrs_prods(id, cantidad, cont_prods);
 
                 $("#detalles_producto").append(fila);
 
@@ -80,7 +124,6 @@
 
                 document.getElementById('precio_neto_unidad_producto').value = "";
                 document.getElementById('cantidad_productos').value = "";
-
               }else{
                 alert("Faltan campos por rellenar");
               }
@@ -88,6 +131,22 @@
           totales();
       }
       function adm_extras(control, index){
+
+        if(control == 4){
+          if(extras_div == 0){
+              $("#extras_div").show();
+              extras_div = 1;
+              $("#btn_extras_div").addClass("btn-danger");
+              $("#btn_extras_div").removeClass("btn-warning");
+          }else{
+              $("#extras_div").hide();
+              extras_div = 0;
+              $("#btn_extras_div").addClass("btn-warning");
+              $("#btn_extras_div").removeClass("btn-danger");
+          }
+          return;
+        }
+
         id = $("#id_extra option:selected").val();
         extra = $("#id_extra option:selected").text();
         costo_neto = $("#costo_neto_empresa_extra").val();
@@ -141,6 +200,22 @@
         totales();
       }
       function adm_ingrs(control, index){
+
+        if(control == 4){
+          if(ingrs_extra_div == 0){
+              $("#ingrs_extra_div").show();
+              ingrs_extra_div = 1;
+              $("#btn_ingrs_div").addClass("btn-danger");
+              $("#btn_ingrs_div").removeClass("btn-warning");
+          }else{
+              $("#ingrs_extra_div").hide();
+              ingrs_extra_div = 0;
+              $("#btn_ingrs_div").addClass("btn-warning");
+              $("#btn_ingrs_div").removeClass("btn-danger");
+          }
+          return;
+        }
+
         id = $("#id_ingr option:selected").val();
         ingr = $("#id_ingr option:selected").text();
         costo_neto = $("#costo_neto_ingr").val();
@@ -203,6 +278,22 @@
         totales();
       }
       function adm_nuevos(control, index){
+
+        if(control == 4){
+          if(nuevos_div == 0){
+              $("#nuevos_div").show();
+              nuevos_div = 1;
+              $("#btn_nuevos_div").addClass("btn-danger");
+              $("#btn_nuevos_div").removeClass("btn-warning");
+          }else{
+              $("#nuevos_div").hide();
+              nuevos_div = 0;
+              $("#btn_nuevos_div").addClass("btn-warning");
+              $("#btn_nuevos_div").removeClass("btn-danger");
+          }
+          return;
+        }
+
         nuevo = $("#nombre_nuevo_item").val();
         costo_neto = $("#costo_neto_empresa_nuevo").val();
         precio_neto = $("#precio_neto_venta_nuevo").val();
@@ -254,7 +345,22 @@
         }
         totales();
       }
-      function adm_cocineros(){
+      function adm_cocineros(control){
+
+        if(control == 4){
+          if(cocineros_div == 0){
+              $("#cocineros_div").show();
+              cocineros_div = 1;
+              $("#btn_coc_div").addClass("btn-danger");
+              $("#btn_coc_div").removeClass("btn-warning");
+          }else{
+              $("#cocineros_div").hide();
+              cocineros_div = 0;
+              $("#btn_coc_div").addClass("btn-warning");
+              $("#btn_coc_div").removeClass("btn-danger");
+          }
+          return;
+        }
 
         liquido = $('#monto_cocineros_liquido').val();
         cantidad = $('#cantidad_cocineros').val();
@@ -273,18 +379,26 @@
         document.getElementById('costo_parcial_neto').value = parseInt(sum_costo_total_neto);
         document.getElementById('costo_parcial_bruto').value = parseInt(conversor_neto_a_bruto(sum_costo_total_neto));
 
+        document.getElementById('ganancia_neta').value = parseInt(sum_precio_total_neto - sum_costo_total_neto);
+        document.getElementById('ganancia_bruta').value = parseInt(conversor_neto_a_bruto(sum_precio_total_neto) - conversor_neto_a_bruto(sum_costo_total_neto));
+
+        document.getElementById('porcentaje_ganacia').value = parseInt((sum_precio_total_neto - sum_costo_total_neto) * 100 / sum_precio_total_neto);
+
+
         document.getElementById('total_final_neto').value = parseInt(sum_precio_total_neto);
         document.getElementById('total_final_iva').value = parseInt(sum_precio_total_neto * 0.19);
         document.getElementById('total_final_bruto').value = parseInt(conversor_neto_a_bruto(sum_precio_total_neto));
       }
-
+      function show_hide(e){
+        alert(e);
+      }
   </script>
 </head>
 <body>
   <div class="wrapper">
     <div class="row">
       <div class="col-lg-8 col-md-8 col-sm-8">
-        <h4>Datos de la simulación</h4>
+        <h3>Datos de la simulación</h3>
         <hr></hr>
       </div>
     </div>
@@ -308,40 +422,54 @@
           <textarea class="form-control">Aqui va una descripcion</textarea>
         </div>
       </div>
-      <div class="col-lg-6" name="TRABAJADORES">
-        <div class="table-responsive">
-          <div class="form-group">
-              <h4>Trabajadores</h4>
-          </div>
-          <table class="table table-striped table-bordered table-condensed table-hover">
-            <thead style="background-color:#D2B4DE">
-              <th>Pago líquido por cocinero</th>
-              <th>Cantidad cocineros</th>
-              <th>Impuesto (10%)</th>
-              <th>Total: </th>
-            </thead>
-            <tr>
-              <th>
-                <input class="form-control" onkeyup="adm_cocineros()" name="monto_cocineros_liquido" id="monto_cocineros_liquido" type="number" placeholder="$20000" required/>
-              </th>
-              <th>
-                <input class="form-control" onkeyup="adm_cocineros()" name="cantidad_cocineros" id="cantidad_cocineros" value="0"/>
-              </th>
-              <th><input class="form-control" name="impuesto_10" id="impuesto_10"></th>
-              <th><input class="form-control" name="total_trabajadores_bruto" id="total_trabajadores_bruto"></th>
-            </tr>
-          </table>
-        </div>
-      </div>
     </div>
     <div class="row">
       <div class="col-lg-8 col-md-8 col-sm-8">
-        <h4>Contenido de la simulación</h4>
+        <h3>Contenido de la simulación</h3>
         <hr></hr>
+      </div>
+    </div>
+    <div class="col-lg-12" name="TRABAJADORES">
+      <div class="row">
+        <div class="col-lg-2">
+            <h4>Trabajadores</h4>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn btn-warning" id="btn_coc_div" onclick="adm_cocineros(4,0)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="table-responsive col-lg-8" hidden id="cocineros_div">
+        <table class="table table-striped table-bordered table-condensed table-hover">
+          <thead style="background-color:#D2B4DE">
+            <th>Pago líquido por cocinero</th>
+            <th>Cantidad cocineros</th>
+            <th>Impuesto (10%)</th>
+            <th>Total: </th>
+          </thead>
+          <tr>
+            <th>
+              <input class="form-control" onkeyup="adm_cocineros()" name="monto_cocineros_liquido" id="monto_cocineros_liquido" type="number" placeholder="$20000" required/>
+            </th>
+            <th>
+              <input class="form-control" onkeyup="adm_cocineros()" name="cantidad_cocineros" id="cantidad_cocineros" value="0"/>
+            </th>
+            <th><input class="form-control" name="impuesto_10" id="impuesto_10"></th>
+            <th><input class="form-control" name="total_trabajadores_bruto" id="total_trabajadores_bruto"></th>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="col-lg-12" name="PRODUCTOS">
       <div class="row">
+        <div class="col-lg-2">
+            <h4>Productos</h4>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn btn-warning" id="btn_prod_div" onclick="adm_productos(4,0)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+
+      <div class="row" id="productos_div" hidden>
         <div class="panel panel-primary">
           <div class="panel-body">
             <div class="col-lg-3 col-sm-3 col-md-12 col-xs-12">
@@ -366,9 +494,14 @@
                 <input type="number" name="precio_neto_unidad_producto" id="precio_neto_unidad_producto" class="form-control" >
               </div>
             </div>
-            <div class="col-lg-3 col-sm-2 col-md-12 col-xs-12">
+            <div class="col-lg-1 col-sm-2 col-md-12 col-xs-12">
               <div class="form-group">
                 <button type="button" onClick="adm_productos(2)" class="btn btn-primary">+</button>
+              </div>
+            </div>
+            <div class="col-lg-2 col-sm-2 col-md-12 col-xs-12">
+              <div class="form-group">
+                <button type="button" onClick="adm_productos(5)" class="btn btn-danger">no implementado</button>
               </div>
             </div>
             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -377,12 +510,16 @@
                   <th>Quitar</th>
                   <th>Producto</th>
                   <th>Cantidad</th>
+                  <th>Costo Total Neto</th>
+                  <th>Costo Total Bruto</th>
                   <th>P Neto Unidad</th>
                   <th>P Bruto Unidad</th>
                   <th>Total Neto</th>
                   <th>Total Bruto</th>
                 </thead>
                 <tfoot>
+                  <th></th>
+                  <th></th>
                   <th></th>
                   <th></th>
                   <th></th>
@@ -410,6 +547,14 @@
     </div>
     <div class="col-lg-12" name="INGREDIENTES EXTRAS">
       <div class="row">
+        <div class="col-lg-2">
+            <h4>Ingredientes Extras</h4>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn btn-warning" id="btn_ingrs_div" onclick="adm_ingrs(4,0)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="row" hidden id="ingrs_extra_div">
         <div class="panel panel-primary">
           <div class="panel-body">
             <div class="col-lg-3 col-sm-3 col-md-12 col-xs-12">
@@ -511,6 +656,14 @@
     </div>
     <div class="col-lg-12" name="EXTRAS">
       <div class="row">
+        <div class="col-lg-2">
+            <h4>Extras</h4>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn btn-warning" id="btn_extras_div" onclick="adm_extras(4,0)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="row" hidden id="extras_div">
         <div class="panel panel-primary">
           <div class="panel-body">
             <div class="col-lg-3 col-sm-3 col-md-12 col-xs-12">
@@ -604,6 +757,14 @@
     </div>
     <div class="col-lg-12" name="NUEVOS">
       <div class="row">
+        <div class="col-lg-2">
+            <h4>Nuevos</h4>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn btn-warning" id="btn_nuevos_div" onclick="adm_nuevos(4,0)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="row" hidden id="nuevos_div">
         <div class="panel panel-primary">
           <div class="panel-body">
             <div class="col-lg-3 col-sm-3 col-md-12 col-xs-12">
@@ -692,8 +853,9 @@
       </div>
     </div>
     <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12" name="TOTALES">
+      <hr></hr>
       <div class="form-group">
-          <h4>Totales</h4>
+          <h3>Totales</h3>
       </div>
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-condensed table-hover">
@@ -702,7 +864,7 @@
             <th>Costo parcial bruto</th>
             <th>Ganancia neta</th>
             <th>Ganancia bruta</th>
-            <th>(%) estimado de ganancia</th>
+            <th>(%) estimado de ganancia neto</th>
             <th>Total Neto</th>
             <th>Iva</th>
             <th>Monto a cobrar evento (Bruto)</th>

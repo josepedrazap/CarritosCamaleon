@@ -103,6 +103,7 @@ Route::get('/', function () {
 
   Auth::routes();
 
+  Route::get('/costo_bruto_ingredientes_producto', 'simulacionesController@costo_bruto_ingredientes_producto');
   Route::get('/calendario_eventos', 'calendarioController@index_eventos');
   Route::get('/calendario_cotizaciones', 'calendarioController@index_cotizaciones');
   Route::get('/calendario_financiero', 'calendarioController@index_financiero');

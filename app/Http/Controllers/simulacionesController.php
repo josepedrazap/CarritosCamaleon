@@ -26,7 +26,9 @@ class simulacionesController extends Controller{
 
   public function simulador(){
 
-    $productos = DB::table('productos')->get();
+    $productos = DB::table('productos')
+    ->where('productos.condicion', '=', 1)
+    ->get();
     $extras = DB::table('selects_valores as sv')
     ->where('sv.familia', '=', 'extras')
     ->where('sv.condicion', '=', 1)
@@ -34,6 +36,32 @@ class simulacionesController extends Controller{
     $ingr_extras=DB::table('ingredientes')->get();
 
     return view('carritos.simulaciones.simulador', ["productos" => $productos, "ingredientes" => $ingr_extras, "extras" => $extras]);
+  }
+
+  public function costo_bruto_ingredientes_producto(Request $request){
+    $id = $request->get('id');
+    $cantidad = $request->get('cantidad');
+
+    $ingredientes = DB::table('productos_tienen_ingredientes as pti')
+    ->where('id_producto', '=', $id)
+    ->join('ingredientes as ingr','pti.id_ingrediente', '=', 'ingr.id')
+    ->select('ingr.nombre', 'pti.unidad', 'ingr.precio_bruto', 'pti.porcion')
+    ->groupBy('nombre', 'pti.unidad', 'ingr.precio_bruto', 'pti.porcion')
+    ->get();
+    $total_acumulado = 0;
+
+    for($i = 0; $i < count($ingredientes); $i++){
+      $total = $ingredientes[$i]->porcion * $cantidad;
+      if($ingredientes[$i]->unidad == 'gramos'){
+        $total = $total / 1000; //pasa a kilos
+        $total = $total * $ingredientes[$i]->precio_bruto;
+      }else{
+        $total = $total * $ingredientes[$i]->precio_bruto;
+      }
+      $total_acumulado += $total;
+    }
+
+    return $total_acumulado;
   }
 
   function store(Request $request){
