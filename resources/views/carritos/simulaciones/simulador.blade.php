@@ -241,7 +241,7 @@
           document.getElementById('precio_total_neto_ingrs').value = parseFloat(total_ingrs_neto_venta);
           document.getElementById('precio_total_bruto_ingrs').value = parseFloat(conversor_neto_a_bruto(total_ingrs_neto_venta));
 
-            sv = "#fila_extras_" + index;
+            sv = "#fila_ingrs_" + index;
             $(sv).remove();
             cont_ingrs--;
         }
@@ -335,7 +335,7 @@
               total_nuevos_neto_venta += precio_neto * cantidad;
               costo_nuevos_neto += costo_neto * cantidad;
               cont_nuevos++;
-              
+
               document.getElementById('costo_total_neto_nuevos').value = parseFloat(costo_nuevos_neto);
               document.getElementById('costo_total_bruto_nuevos').value = parseFloat(conversor_neto_a_bruto(costo_nuevos_neto));
               document.getElementById('precio_total_neto_nuevos').value = parseFloat(total_nuevos_neto_venta);
