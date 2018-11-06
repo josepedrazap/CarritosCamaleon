@@ -114,7 +114,6 @@
               if(producto != "" && precio_neto != "" && cantidad != ""){
                 var bruto = conversor_neto_a_bruto(precio_neto);
                 var fila = '<tr class="selected" id="fila_productos_' + cont_prods + '"><td><button type="button" class="btn btn-warning" onClick="adm_productos(0, '+ cont_prods +')">X</button></td><td><input hidden name="id_producto[]" value="' + id + '"> <input class="form-control" readonly value="' + producto + '"></td><td><input class="form-control" type="number" id="cantidad_producto_'+cont_prods+'" name="cant_prods_[]" readonly="readonly" value="'+cantidad+'"></td><td><input class="form-control" readonly="readonly" id="costo_neto_prod_' + cont_prods + '"/></td><td><input class="form-control" readonly="readonly" id="costo_bruto_prod_' + cont_prods + '"/></td><td><input class="form-control" type="number" id="precio_neto_unidad_producto_'+ cont_prods + '" readonly="readonly" name="precio_neto_unidad_producto[]" value="' + precio_neto + '"></td><td><input class="form-control" name="precio_bruto_unidad_producto[]" value="'+ bruto +'"></td><td><input class="form-control" name="total_neto_producto[]" value="'+ cantidad * precio_neto +'"></td><td><input class="form-control" name="total_bruto_producto[]" value="'+ cantidad * bruto +'"></td></tr>';
-                get_ingrs_prods(id, cantidad, cont_prods);
 
                 $("#detalles_producto").append(fila);
 
@@ -124,6 +123,11 @@
 
                 document.getElementById('precio_neto_unidad_producto').value = "";
                 document.getElementById('cantidad_productos').value = "";
+
+                get_ingrs_prods(id, cantidad, cont_prods);
+
+                cont_prods++;
+
               }else{
                 alert("Faltan campos por rellenar");
               }
@@ -183,6 +187,7 @@
 
               total_extras_neto_venta += precio_neto * cantidad;
               costo_extras_neto += costo_neto * cantidad;
+              cont_extras++;
 
               document.getElementById('costo_total_neto_extras').value = parseFloat(costo_extras_neto);
               document.getElementById('costo_total_bruto_extras').value = parseFloat(conversor_neto_a_bruto(costo_extras_neto));
@@ -262,7 +267,7 @@
 
               total_ingrs_neto_venta += precio_neto * cantidad;
               costo_ingrs += costo_neto * cantidad;
-
+              cont_ingrs++;
               document.getElementById('costo_total_neto_ingrs').value = parseFloat(costo_ingrs);
               document.getElementById('costo_total_bruto_ingrs').value = parseFloat(conversor_neto_a_bruto(costo_ingrs));
               document.getElementById('precio_total_neto_ingrs').value = parseFloat(total_ingrs_neto_venta);
@@ -329,7 +334,8 @@
 
               total_nuevos_neto_venta += precio_neto * cantidad;
               costo_nuevos_neto += costo_neto * cantidad;
-
+              cont_nuevos++;
+              
               document.getElementById('costo_total_neto_nuevos').value = parseFloat(costo_nuevos_neto);
               document.getElementById('costo_total_bruto_nuevos').value = parseFloat(conversor_neto_a_bruto(costo_nuevos_neto));
               document.getElementById('precio_total_neto_nuevos').value = parseFloat(total_nuevos_neto_venta);
