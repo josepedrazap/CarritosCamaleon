@@ -7,6 +7,10 @@
   function datetimepick(){
     $('#fecha_hora').datetimepicker();
   }
+  function agregar_cliente(){
+    window.open("carritos/clientes/create", "Agregar cliente")
+
+  }
   function terminar(){
       if($("#cliente").val() == "0" || $("#direccion").val() == "" || $("#fecha_hora").val() == ""){
         alert("Rellena los campos cliente, fecha y dirección.")
@@ -96,7 +100,7 @@
   </div>
   <div class="col-md-1">
     <label>Agregar</label>
-    <input class="btn btn-info" type="button" value="+"/>
+    <input class="btn btn-info" onclick="agregar_cliente()" type="button" value="+"/>
   </div>
   <div class="col-md-4">
     <label>Fecha y hora del evento</label>
