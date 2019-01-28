@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Simulacion_trabajadores extends Model
 {
-  protected $table = 'Simulacion_trabajadores';
+  protected $table = 'simulacion_trabajadores';
   protected $primaryKey = 'id';
   public $timestamp = 'false';
 
