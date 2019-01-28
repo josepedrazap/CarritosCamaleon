@@ -137,9 +137,14 @@ function llenar_select_extras(e, sv){
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
         <div class="form-group">
         <input type="button" class="btn btn-success" onClick="addIngredientes()" value="+ Agregar ingrediente" />
+        </div>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <div class="form-group">
+        <input type="button" class="btn btn-danger" onClick="" value="-" />
         </div>
       </div>
     </div>

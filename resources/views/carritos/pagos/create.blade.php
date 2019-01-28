@@ -61,7 +61,7 @@ function finalizar(){
         <label >Cuenta</label>
         <input type="text" class="form-control" value="{{$data[0]->cuenta}}" disabled>
         <hr></hr>
-        <label >Eventos pagados</label>
+        <label >Eventos a pagar</label>
         <input id="cont" type="text" name="cont" class="form-control" placeholder="Eventos pagados..." disabled>
       </div>
     </div>

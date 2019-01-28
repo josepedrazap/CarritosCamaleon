@@ -71,12 +71,15 @@ class PagosController extends Controller
     ->join('trabajadores as tra', 'tra.id', '=', 'ett.id_trabajador')
     ->join('trabajador_detalle as td', 'tra.id', '=', 'td.id_trabajador')
     ->where('tra.id','=',$id)
+    ->where('eve.condicion', '=', '2')
     ->select('tra.nombre as nombre', 'ett.estado','td.cuenta', 'td.rut', 'td.tipo_cuenta', 'td.banco','eve.condicion','tra.apellido as apellido', 'eve.fecha_hora','eve.cliente as nombre_cliente', 'ett.monto as monto', 'ett.id')
     ->groupBy('nombre', 'apellido', 'td.cuenta', 'ett.estado', 'td.tipo_cuenta', 'td.rut', 'td.banco', 'eve.condicion','monto', 'nombre_cliente', 'eve.fecha_hora', 'ett.id')
     ->get();
 
     $cont=DB::table('eventos_tienen_trabajadores as ett')
     ->where('ett.id_trabajador', '=', $id)
+    ->join('eventos_2 as eve', 'eve.id', '=', 'ett.id_evento')
+    ->where('eve.condicion', '=', 2)
     ->count('monto');
 
     $sum=DB::table('eventos_tienen_trabajadores as ett')
@@ -88,6 +91,8 @@ class PagosController extends Controller
     $sum_=DB::table('eventos_tienen_trabajadores as ett')
     ->where('ett.id_trabajador', '=', $id)
     ->where('ett.estado', '=', '1')
+    ->join('eventos_2 as eve', 'eve.id', '=', 'ett.id_evento')
+    ->where('eve.condicion', '=', 2)
     ->sum('monto');
 
     return view('carritos.pagos.vertodos', ["data"=>$data, "id_t"=>$id, "cont"=>$cont, "sum"=>$sum, "sum_"=>$sum_]);
