@@ -100,7 +100,7 @@ function llenar_select_extras(e, sv){
           <input type="text" title="{{$ay_nombre_producto}}" name="nombre_producto" required class="form-control" placeholder="nombre...">
         </div>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 hidden">
         <div class="form-group">
           <label for="tipo">Tipo</label>
           <select class="form-control" name="tipo">
@@ -116,7 +116,7 @@ function llenar_select_extras(e, sv){
           <input  title="{{$ay_precio}}" name="precio" type="number" class="form-control" required placeholder="precio...">
         </div>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 hidden">
         <div class="form-group">
           <label for="plataforma">Base</label>
           <select title="{{$ay_plataforma}}" class="form-control" name="plataforma">
