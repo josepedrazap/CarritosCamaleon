@@ -39,7 +39,6 @@ function addIngredientes(){
           var div = document.createElement('div');
           div.innerHTML = '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Ingrediente</label></div><div class="col-md-3"><label>Porción sugerida</label></div><div class="col-md-3"><label>Medida</label></div>';
           document.getElementById('contenedor1').appendChild(div);
-
         }
 
         var div = document.createElement('div');
@@ -144,7 +143,7 @@ function llenar_select_extras(e, sv){
       </div>
       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
         <div class="form-group">
-        <input type="button" class="btn btn-danger" onClick="" value="-" />
+        <input type="button" class="btn btn-danger" onClick="lessIngrediente()" value="-" />
         </div>
       </div>
     </div>

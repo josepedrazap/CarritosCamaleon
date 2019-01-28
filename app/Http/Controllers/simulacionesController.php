@@ -579,7 +579,7 @@ class simulacionesController extends Controller{
                                                     "productos" => $productos, "nuevos" =>$nuevos,
                                                     "extras" => $extras, "base" => "lala",
                                                     "trabajadores" => $trabajadores, "otros" => $otros,
-                                                    "ingredientes" => $ingredientes,
+                                                    "ingredientes" => $ingredientes, "id" => $id,
                                                     "ingredientes_extras" => $ingredientes_extras]);
 
   }

@@ -3,7 +3,7 @@
 
 <div class="row ">
   <div class="col-lg-12 col-md-12">
-        <h4>Datos del evento {{$evento[0]->id}}</h4>
+        <h4>Datos del evento {{$id}}</h4>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
     <div class="form-group">
@@ -245,6 +245,13 @@
     </tr>
   </table>
 </div>
+</div>
+<hr></hr>
+<div class="row">
+  <div class="col-md-6">
+    <a href="/carritos/pdf/despacho_checklist?id={{$id}}"><input class="btn btn-warning" type="button" value="Guía de producción"/></a>
+    <a href="/estado_evento?id={{$id}}"><input class="btn btn-primary" type="button" value="Estado del evento"/></a>
+  </div>
 </div>
 
 
