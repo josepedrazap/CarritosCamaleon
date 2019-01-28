@@ -32,7 +32,7 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="/carritos/eventos" class="logo">
+        <a href="/calendario_eventos" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><IMG SRC="{{ asset('img/logo_2i.png') }}" WIDTH=50 HEIGHT=50/></span>
           <!-- logo for regular state and mobile devices -->
