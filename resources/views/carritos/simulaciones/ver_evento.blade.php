@@ -3,7 +3,7 @@
 
 <div class="row ">
   <div class="col-lg-12 col-md-12">
-        <h4>Datos del evento</h4>
+        <h4>Datos del evento {{$evento[0]->id}}</h4>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
     <div class="form-group">
@@ -31,13 +31,19 @@
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
     <div class="form-group">
-      <label for="email_cliente">E-mail</label>
-        <h5>{{$evento[0]->mail}}</h5>
+      <label for="email_cliente">Estado del evento</label>
+      @if($evento[0]->condicion == 1)
+      <h5 style="color:orange">Por realizar</h5>
+      @elseif($evento[0]->condicion == 2)
+      <h5 style="color:green">Realizado</h5>
+      @elseif($evento[0]->condicion == 3)
+      <h5 style="color:red">Cancelado</h5>
+      @endif
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
     <div class="form-group">
-      <label for="email_cliente">Estado de pago</label>
+      <label for="email_cliente">Estado del pago</label>
       @if($evento[0]->estado_pago == 2)
       <h5 style="color:green">Pagado</h5>
       @elseif($evento[0]->estado_pago == 1)

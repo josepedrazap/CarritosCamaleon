@@ -142,7 +142,7 @@
                 <option value="0">---</option>
                 @foreach($trabajadores_lista as $trl)
                   @if($trl->maneja)
-                  <option value="{{$trl->id}}">{{$trl->nombre}} {{$trl->apellido}} (Sí Smaneja)</option>
+                  <option value="{{$trl->id}}">{{$trl->nombre}} {{$trl->apellido}} (Sí maneja)</option>
                   @else
                   <option value="{{$trl->id}}">{{$trl->nombre}} {{$trl->apellido}} (No maneja)</option>
                   @endif

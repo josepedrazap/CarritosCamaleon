@@ -195,11 +195,12 @@
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-thermometer-half"></i> <span>Estados</span>
+                <i class="fa fa-thermometer-half"></i> <span>Producción</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="/carritos/mercaderiaproxeventos"><i class="far fa-circle"></i> Mercadería eventos próximos</a></li>
+                <li><a href="/carritos/guias_produccion"><i class="far fa-circle"></i> Guías de producción (NO IMPLEMENTADO)</a></li>
               </ul>
             </li>
           </ul>
