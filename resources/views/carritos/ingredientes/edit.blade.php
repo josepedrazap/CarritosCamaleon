@@ -3,9 +3,10 @@
 
 <script>
 function calc(){
+
   v1 = $("#precio_bruto").val();
-  document.getElementById('precio_liquido').value = v1 - v1*0.19;
-  document.getElementById('iva').value = v1*0.19;
+  document.getElementById('precio_liquido').value = Math.round(v1/1.19);
+  document.getElementById('iva').value = Math.round(v1 - v1/1.19) ;
 }
 </script>
 
