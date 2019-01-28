@@ -173,7 +173,11 @@ function calculo_total_productos(){
 
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8">
-
+    @if($evento[0]->condicion == 4)
+    <h3>Cotización </h3>
+    @else
+    <h3>Despachar evento </h3>
+    @endif
 
     <hr/>
     @if(count($errors)>0)
@@ -193,7 +197,7 @@ function calculo_total_productos(){
 
     <div class="row">
       <div class="col-lg-8 col-md-8 col-sm-8">
-        <h4>Datos de la simulación<input hidden name="id_simulacion_" value="{{$simulacion[0]->id}}"></h4>
+        <h4>Datos del evento<input hidden name="id_evento_" value="{{$evento[0]->id}}"></h4>
         <hr></hr>
       </div>
     </div>
@@ -202,21 +206,38 @@ function calculo_total_productos(){
 
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
         <div class="form-group">
-          <label for="nombre_cliente">Nombre de la simulación</label>
-          <h4>{{$simulacion[0]->nombre}}</h4>
+          <label for="nombre_cliente">Nombre cliente</label>
+          <h4>{{$evento[0]->nombre_cliente}}</h4>
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
         <div class="form-group">
-          <label for="fecha_cliente">Fecha de la simulación</label>
-          <h4>{{$simulacion[0]->fecha}}</h4>
+          <label for="direccion_cliente">Dirección</label>
+          <h4>{{$evento[0]->direccion}}</h4>
         </div>
       </div>
-
+      <div class="col-lg-6 col-md-6 col-sm-3 col-xs-6">
+        <div class="form-group">
+          <label for="telefono_cliente">Teléfono</label>
+            <h4>+{{$evento[0]->contacto}}</h4>
+        </div>
+      </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
         <div class="form-group">
-          <label for="email_cliente">Descripción</label>
-            <textarea class="form-control">{{$simulacion[0]->descripcion}}</textarea>
+          <label for="fecha_cliente">Fecha y hora del evento</label>
+          <h4>{{$evento[0]->fecha_hora}}</h4>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <div class="form-group">
+          <label for="fecha_cliente">Fecha y hora del despacho</label>
+          <h4>{{$evento[0]->fecha_despacho}}</h4>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <div class="form-group">
+          <label for="email_cliente">E-mail</label>
+            <h4>{{$evento[0]->email}}</h4>
         </div>
       </div>
 
@@ -225,6 +246,7 @@ function calculo_total_productos(){
       <div class="col-lg-12 col-md-12 col-sm-12">
         <hr></hr>
         <h4>Productos del evento</h4>
+
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#F1948A">
@@ -275,8 +297,7 @@ function calculo_total_productos(){
                 <th>Ingredientes</th>
                 <th>Cantidad sugerida</th>
                 <th>Precio bruto unidad</th>
-                <th>Costo total bruto</th>
-
+                <th>Costo total</th>
                 <th>Stock en inventario</th>
               </thead>
 
@@ -354,8 +375,8 @@ function calculo_total_productos(){
                 <th class="col-lg-2 col-md-2 col-sm-2">Porciones</th>
                 <th colspan="2">Cantidad</th>
 
-                <th class="col-lg-2 col-md-2 col-sm-2">Costo neto empresa</th>
-                <th class="col-lg-2 col-md-2 col-sm-2">Precio venta neto cliente</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
 
               </thead>
                 @if($num_ingr_ext != 0)
@@ -421,8 +442,8 @@ function calculo_total_productos(){
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#F9E79F">
               <th class="col-lg-2 col-md-2 col-sm-2">Extras</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa neto</th>
-              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta neto cliente</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Costo empresa</th>
+              <th class="col-lg-2 col-md-2 col-sm-2">Precio venta cliente</th>
             </thead>
             @if($num_ext != 0)
             <tfoot>
@@ -455,102 +476,62 @@ function calculo_total_productos(){
           </table>
         </div>
       </div>
-
-
-
-      <div class="col-lg-8 col-md-6">
-        <hr></hr>
-        <div class="table-responsive">
-          <div class="form-group">
-              <h4>Items nuevos</h4>
-          </div>
-          <table class="table table-striped table-bordered table-condensed table-hover">
-            <thead style="background-color:#D2B4DE">
-              <th>Nombre</th>
-              <th>Cantidad</th>
-              <th>Costo neto unidad</th>
-              <th>Costo bruto unidad</th>
-              <th>Precio neto unidad</th>
-              <th>Precio bruto unidad</th>
-            </thead>
-
-              @foreach($nuevos_items as $ni)
-              <tr>
-                <td>{{$ni->nombre}}</td>
-                <td><input value="{{$ni->cantidad}}" class="form-control" required/></td>
-                <td><input value="{{$ni->costo_neto_unidad}}" class="form-control" required/></td>
-                <td><input value="" class="form-control" required/></td>
-                <td><input value="{{$ni->precio_neto_unidad}}" class="form-control" required/></td>
-                <td><input value="" class="form-control" required/></td>
-              </tr>
-              @endforeach
-
-          </table>
-        </div>
       </div>
-      <div class="col-lg-4 col-md-6">
       <hr></hr>
-      <div class="table-responsive">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <h4>Trabajadores</h4>
+          <h4>Pago líquido por cocinero</h4>
+          <input class="form-control" onkeyup="calculo_costos_total()" name="monto_cocineros" id="monto_cocineros" type="number" placeholder="$20000" required/>
+          <input id="total_cocineros" type="hidden"/>
         </div>
-        <table class="table table-striped table-bordered table-condensed table-hover">
-          <thead style="background-color:#D2B4DE">
-            <th>Pago líquido por cocinero</th>
-            <th>Cantidad cocineros</th>
-          </thead>
-          <tr>
-            <th>
-              <input class="form-control" onkeyup="calculo_costos_total()" name="monto_cocineros" id="monto_cocineros" type="number" placeholder="$20000" required/>
-              <input id="total_cocineros" type="hidden"/>
-            </th>
-            <th>
-              <input class="form-control" name="cantidad_cocineros" value="0"/>
-            </th>
-          </tr>
-        </table>
       </div>
-    </div>
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group">
+        <h4>Asignar cocineros</h4>
+        <input type="button" class="btn btn-success" onClick="addCocinero()" value="+ Agregar cocinero" />
+        <input type="button" class="btn btn-danger" onClick="eliminar_coc()" value="X" />
+        </div>
+        <div class="form-group">
+          <div class="row" id="contenedor1">
+          </div>
+          <div class="row" id="trabajadores">
+          </div>
+        </div>
+      </div>
 
-      <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <h4>Totales</h4>
         </div>
         <div class="table-responsive">
           <table class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color:#D2B4DE">
-              <th>Costo parcial neto</th>
-              <th>Costo parcial bruto</th>
-              <th>Ganancia neta</th>
-              <th>Ganancia bruta</th>
-              <th>(%) estimado de ganancia</th>
-              <th>Total Neto</th>
+              <th>Costo parcial</th>
               <th>Iva</th>
-              <th>Monto a cobrar evento (Bruto)</th>
+              <th>Monto a cobrar evento</th>
             </thead>
             <tr>
               <th><input name="costo_parcial"  class="form-control" placeholder="" id="costo_parcial" readonly="readonly"></th>
-              <th></th>
-              <th></th>
               <th><input name="total_iva"  class="form-control" placeholder="" id="iva_total" readonly="readonly"></th>
-              <th>
-                <input name="total_final"   class="form-control" placeholder="" id="Display" readonly="readonly">
-                <input name="pago_cocinero" type="hidden" id="pago_cocinero" value="0" >
-                <input name="total_iva" type="hidden"id="IVA">
-              </th>
+              <th><input name="total_final"   class="form-control" placeholder="" id="Display" readonly="readonly"></th>
+              <td><input name="pago_cocinero" type="hidden" id="pago_cocinero" value="0" ></td>
+
+              <td><input name="total_iva" type="hidden"id="IVA"></td>
             </tr>
           </table>
         </div>
       </div>
-        </div>
+
       <div class="row" id="save" hidden>
         <hr></hr>
         <input name="_token value={{csrf_token()}}" type="hidden"></input>
         <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
 
-
+        @if($evento[0]->condicion == 4)
         <button class="btn btn-primary" type="submit">Terminar cotización</button>
-
+        @else
+        <button class="btn btn-primary" type="submit">Despachar</button>
+        @endif
         <button class="btn btn-danger" type="reset">Limpiar campos</button>
       </div>
       </div>

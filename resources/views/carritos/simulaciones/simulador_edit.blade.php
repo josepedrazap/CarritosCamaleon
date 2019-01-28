@@ -63,6 +63,43 @@
       var total_bruto = 0;
       var total_porcentaje_ganancia = 0;
 
+      window.onload = function() {
+        cont_prods = $("#i_productos").val();
+        cont_extras = $("#i_extras").val();
+        cont_ingrs = $("#i_ingr_extra").val();
+        cont_nuevos = $("#i_nuevos").val();
+        cont_trabajadores_2 = $("#i_trabajadores").val();
+
+        total_productos_neto_venta = parseInt($('#total_neto_productos').val());
+        total_extras_neto_venta = parseInt($('#precio_total_neto_extras').val());
+        total_nuevos_neto_venta = parseInt($('#precio_total_neto_nuevos').val());
+        total_ingrs_neto_venta = parseInt($('#precio_total_neto_ingrs').val());
+
+        //variables de costo
+        costo_extras_neto = parseInt($('#costo_total_neto_extras').val());
+        costo_nuevos_neto = parseInt($('#costo_total_neto_nuevos').val());
+        costo_ingredientes = parseInt($('#total_costo_ingredientes_prods').val());
+        costo_ingrs = parseInt($('#costo_total_neto_ingrs').val());
+
+        //variables de honorarios
+        honorarios_totales_trabajadores_2 = parseInt($('#honorarios_liquidos_totales_trabajadores_2').val());
+        honorarios_impuesto_totales_trabajadores_2 = parseInt($('#honorarios_impuesto_totales_trabajadores_2').val());
+        honorarios_liquidos_totales_trabajadores_2 = parseInt($('#honorarios_totales_trabajadores_2').val());
+
+        console.log(total_productos_neto_venta);
+        console.log(total_extras_neto_venta)
+        console.log(total_nuevos_neto_venta)
+        console.log(total_ingrs_neto_venta)
+        console.log(costo_extras_neto)
+        console.log(costo_nuevos_neto)
+        console.log(costo_ingredientes)
+        console.log(costo_ingrs)
+        console.log(honorarios_totales_trabajadores_2)
+        console.log(honorarios_impuesto_totales_trabajadores_2)
+        console.log(honorarios_liquidos_totales_trabajadores_2)
+        totales();
+      };
+
       function guardar_generar_evento(){
         if($("#nombre_simulacion").val() != "" && $("#fecha_simulacion").val() != "" && $("#descripcion").val() != ""){
           if(cont_prods == 0){
@@ -560,7 +597,8 @@
   </script>
 </head>
 <body>
-    <form action="/simulador_store" id="myFormulario" method="get">
+  <form action="/simulador_edit_store" id="myFormulario" method="get">
+  <input name="id_temp" value="{{$id_sim}}" hidden />
   <div class="wrapper">
     <div class="row">
       <div class="col-lg-8 col-md-8 col-sm-8">
@@ -572,13 +610,13 @@
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
         <div class="form-group">
           <label for="fecha_cliente">Nombre de la simulación</label>
-          <input class="form-control" name="nombre_simulacion" id="nombre_simulacion" required/>
+          <input class="form-control" value="{{$simulacion[0]->nombre}}" name="nombre_simulacion" id="nombre_simulacion" required/>
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
         <div class="form-group">
           <label for="fecha_cliente">Fecha de la simulación</label>
-          <input class="form-control" type="date" name="fecha_simulacion" id="fecha_simulacion" value="{{$fecha}}" required/>
+          <input class="form-control" value="{{$simulacion[0]->fecha}}" type="date" name="fecha_simulacion" id="fecha_simulacion" value="{{$fecha}}" required/>
         </div>
       </div>
       <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
@@ -594,7 +632,7 @@
       <div class="col-lg-4 col-md-3 col-sm-3 col-xs-6">
         <div class="form-group">
           <label for="">Descripción de la simulación</label>
-          <textarea name="descripcion" id="descripcion" class="form-control">Aqui va una descripcion</textarea>
+          <textarea name="descripcion" value="{{$simulacion[0]->descripcion}}" id="descripcion" class="form-control">Aqui va una descripcion</textarea>
         </div>
       </div>
     </div>
@@ -657,6 +695,31 @@
                   <th>Retención</th>
                   <th>Total</th>
                 </thead>
+                <tbody>
+                  <?php $i = 0; $sum = 0;?>
+                  @foreach($trabajadores as $tra)
+                  <tr id="fila_trabajadores_2_{{$i}}">
+                    <td><button class="btn btn-warning" onclick="adm_trabajadores_2(0,{{$i}})">X</button></td>
+                    <td>
+                      <input class="form-control" readonly="readonly" value="{{$tra->nombre}}"/>
+                      <input hidden value="{{$tra->nombre}}" name="id_trabajadores_2[]"/>
+                    </td>
+                    <td>
+                      <input class="form-control" id="cantidad_trabajadores_2_{{$i}}" name="cant_trabajadores_2_[]" readonly="readonly" value="{{$tra->cantidad}}"/>
+                    </td>
+                    <td>
+                      <input id="honorario_trabajadores_2_{{$i}}" name="honorario_trabajadores_2_[]" class="form-control" readonly="readonly" value="{{$tra->sueldo}}">
+                    </td>
+                    <td>
+                      <input class="form-control" readonly="readonly" value="{{round(($tra->sueldo/0.9) - $tra->sueldo)}}">
+                    </td>
+                    <td>
+                      <input class="form-control" readonly="readonly" value="{{round(($tra->sueldo/0.9))}}">
+                    </td>
+                    <?php $sum += $tra->sueldo; $i++;?>
+                  </tr>
+                  @endforeach
+                </tbody>
                 <tfoot>
                   <th></th>
                   <th></th>
@@ -664,24 +727,23 @@
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="honorarios_liquidos_totales_trabajadores_2" class="form-control" required readonly="readonly"></input>
+                        <input id="honorarios_liquidos_totales_trabajadores_2" value="{{$sum}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="honorarios_impuesto_totales_trabajadores_2" class="form-control" required readonly="readonly"></input>
+                        <input id="honorarios_impuesto_totales_trabajadores_2" value="{{round(($sum/0.9) - $sum)}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="honorarios_totales_trabajadores_2" class="form-control" required readonly="readonly"></input>
+                      <input id="honorarios_totales_trabajadores_2" class="form-control" value="{{round(($sum/0.9))}}" required readonly="readonly"></input>
                     </div>
                   </th>
                 </tfoot>
-                <tbody>
-                </tbody>
+                <input value="{{$i}}" id="i_trabajadores" hidden />
               </table>
             </div>
           </div>
@@ -746,6 +808,42 @@
                   <th>Total Neto</th>
                   <th>Total Bruto</th>
                 </thead>
+                <?php $i = 0; $sum = 0; $costo = 0;?>
+                <tbody>
+                    @foreach($productos_sim as $prod)
+                      <tr id="fila_productos_{{$i}}">
+                        <td><button class="btn btn-warning" onclick="adm_productos(0,{{$i}})">X</button></td>
+                        <td>
+                          <input hidden name="id_producto[]" value="{{$prod->id_producto}}">
+                          <input class="form-control" readonly="readonly" value="{{$prod->nombre}}" />
+                        </td>
+                        <td>
+                          <input class="form-control" readonly="readonly" value="{{$prod->cantidad}}" name="cant_prods_[]" id="cant_prods_{{$i}}" value="{{$prod->cantidad}}"/>
+                        </td>
+                        <td>
+                          <input class="form-control" id="costo_neto_prod_{{$i}}" readonly="readonly" value="{{$prod->costo_neto}}" name="costo_neto_unidad_producto_[]" />
+                        </td>
+                        <td>
+                          <input class="form-control" readonly="readonly" value="{{$prod->costo_neto * 1.19}}" />
+                        </td>
+                        <td>
+                          <input class="form-control" readonly="readonly" value="{{$prod->precio_neto_unidad}}" name="precio_neto_unidad_producto[]" id="precio_neto_unidad_producto_{{$i}}" />
+                        </td>
+                        <td>
+                          <input class="form-control" readonly="readonly" value="{{$prod->precio_neto_unidad * 1.19}}"  />
+                        </td>
+                        <td>
+                          <input class="form-control" readonly="readonly" value="{{$prod->precio_neto_unidad * $prod->cantidad}}"  />
+                        </td>
+                        <td>
+                          <input class="form-control" readonly="readonly" value="{{$prod->precio_neto_unidad * 1.19 * $prod->cantidad}}"  />
+                        </td>
+                      </tr>
+                      <?php $i++; $sum += $prod->precio_neto_unidad * $prod->cantidad; $costo += $prod->costo_neto; ?>
+                    @endforeach
+                </tbody>
+                <input value="{{$i}}" id="i_productos" hidden />
+                <input value="{{$costo}}" id="total_costo_ingredientes_prods" hidden />
                 <tfoot>
                   <th></th>
                   <th></th>
@@ -757,17 +855,16 @@
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="total_neto_productos" class="form-control" required readonly="readonly"></input>
+                        <input id="total_neto_productos" value="{{$sum}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="total_bruto_productos" class="form-control" required readonly="readonly"></input>
+                      <input id="total_bruto_productos" value="{{$sum *1.19}}" class="form-control" required readonly="readonly"></input>
                     </div></th>
                 </tfoot>
-                <tbody>
-                </tbody>
+
               </table>
             </div>
 
@@ -843,6 +940,45 @@
                   <th>Total P Neto</th>
                   <th>Total P Bruto</th>
                 </thead>
+                <?php $i=0; $sum_costo=0; $sum_precio=0;?>
+                <tbody>
+                  @foreach($ingredientes_sim as $i_sim)
+                  <tr id="fila_ingrs_{{$i}}">
+                    <td><button class="btn btn-warning" onclick="adm_ingrs(0,{{$i}})">X</button></td>
+                    <td>
+                      <input class="form-control hidden" readonly="readonly" name="id_ingr[]" value="{{$i_sim->id}}" />
+                      <input class="form-control" readonly="readonly" value="{{$i_sim->nombre}}" />
+                      <input hidden name="porcion[]" value="{{$i_sim->porcion_unitaria}}"/>
+                    </td>
+                    <td>
+                      <input class="form-control" readonly="readonly" id="cantidad_ingr_{{$i}}" name="cant_ingrs_[]" value="{{$i_sim->cantidad}}"/>
+                    </td>
+                    <td>
+                      <input class="form-control" name="unidad_ingr_[]" id="unidad_ingr_{{$i}}" readonly="readonly" value="{{$i_sim->porcion_unitaria}} {{$i_sim->unidad}}" />
+                    </td>
+                    <td>
+                      <input class="form-control" name="costo_neto_ingr_[]" id="costo_neto_ingr_{{$i}}" readonly="readonly" value="{{$i_sim->costo_neto_unidad}}"/>
+                    </td>
+                    <td>
+                      <input class="form-control" readonly="readonly" value="{{$i_sim->costo_neto_unidad * 0.19}}"/>
+                    </td>
+                    <td>
+                      <input class="form-control" readonly="readonly" name="costo_total_neto_ingr[]" value="{{$i_sim->costo_neto_unidad * $i_sim->cantidad}}"/>
+                    </td>
+                    <td>
+                      <input class="form-control" readonly="readonly" value="{{$i_sim->costo_neto_unidad * $i_sim->cantidad * 0.19}}"/>
+                    </td>
+                    <td>
+                      <input class="form-control" readonly="readonly" value="{{$i_sim->precio_neto_unidad}}" name="precio_total_neto_ingr[]"/>
+                    </td>
+                    <td>
+                      <input class="form-control" readonly="readonly" value="{{$i_sim->precio_neto_unidad * 1.19}}" />
+                    </td>
+                  </tr>
+                  <?php $i++; $sum_costo += $i_sim->costo_neto_unidad; $sum_precio += $i_sim->precio_neto_unidad; ?>
+                  @endforeach
+                </tbody>
+
                 <tfoot>
                   <th></th>
                   <th></th>
@@ -853,30 +989,30 @@
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="costo_total_neto_ingrs" class="form-control" required readonly="readonly"></input>
+                        <input id="costo_total_neto_ingrs" value="{{$sum_costo}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="costo_total_bruto_ingrs" class="form-control" required readonly="readonly"></input>
+                      <input id="costo_total_bruto_ingrs" value="{{$sum_costo * 1.19}}" class="form-control" required readonly="readonly"></input>
                     </div>
                   </th>
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="precio_total_neto_ingrs" class="form-control" required readonly="readonly"></input>
+                        <input id="precio_total_neto_ingrs" value="{{$sum_precio}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="precio_total_bruto_ingrs" class="form-control" required readonly="readonly"></input>
+                      <input id="precio_total_bruto_ingrs" value="{{$sum_precio * 1.19}}" class="form-control" required readonly="readonly"></input>
                     </div>
                   </th>
                 </tfoot>
-                <tbody>
-                </tbody>
+                <input value="{{$i}}" id="i_ingr_extra" hidden />
+
               </table>
             </div>
           </div>
@@ -943,6 +1079,28 @@
                   <th>Total Venta Neto</th>
                   <th>Total Venta Bruto</th>
                 </thead>
+                <tbody>
+                  <?php $i = 0; $sum_costo =0; $sum_precio = 0 ?>
+                  @foreach($extras_sim as $ext)
+                  <tr id="fila_extras_{{$i}}">
+                    <td><button class="btn btn-warning" onclick="adm_extras(0,{{$i}})">X</button></td>
+                    <td>
+                      <input class="form-control hidden" readonly="readonly" name="id_extra[]" value="{{$ext->id}}"/>
+                      <input class="form-control" readonly="readonly" value="{{$ext->valor}}"/>
+                    </td>
+                    <td><input class="form-control" readonly="readonly" id="cantidad_extra_{{$i}}" name="cant_extras_[]" value="{{$ext->cantidad}}"/></td>
+                    <td><input class="form-control" readonly="readonly" id="costo_neto_extra_{{$i}}" name="costo_neto_extra_[]" value="{{$ext->costo_neto_unidad}}"/></td>
+                    <td><input class="form-control" readonly="readonly" value="{{$ext->costo_neto_unidad * 1.19}}"/></td>
+                    <td><input class="form-control" readonly="readonly" id="precio_neto_unidad_extra_{{$i}}" name="precio_neto_unidad_extra[]" value="{{$ext->precio_neto_unidad}}"/></td>
+                    <td><input class="form-control" readonly="readonly" value="{{$ext->precio_neto_unidad * 1.19}}"/></td>
+                    <td><input class="form-control" readonly="readonly" value="{{$ext->costo_neto_unidad * $ext->cantidad}}"/></td>
+                    <td><input class="form-control" readonly="readonly" value="{{$ext->costo_neto_unidad * $ext->cantidad * 1.19}}"/></td>
+                    <td><input class="form-control" readonly="readonly" value="{{$ext->precio_neto_unidad * $ext->cantidad}}"/></td>
+                    <td><input class="form-control" readonly="readonly" value="{{$ext->precio_neto_unidad * $ext->cantidad * 1.19}}"/></td>
+                  </tr>
+                  <?php $i++; $sum_costo += $ext->costo_neto_unidad; $sum_precio += $ext->precio_neto_unidad; ?>
+                  @endforeach
+                </tbody>
                 <tfoot>
                   <th></th>
                   <th></th>
@@ -954,30 +1112,29 @@
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="costo_total_neto_extras" class="form-control" required readonly="readonly"></input>
+                        <input id="costo_total_neto_extras" value="{{$sum_costo}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="costo_total_bruto_extras" class="form-control" required readonly="readonly"></input>
+                      <input id="costo_total_bruto_extras" value="{{$sum_costo * 1.19}}" class="form-control" required readonly="readonly"></input>
                     </div>
                   </th>
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="precio_total_neto_extras" class="form-control" required readonly="readonly"></input>
+                        <input id="precio_total_neto_extras" value="{{$sum_precio}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="precio_total_bruto_extras" class="form-control" required readonly="readonly"></input>
+                      <input id="precio_total_bruto_extras" value="{{$sum_precio * 1.19}}" class="form-control" required readonly="readonly"></input>
                     </div>
                   </th>
                 </tfoot>
-                <tbody>
-                </tbody>
+                <input hidden id="i_extras" value="{{$i}}" />
               </table>
             </div>
           </div>
@@ -1011,13 +1168,13 @@
             <div class="col-lg-2 col-sm-2 col-md-12 col-xs-12">
               <div class="form-group">
                 <label>Costo Neto Empresa Unidad  </label>
-                <input type="number" id="costo_neto_empresa_nuevo" class="form-control">
+                <input type="number" id="costo_neto_empresa_nuevo" type="number" class="form-control">
               </div>
             </div>
             <div class="col-lg-2 col-sm-2 col-md-12 col-xs-12">
               <div class="form-group">
                 <label>Precio Neto Venta Unidad</label>
-                <input type="number" id="precio_neto_venta_nuevo" class="form-control" >
+                <input type="number" id="precio_neto_venta_nuevo" type="number" class="form-control" >
               </div>
             </div>
             <div class="col-lg-1 col-sm-2 col-md-12 col-xs-12">
@@ -1040,6 +1197,25 @@
                   <th>Total Venta Neto</th>
                   <th>Total Venta Bruto</th>
                 </thead>
+                <tbody>
+                  <?php $i = 0; $sum_costo = 0; $sum_precio = 0; ?>
+                  @foreach($nuevos_sim as $n_sim)
+                  <tr id="fila_nuevos_{{$i}}">
+                    <td><button class="btn btn-danger" onclick="adm_nuevos(0, {{$i}})">X</button></td>
+                    <td><input readonly="readonly" class="form-control" name="nuevo_nombre[]" value="{{$n_sim->nombre}}"/></td>
+                    <td><input readonly="readonly" class="form-control" id="cantidad_nuevo_{{$i}}" name="cant_nuevos_[]" value="{{$n_sim->cantidad}}"/></td>
+                    <td><input readonly="readonly" class="form-control" name="costo_neto_nuevo[]" id="costo_neto_nuevo_{{$i}}" value="{{$n_sim->costo_neto_unidad}}"/></td>
+                    <td><input readonly="readonly" class="form-control" value="{{$n_sim->costo_neto_unidad * 1.19}}"/></td>
+                    <td><input readonly="readonly" class="form-control" name="precio_neto_unidad_nuevo[]" id="precio_neto_unidad_nuevo_{{$i}}" value="{{$n_sim->precio_neto_unidad}}"/></td>
+                    <td><input readonly="readonly" class="form-control" value="{{$n_sim->precio_neto_unidad * 1.19}}"/></td>
+                    <td><input readonly="readonly" class="form-control" value="{{$n_sim->costo_neto_unidad * $n_sim->cantidad}}"/></td>
+                    <td><input readonly="readonly" class="form-control" value="{{$n_sim->costo_neto_unidad * $n_sim->cantidad * 1.19}}"/></td>
+                    <td><input readonly="readonly" class="form-control" value="{{$n_sim->precio_neto_unidad * $n_sim->cantidad}}"/></td>
+                    <td><input readonly="readonly" class="form-control" value="{{$n_sim->precio_neto_unidad * $n_sim->cantidad * 1.19}}"/></td>
+                  </tr>
+                  <?php $i++; $sum_costo += $n_sim->costo_neto_unidad; $sum_precio += $n_sim->precio_neto_unidad; ?>
+                  @endforeach
+                </tbody>
                 <tfoot>
                   <th></th>
                   <th></th>
@@ -1051,30 +1227,29 @@
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="costo_total_neto_nuevos" class="form-control" required readonly="readonly"></input>
+                        <input id="costo_total_neto_nuevos" value="{{$sum_costo}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="costo_total_bruto_nuevos" class="form-control" required readonly="readonly"></input>
+                      <input id="costo_total_bruto_nuevos" value="{{$sum_costo * 1.19}}" class="form-control" required readonly="readonly"></input>
                     </div>
                   </th>
                   <th>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input id="precio_total_neto_nuevos" class="form-control" required readonly="readonly"></input>
+                        <input id="precio_total_neto_nuevos" value="{{$sum_precio}}" class="form-control" required readonly="readonly"></input>
                       </div>
                   </th>
                   <th>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input id="precio_total_bruto_nuevos" class="form-control" required readonly="readonly"></input>
+                      <input id="precio_total_bruto_nuevos" value="{{$sum_precio * 1.19}}" class="form-control" required readonly="readonly"></input>
                     </div>
                   </th>
                 </tfoot>
-                <tbody>
-                </tbody>
+                <input hidden id="i_nuevos" value="{{$i}}" />
               </table>
             </div>
           </div>

@@ -49,7 +49,7 @@ Route::get('/', function () {
   Route::get('cambiar_contraseña', 'ResetpassController@cambiar_contraseña');
 
   //RUTAS DE PDF
-  Route::get('carritos/pdf/despacho_checklist/{id}','PDFController@despacho_checklist');
+  Route::get('carritos/pdf/despacho_checklist','PDFController@despacho_checklist');
   Route::get('carritos/pdf/balance/{date_1}/{date_2}','PDFController@balance_pdf');
   Route::get('carritos/pdf/balance_8_cols/{date_1}/{date_2}','PDFController@balance_8_cols');
 
@@ -82,7 +82,7 @@ Route::get('/', function () {
   Route::resource('carritos/pagos', 'PagosController');
   Route::resource('carritos/trabajadores', 'TrabajadoresController');
   Route::resource('carritos/productos', 'ProductosController');
-  Route::resource('carritos/eventos', 'EventosController');
+  //Route::resource('carritos/eventos', 'EventosController');
   Route::resource('carritos/inventario', 'InventarioController');
   Route::resource('carritos/despacho', 'DespachoController');
   Route::resource('carritos/cotizaciones', 'CotizacionesController');
@@ -110,8 +110,19 @@ Route::get('/', function () {
 
   Route::resource('/carritos/simulaciones', 'simulacionesController');
 
-  Route::get('/home', 'EventosController@index')->name('home');
+  Route::get('/home', 'calendarioController@index_eventos')->name('home');
 
+  Route::get("/simulacion_resumen", "simulacionesController@simulador_resumen");
+  Route::get('/conv_sim_a_evento', 'simulacionesController@conv_sim_a_evento');
+  Route::get('/index_eventos', 'simulacionesController@index_eventos');
+  Route::get("/ver_evento", "simulacionesController@ver_evento");
+  Route::get('/editar_simulacion', "simulacionesController@editar_simulacion");
+  Route::get('/simulador_store', 'simulacionesController@simulador_store');
+  Route::get('/simulador_edit_store', 'simulacionesController@simulador_edit_store');
+
+  Route::get('/estado_evento', 'simulacionesController@estado_evento');
+  Route::get('/resumen_evento_calendario', 'simulacionesController@resumen_evento_calendario');
+  Route::get('/realizar_cancelar', 'simulacionesController@realizar_cancelar');
   Route::get('/eventos', 'calendarioController@eventos');
   Route::get('/simulador', 'simulacionesController@simulador');
   Route::get('/calendario', 'calendarioController@calendario');

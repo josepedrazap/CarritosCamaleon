@@ -14,7 +14,8 @@ class Simulacion_productos extends Model
     'id_producto',
     'cantidad',
     'precio_neto_unidad',
-    'id_simulacion'
+    'id_simulacion',
+    'costo_neto'
   ];
 
   protected $guarded = [

@@ -14,10 +14,11 @@
           <thead style="background-color:#ABEBC6">
             <th>Nombre ingrediente</th>
             <th>Tipo</th>
-            <th>Unidad</th>
+            <th>Medida</th>
             <th>Precio bruto</th>
-            <th>Precio líquido</th>
-            <th>Porción</th>
+            <th>Precio Neto</th>
+            <th>Porción unitaria</th>
+            <th>Porción cada 100 prods</th>
             <th>Opciones</th>
           </thead>
 
@@ -29,7 +30,8 @@
             <td>{{$ingr->unidad}}</td>
             <th>${{$ingr->precio_bruto}}</th>
             <th>${{$ingr->precio_liquido}}</th>
-            <th>{{$ingr->porcion_}} {{$ingr->uni_porcion}}</th>
+            <th>{{$ingr->porcion_}} {{$ingr->uni_porcion}} (es)</th>
+            <th>{{$ingr->porcion_ * 100}} {{$ingr->uni_porcion}} (es)</th>
             <td>
               <a href="/carritos/ingredientes/{{$ingr->id}}/edit"><button class="btn btn-info">Editar ingrediente</button></a>
               <a href="" data-target="#modal-delete-{{$ingr->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>

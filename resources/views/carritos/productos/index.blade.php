@@ -13,7 +13,7 @@
         <table class="table table-striped table-bordered table-condensed table-hover">
           <thead style="background-color:#ABEBC6">
             <th>Nombre producto</th>
-            <th>Precio bruto</th>
+            <th>Precio Neto</th>
             <th>Ingredientes x unidad </th>
             <th>Opciones</th>
           </thead>

@@ -37,7 +37,7 @@ function addIngredientes(){
 
         if(e == 1){
           var div = document.createElement('div');
-          div.innerHTML = '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Ingrediente</label></div><div class="col-md-3"><label>Porción sugerida</label></div><div class="col-md-3"><label>Unidad</label></div>';
+          div.innerHTML = '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label>Ingrediente</label></div><div class="col-md-3"><label>Porción sugerida</label></div><div class="col-md-3"><label>Medida</label></div>';
           document.getElementById('contenedor1').appendChild(div);
 
         }
@@ -112,7 +112,7 @@ function llenar_select_extras(e, sv){
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
         <div class="form-group">
-          <label for="precio">Precio bruto sugerido</label>
+          <label for="precio">Precio neto sugerido</label>
           <input  title="{{$ay_precio}}" name="precio" type="number" class="form-control" required placeholder="precio...">
         </div>
       </div>
@@ -131,7 +131,7 @@ function llenar_select_extras(e, sv){
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
-          <h3>Ingredientes x 100 unidades
+          <h3>Ingredientes cada 100 unidades de productos
           </h3>
         </div>
       </div>

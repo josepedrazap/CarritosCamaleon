@@ -21,37 +21,35 @@ class MercaderiaProxEventosController extends Controller
       $date_1 = $request->get('date_1');
       $date_2 = $request->get('date_2');
       $var = 1;
-      $ingredientes_totales = DB::table('eventos as eve')
-      ->join('eventos_tienen_productos as etp', 'etp.id_evento', '=', 'eve.id')
-      ->join('productos as prod', 'prod.id', '=', 'etp.id_producto')
+
+      $ingredientes_totales = DB::table('eventos_2 as eve')
+      ->join('simulacion_productos as sp', 'sp.id_simulacion', '=', 'eve.id_simulacion')
+      ->join('productos as prod', 'prod.id', '=', 'sp.id_producto')
       ->join('productos_tienen_ingredientes as pti', 'pti.id_producto', '=', 'prod.id')
       ->join('ingredientes as ingr', 'ingr.id', '=', 'pti.id_ingrediente')
       ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
       ->whereBetween('eve.fecha_hora', array($date_1, $date_2))
-      ->where('eve.condicion', '=', '2')
-      ->where('eve.aprobado', '=', '0')
-      ->select('ingr.nombre as nombre', 'ingr.id as id_ingr', 'ingr.inventareable as inventareable', 'inv.cantidad as stock', 'pti.unidad as unidad', DB::raw('sum(porcion*etp.cantidad) as sum'))
+      ->where('eve.condicion', '=', '1')
+      ->select('ingr.nombre as nombre', 'ingr.id as id_ingr', 'ingr.inventareable as inventareable', 'inv.cantidad as stock', 'pti.unidad as unidad', DB::raw('sum(porcion*sp.cantidad) as sum'))
       ->groupBy('nombre', 'id_ingr', 'unidad', 'inventareable', 'stock')
       ->orderBy('ingr.inventareable', 'desc')
       ->get();
 
-      $ingr_extras = DB::table('eventos_tienen_ingr_extras as etie')
-      ->join('ingredientes as ingr', 'ingr.id', '=', 'etie.id_extra')
-      ->join('eventos as eve', 'eve.id', '=', 'etie.id_evento')
+      $ingr_extras = DB::table('simulacion_ingr_extra as etie')
+      ->join('ingredientes as ingr', 'ingr.id', '=', 'etie.id_ingrediente')
+      ->join('eventos_2 as eve', 'eve.id_simulacion', '=', 'etie.id_simulacion')
       ->whereBetween('eve.fecha_hora', array($date_1, $date_2))
-      ->where('eve.condicion', '=', '2')
-      ->where('eve.aprobado', '=', '0')
+      ->where('eve.condicion', '=', '1')
       ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
-      ->select('ingr.nombre as nombre', 'ingr.id as id_ingr','ingr.inventareable as inventareable', 'inv.cantidad as stock', 'ingr.uni_porcion as unidad', DB::raw('sum(etie.cantidad_total) as sum'))
+      ->select('ingr.nombre as nombre', 'ingr.id as id_ingr','ingr.inventareable as inventareable', 'inv.cantidad as stock', 'ingr.uni_porcion as unidad', DB::raw('sum(etie.cantidad) as sum'))
       ->groupBy('nombre', 'id_ingr','unidad', 'inventareable', 'stock')
       ->orderBy('ingr.inventareable', 'desc')
       ->get();
 
 
-      $cant_eventos = DB::table('eventos as eve')
+      $cant_eventos = DB::table('eventos_2 as eve')
       ->whereBetween('eve.fecha_hora', array($date_1, $date_2))
-      ->where('eve.condicion', '=', '2')
-      ->where('eve.aprobado', '=', '0')
+      ->where('eve.condicion', '=', '1')
       ->count('eve.id');
 
       if(!$request->get('date_1') || !$request->get('date_2')){

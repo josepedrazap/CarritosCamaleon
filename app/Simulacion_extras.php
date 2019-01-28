@@ -14,7 +14,8 @@ class Simulacion_extras extends Model
     'id_extra',
     'precio_neto_unidad',
     'costo_neto_unidad',
-    'id_simulacion'
+    'id_simulacion',
+    'cantidad'
   ];
 
   protected $guarded = [

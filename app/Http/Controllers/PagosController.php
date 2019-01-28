@@ -26,8 +26,10 @@ class PagosController extends Controller
       $data=DB::table('trabajadores as tra')
       ->join('trabajador_detalle as td', 'td.id_trabajador', '=', 'tra.id')
       ->join('eventos_tienen_trabajadores as ett', 'ett.id_trabajador', '=', 'tra.id')
+      ->join('eventos_2 as eve', 'eve.id', '=', 'ett.id_evento')
       ->where('nombre','LIKE','%'.$query.'%')
       ->where('ett.estado','=',1)
+      ->where('eve.condicion', '=', 2)
       ->select('tra.id', 'tra.nombre as nombre', 'tra.apellido as apellido', 'tra.clase as clase', DB::raw('sum(monto) as sum'),  DB::raw('count(monto) as cont'))
       ->groupBy('tra.id', 'nombre', 'apellido', 'clase')
       ->paginate(7);
@@ -64,12 +66,12 @@ class PagosController extends Controller
   }
 
   public function vertodos($id){
-    $data=DB::table('eventos as eve')
+    $data=DB::table('eventos_2 as eve')
     ->join('eventos_tienen_trabajadores as ett', 'ett.id_evento', '=', 'eve.id')
     ->join('trabajadores as tra', 'tra.id', '=', 'ett.id_trabajador')
     ->join('trabajador_detalle as td', 'tra.id', '=', 'td.id_trabajador')
     ->where('tra.id','=',$id)
-    ->select('tra.nombre as nombre', 'ett.estado','td.cuenta', 'td.rut', 'td.tipo_cuenta', 'td.banco','eve.condicion','tra.apellido as apellido', 'eve.fecha_hora','eve.nombre_cliente as nombre_cliente', 'ett.monto as monto', 'ett.id')
+    ->select('tra.nombre as nombre', 'ett.estado','td.cuenta', 'td.rut', 'td.tipo_cuenta', 'td.banco','eve.condicion','tra.apellido as apellido', 'eve.fecha_hora','eve.cliente as nombre_cliente', 'ett.monto as monto', 'ett.id')
     ->groupBy('nombre', 'apellido', 'td.cuenta', 'ett.estado', 'td.tipo_cuenta', 'td.rut', 'td.banco', 'eve.condicion','monto', 'nombre_cliente', 'eve.fecha_hora', 'ett.id')
     ->get();
 
@@ -92,13 +94,14 @@ class PagosController extends Controller
   }
 
   public function pagar($id){
-    $data=DB::table('eventos as eve')
+    $data=DB::table('eventos_2 as eve')
     ->join('eventos_tienen_trabajadores as ett', 'ett.id_evento', '=', 'eve.id')
     ->join('trabajadores as tra', 'tra.id', '=', 'ett.id_trabajador')
     ->join('trabajador_detalle as td', 'tra.id', '=', 'td.id_trabajador')
     ->where('tra.id','=',$id)
     ->where('ett.estado', '=', '1')
-    ->select('tra.nombre as nombre', 'td.cuenta', 'td.rut', 'td.tipo_cuenta', 'td.banco','eve.condicion','tra.apellido as apellido', 'eve.fecha_hora','eve.nombre_cliente as nombre_cliente', 'ett.monto as monto', 'ett.id')
+    ->where('eve.condicion', '=', 2)
+    ->select('tra.nombre as nombre', 'td.cuenta', 'td.rut', 'td.tipo_cuenta', 'td.banco','eve.condicion','tra.apellido as apellido', 'eve.fecha_hora','eve.cliente as nombre_cliente', 'ett.monto as monto', 'ett.id')
     ->groupBy('nombre', 'apellido', 'td.cuenta', 'td.tipo_cuenta', 'td.rut', 'td.banco', 'eve.condicion','monto', 'nombre_cliente', 'eve.fecha_hora', 'ett.id')
     ->get();
     return view('carritos.pagos.create', ["data"=>$data, "id_t"=>$id]);

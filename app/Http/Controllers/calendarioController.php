@@ -14,7 +14,7 @@ class calendarioController extends Controller
     public function index_eventos()
     {
        $events = [];
-       $data =DB::table('eventos')
+       $data =DB::table('eventos_2')
          ->whereIn('condicion', array(1,2,3))
          ->orderBy('fecha_hora','desc')
          ->get();
@@ -24,14 +24,14 @@ class calendarioController extends Controller
             $url = "";
 
             if($value->condicion == 2){
-                $url = "/carritos/eventos/" . $value->id;
+                $url = "/ver_evento?id=" . $value->id;
             }
             if($value->condicion == 1){
-                $url = "/carritos/despacho/create?id=" . $value->id;
+                $url = "/ver_evento?id=" . $value->id;
             }
 
             $event = Calendar::event(
-                $value->nombre_cliente,
+                $value->cliente,
                 true,
                 new \DateTime($value->fecha_hora),
                 new \DateTime($value->fecha_hora.' +1 day'),
@@ -140,20 +140,13 @@ class calendarioController extends Controller
     }
 
     public function calendario(){
-      $data =DB::table('cotizaciones')
-        ->select('cotizaciones.nombre_cliente as title', 'cotizaciones.id as id','cotizaciones.fecha as start', 'cotizaciones.estado as estado')
+        $data =DB::table('simulaciones as s')
+        ->where("estado", "=", 1)
+        ->select('s.nombre as title', 's.id as id','s.fecha as start', 's.estado as estado')
         ->orderBy('fecha','desc')
         ->get();
-        $clientes = DB::table('clientes')
-        ->get();
-        $cont = 0;
-        $clientes_;
-        while($cont < count($clientes)){
-          $clientes_[$clientes[$cont]->id] = $clientes[$cont]->nombre . " " . $clientes[$cont]->apellido;
-          $cont++;
-        }
-        $cont = 0;
 
+        $cont = 0;
         while($cont < count($data)){
           if($data[$cont]->estado == 0){
             $data[$cont]->color = 'red';
@@ -166,7 +159,7 @@ class calendarioController extends Controller
         }
 
       //return $data;
-      return view('carritos.calendario.calendario', ["data"=>$data, "clientes_"=>$clientes_, "clientes"=>$clientes]);
+      return view('carritos.calendario.calendario', ["data"=>$data]);
     }
 
     public function eventos(){

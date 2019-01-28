@@ -48,12 +48,12 @@ function calc(){
     </div>
 
     <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-      <div class="form-group">
-        <label for="tipo">Precio bruto</label>
-        <input type="number" id="precio_bruto" onkeyup="calc()" value="{{$ingrediente->precio_bruto}}" required class="form-control"  name="precio_bruto">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+        <div class="form-group">
+          <label for="tipo">Precio neto</label>
+          <input type="number" id="precio_liquido" class="form-control" value="{{$ingrediente->precio_liquido}}" required name="precio_liquido" readonly="readonly">
+        </div>
       </div>
-    </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
         <label for="tipo">IVA</label>
@@ -62,17 +62,18 @@ function calc(){
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
-        <label for="tipo">Precio líquido</label>
-        <input type="number" id="precio_liquido" class="form-control" value="{{$ingrediente->precio_liquido}}" required name="precio_liquido" readonly="readonly">
+        <label for="tipo">Precio bruto</label>
+        <input type="number" id="precio_bruto" onkeyup="calc()" value="{{$ingrediente->precio_bruto}}" required class="form-control"  name="precio_bruto">
       </div>
     </div>
+
   </div>
-  
+
   <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-8">
       <div class="form-group">
         <label>Porción cada 100 productos</label>
-        <input type="text" class="form-control" value="{{$ingrediente->porcion_}}" required name="porcion">
+        <input type="text" class="form-control" value="{{$ingrediente->porcion_ * 100}}" required name="porcion">
       </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-4">

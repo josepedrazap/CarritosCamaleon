@@ -53,22 +53,24 @@ function calc_liquido(){
     </div>
 
     <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-      <div class="form-group">
-        <label for="tipo">Precio bruto</label>
-        <input type="number" id="precio_bruto" onkeyup="calc_bruto()" class="form-control" required name="precio_bruto">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+        <div class="form-group">
+          <label for="tipo">Precio neto</label>
+          <input type="number" id="precio_liquido" onkeyup="calc_liquido()" class="form-control" required name="precio_liquido">
+        </div>
       </div>
-    </div>
+
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
         <label for="tipo">IVA</label>
         <input type="number" id="iva" class="form-control" required name="iva" readonly="readonly">
       </div>
     </div>
+
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
       <div class="form-group">
-        <label for="tipo">Precio líquido</label>
-        <input type="number" id="precio_liquido" onkeyup="calc_liquido()" class="form-control" required name="precio_liquido">
+        <label for="tipo">Precio bruto</label>
+        <input type="number" id="precio_bruto" onkeyup="calc_bruto()" class="form-control" required name="precio_bruto">
       </div>
     </div>
   </div>

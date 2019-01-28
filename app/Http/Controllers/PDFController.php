@@ -118,54 +118,71 @@ class PDFController extends Controller
       return $pdf->stream('balance');
 
     }
-    public function despacho_checklist($id){
+    public function despacho_checklist(Request $request){
 
-      $evento=DB::table('eventos')
-      ->where('eventos.id', '=', $id)
+      $id = $request->get("id");
+
+      $evento = DB::table("eventos_2")
+      ->where("eventos_2.id", "=", $id)
+      ->join("clientes", "clientes.id", "=", "eventos_2.id_cliente")
       ->get();
 
-      $ingr_extras=DB::table('ingredientes as ingr')
-      ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
-      ->where('etie.id_evento', '=', $id)
-      ->select('ingr.nombre', 'etie.cantidad', 'etie.id', 'ingr.porcion_', 'ingr.precio_bruto','ingr.uni_porcion')
+      $id_sim = $evento[0]->id_simulacion;
+
+      $simulacion = DB::table("simulacion_valores")
+      ->where("id_simulacion", "=", $id_sim)->get();
+
+      $productos = DB::table("simulacion_productos as sp")
+      ->join("productos as p", "p.id", "=", "sp.id_producto")
+      ->where("id_simulacion", "=", $id_sim)
+      ->get();
+      $nuevos = DB::table("simulacion_nuevo")
+      ->where("id_simulacion", "=", $id_sim)->get();
+      $extras = DB::table("simulacion_extras as se")
+      ->join("selects_valores as p", "p.id", "=", "se.id_extra")
+      ->where("id_simulacion", "=", $id_sim)
       ->get();
 
-      $num_ingr_ext=DB::table('ingredientes as ingr')
-      ->join('eventos_tienen_ingr_extras as etie', 'etie.id_extra', '=', 'ingr.id')
-      ->where('etie.id_evento', '=', $id)
-      ->count();
-
-      $productos=DB::table('productos as prod')
-      ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
-      ->where('etp.id_evento', '=', $id)
-      ->select('prod.nombre', 'etp.cantidad as cantidad', 'precio', 'etp.id as id_etp', 'base', DB::raw('sum(cantidad) as sum'))
-      ->groupBy('nombre','cantidad', 'precio', 'base', 'id_etp')
-      ->get();
-
-      $base=DB::table('productos as prod')
-      ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
-      ->where('etp.id_evento', '=', $id)
-      ->select('base', DB::raw('sum(cantidad) as sum'))
-      ->groupBy('base')
-      ->get();
-
-      $extras=DB::table('eventos_tienen_extras as ete')
-      ->join('selects_valores as sv', 'sv.id', '=','ete.id_extra')
-      ->where('ete.id_evento', '=', $id)
+      $trabajadores = DB::table("eventos_tienen_trabajadores as ett")
+      ->where("ett.id_evento", "=", $id)
+      ->join("trabajadores", "trabajadores.id", "=", "ett.id_trabajador")
       ->get();
 
       $ingredientes=DB::table('productos as prod')
       ->join('productos_tienen_ingredientes as pti', 'prod.id', '=', 'pti.id_producto')
       ->join('ingredientes as ingr', 'pti.id_ingrediente', '=', 'ingr.id')
-      ->join('eventos_tienen_productos as etp', 'prod.id', '=', 'etp.id_producto')
+      ->join('simulacion_productos as sp', 'prod.id', '=', 'sp.id_producto')
       ->join('inventario as inv', 'inv.id_item', '=', 'ingr.id')
-      ->where('etp.id_evento', '=', $id)
-      ->select('ingr.nombre as nombre', 'ingr.inventareable' ,'pti.unidad as unidad', 'ingr.unidad as uni_inv','inv.cantidad as stock','ingr.id as id_ingr', DB::raw('sum(porcion*etp.cantidad) as sum'))
-      ->groupBy('nombre', 'ingr.inventareable' ,'unidad', 'id_ingr', 'stock', 'uni_inv')
+      ->where('sp.id_simulacion', '=', $id_sim)
+      ->select('ingr.nombre as nombre', 'ingr.inventareable' ,'precio_bruto','pti.unidad as unidad', 'ingr.unidad as uni_inv','inv.cantidad as stock','ingr.id as id_ingr', DB::raw('sum(porcion*sp.cantidad) as sum'))
+      ->groupBy('nombre', 'ingr.inventareable' ,'unidad', 'precio_bruto','id_ingr', 'stock', 'uni_inv')
       ->get();
 
+      $ingredientes_extras=DB::table("simulacion_ingr_extra as sie")
+      ->join('ingredientes as ingr', 'sie.id_ingrediente', '=', 'ingr.id')
+      ->where("sie.id_simulacion", "=", $id_sim)
+      ->get();
+
+      $otros = DB::table("simulacion_nuevo")->where("id_simulacion", "=", $id_sim)->get();
+
+
+      for($i = 0; $i < count($ingredientes); $i++){
+
+        for($j = 0; $j < count($ingredientes_extras); $j++){
+          if($ingredientes[$i]->id_ingr == $ingredientes_extras[$j]->id_ingrediente){
+            $aux = $ingredientes_extras[$j]->cantidad * $ingredientes_extras[$j]->porcion_unitaria;
+            $ingredientes[$i]->sum += $aux;
+            $ingredientes_extras[$j]->aux = 1;
+          }else{
+            $ingredientes_extras[$j]->aux = 0;
+          }
+        }
+      }
+      $fecha = Carbon::now();
+
+
       $v = 'carritos.pdf.despacho_checklist';
-      $view = \View::make($v, compact('evento', 'num_ingr_ext','ingredientes', 'productos', 'base', 'extras', 'ingr_extras'))->render();
+      $view = \View::make($v, compact('evento', 'fecha','ingredientes', 'otros','ingredientes_extras', 'productos', 'extras'))->render();
       $pdf = \App::make('dompdf.wrapper');
       $pdf->loadHTML($view);
 

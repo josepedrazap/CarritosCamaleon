@@ -76,10 +76,10 @@ function finalizar(){
             <td style="color:orange"> <strong>Pendiente</strong></td>
             @endif
             @if($dat->condicion == 2)
-            <td style="color:green"> <strong>Despachado</strong></td>
+            <td style="color:green"> <strong>Realizado</strong></td>
             @endif
             @if($dat->condicion == 3)
-            <td style="color:grey"> <strong>Ejecutado</strong></td>
+            <td style="color:grey"> <strong>¡Cancelado!</strong></td>
             @endif
             @if($dat->condicion == 0)
             <td style="color:red"> <strong>¡Cancelado!</strong></td>

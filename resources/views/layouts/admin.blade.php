@@ -116,31 +116,20 @@
               <ul class="treeview-menu">
                 <li><a href="/calendario_eventos"><i class="far fa-circle"></i> Calendario eventos</a></li>
                 <li><a href="/calendario"><i class="far fa-circle"></i> Calendario cotizaciones</a></li>
-                <li><a href="/calendario_financiero"><i class="far fa-circle"></i> Calendario financiero</a></li>
               </ul>
             </li>
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-calendar-alt"></i>
-                <span>Eventos</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="/carritos/eventos"><i class="far fa-circle"></i> Todos los eventos</a></li>
-                <li><a href="/carritos/despacho"><i class="far fa-circle"></i> Eventos despachados</a></li>
-                <li><a href="/carritos/eventos/create"><i class="far fa-circle"></i> Nuevo evento</a></li>
-              </ul>
-            </li>
+
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-dollar-sign"></i>
-                <span>Simulador</span>
+                <span>Simuladoción y eventos</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href=""><i class="far fa-circle"></i> Todos las simulaciones (No implementado aun)</a></li>
-                <li><a href="/simulador"><i class="far fa-circle"></i> Nueva simulación</a></li>
+                <li><a href="/carritos/simulaciones"><i class="far fa-circle"></i> Todos las simulaciones</a></li>
+                <li><a href="/simulador"><i class="far fa-circle"></i> Nueva simulación o evento</a></li>
+                <li><a href="/index_eventos"><i class="far fa-circle"></i> Lista eventos</a></li>
               </ul>
             </li>
             @if(Auth::user()->nivel == 'Administrador')
@@ -172,55 +161,23 @@
             </li>
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-dolly"></i>
-                <span>Compras y gastos</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="/carritos/compras/create"><i class="far fa-circle"></i> Realizar compra</a></li>
-                <li><a href="/carritos/gastos/create"><i class="far fa-circle"></i> Ingresar gasto</a></li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-check"></i>
-                <span>Post eventos</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="/carritos/utilidad_costos"><i class="far fa-circle"></i> Aprobar eventos pendientes</a></li>
-                <li><a href="/carritos/utilidad_costos/eventos_aprobados"><i class="far fa-circle"></i> Cifras eventos aprobados</a></li>
-                <li><a href="/carritos/ingresos"><i class="far fa-circle"></i> Facturar eventos aprobados</a></li>
-
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
                 <i class="fa fa-chart-line"></i>
                 <span>Finanzas</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/carritos/cuentas_contables"><i class="far fa-circle"></i> Cuentas</a></li>
-                <li><a href="/carritos/libros_contables"><i class="far fa-circle"></i> Libros Contables</a></li>
                 <li><a href="/carritos/pagos"><i class="far fa-circle"></i> Pagos pendientes</a></li>
-                <li><a href="/carritos/cuentas_contables/balance?año=1"><i class="far fa-circle"></i> Resumen y balance</a></li>
-                <li><a href="/carritos/ajustes"><i class="far fa-circle"></i> Comprobantes</a></li>
-                <li><a href="/carritos/ingresos/crear"><i class="far fa-circle"></i> Crear ingreso</a></li>
-
-
               </ul>
             </li>
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-wrench"></i></i> <span>Administración</span>
+                <i class="fa fa-wrench"></i></i> <span>Personas</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="/carritos/trabajadores"><i class="far fa-circle"></i> Trabajadores</a></li>
                 <li><a href="/carritos/clientes"><i class="far fa-circle"></i> Clientes</a></li>
-                <li><a href="/carritos/proveedores"><i class="far fa-circle"></i> Proveedores</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -245,8 +202,6 @@
                 <li><a href="/carritos/mercaderiaproxeventos"><i class="far fa-circle"></i> Mercadería eventos próximos</a></li>
               </ul>
             </li>
-
-
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -292,12 +247,10 @@
       <!--Fin-Contenido-->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>Version</b> 1.1 release
+          <b>Version</b> 2.1.4 release
         </div>
         <strong><a href="http://www.carritoscamaleon.cl">Carritos Camaleón</a></strong>
       </footer>
-
-
     <!-- jQuery 2.1.4 -->
     @stack('scripts')
     <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
@@ -309,12 +262,8 @@
     <!-- AdminLTE App -->
     <script src="{{asset('js/app.min.js')}}"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
     <script src="{{asset('js/sweetalert2.all.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.5.1/js/iziModal.min.js"></script>
-
     @yield('script')
-
-
   </body>
 </html>

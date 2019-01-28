@@ -6,6 +6,13 @@ total = 0;
 sub_total = 0;
 cont = 0;
 
+function submit_(){
+  if(confirm("Asegurate de realizar un deposito por $" + total)){
+    document.getElementById("myFormulario").submit();
+
+  }
+}
+
 function sumar(id){
   sub_total = $("#" + id).val();
   cont++;
@@ -22,7 +29,7 @@ function finalizar(){
 }
 </script>
 
-{!!Form::open(array('url'=>'carritos/pagos','method'=>'post','autocomplete'=>'off'))!!}
+{!!Form::open(array('url'=>'carritos/pagos','method'=>'post', 'id'=>'myFormulario','autocomplete'=>'off'))!!}
 {{Form::Token()}}
 
   <div class="row">
@@ -79,7 +86,9 @@ function finalizar(){
             <th>Nombre cliente</th>
             <th>Fecha</th>
             <th>Estado evento</th>
-            <th>Monto adeudado</th>
+            <th>Monto adeudado líquido</th>
+            <th>Retención 10%</th>
+            <th>Total</th>
             <th>Opciones</th>
           </thead>
           @foreach($data as $dat)
@@ -87,18 +96,24 @@ function finalizar(){
             <td>{{$dat->nombre_cliente}}</td>
             <td>{{$dat->fecha_hora}}</td>
             @if($dat->condicion == 1)
-            <td style="color:orange"> <strong>Pendiente</strong></td>
+            <td style="color:orange"> <strong>No realizado</strong></td>
             @endif
             @if($dat->condicion == 2)
-            <td style="color:green"> <strong>Despachado</strong></td>
+            <td style="color:green"> <strong>Realizado</strong></td>
             @endif
             @if($dat->condicion == 3)
-            <td style="color:grey"> <strong>Ejecutado</strong></td>
+            <td style="color:grey"> <strong>Cancelado</strong></td>
             @endif
             <td>
               <input value="{{$dat->monto}}" class="form-control" disabled id="{{$dat->id}}">
               <input name="{{$dat->id}}" value="0" hidden id="__{{$dat->id}}">
               <input name="id_pago[]" value="{{$dat->id}}" hidden>
+            </td>
+            <td>
+              <input value="{{round(($dat->monto / 0.9) - $dat->monto)}}" class="form-control" disabled id="{{$dat->id}}">
+            </td>
+            <td>
+              <input value="{{round($dat->monto / 0.9)}}" class="form-control" disabled id="{{$dat->id}}">
             </td>
             <td>
               <button type="button" id="_{{$dat->id}}" onclick="sumar({{$dat->id}})" class="btn btn-success">Pagar</button>
@@ -107,13 +122,13 @@ function finalizar(){
           @endforeach
         </table>
       </div>
-    
+
     </div>
   </div>
   <div class="form-group" id="save">
     <input name="id_t" value="{{$id_t}}" hidden>
     <input name="_token value={{csrf_token()}}" type="hidden"></input>
-    <button type="submit" class="btn btn-primary">Realizar pagos</button>
+    <input type="button" class="btn btn-primary" value="Realizar pagos" onclick="submit_()"/>
     <button class="btn btn-danger" type="reset">Reiniciar</button>
   </div>
   {!!Form::close()!!}

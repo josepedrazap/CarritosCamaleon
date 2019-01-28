@@ -59,7 +59,7 @@ class IngredientesController extends Controller
       $ing_tmp = Ingredientes::findOrFail($id);
       $ing_tmp->precio_bruto = $request->get('precio_bruto');
       $ing_tmp->precio_liquido = $request->get('precio_liquido');
-      $ing_tmp->porcion_ = $request->get('porcion');
+      $ing_tmp->porcion_ = $request->get('porcion')/100;
       $ing_tmp->uni_porcion = $request->get('uni_porcion');
       $ing_tmp->update();
       return Redirect::to("carritos/ingredientes");
