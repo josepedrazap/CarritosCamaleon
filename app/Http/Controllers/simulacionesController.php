@@ -30,7 +30,7 @@ class simulacionesController extends Controller{
   public function index(){
     $simulaciones = DB::table('simulaciones')
     ->where('simulaciones.estado', '=', 1)
-    ->orderBy('id','desc')
+    ->orderBy('id','asc')
     ->get();
     return View('carritos.simulaciones.index', ["simulaciones"=>$simulaciones]);
   }

@@ -319,12 +319,12 @@
         porcion = $("#porcion_ingr_unica").val();
 
         if(control == 0){
-          sv = '#precio_neto_unidad_ingr_' + index;
-          sv3 = '#costo_neto_ingr_' + index;
+          sv = '#precio_total_neto_ingr_' + index;
+          sv3 = '#costo_total_neto_ingr_' + index;
           sv2 = '#cantidad_ingr_' + index;
           if($(sv).val() != ''){
-            total_ingrs_neto_venta = total_ingrs_neto_venta - parseFloat($(sv).val() * $(sv2).val());
-            costo_ingrs = costo_ingrs - parseFloat($(sv3).val() * $(sv2).val());
+            total_ingrs_neto_venta = total_ingrs_neto_venta - parseInt($(sv).val());
+            costo_ingrs = costo_ingrs - parseInt($(sv3).val());
           }
           document.getElementById('costo_total_neto_ingrs').value = parseFloat(costo_ingrs);
           document.getElementById('costo_total_bruto_ingrs').value = parseFloat(conversor_neto_a_bruto(costo_ingrs));
@@ -354,7 +354,7 @@
               var bruto = conversor_neto_a_bruto(precio_neto);
               var costo_bruto = conversor_neto_a_bruto(costo_neto);
               var costo_bruto_total = conversor_neto_a_bruto(costo_neto_total)
-              var fila = '<tr class="selected" id="fila_ingrs_' + cont_ingrs + '"><td><input hidden name="porcion[]" value="'+porcion+'"/><button type="button" class="btn btn-warning" onClick="adm_ingrs(0, '+ cont_ingrs +')">X</button></td> <td><input hidden name="id_ingr[]" value="' + id + '"> <input class="form-control" readonly value="' + ingr + '"></td><td><input class="form-control" type="number" id="cantidad_ingr_'+cont_ingrs+'" name="cant_ingrs_[]" readonly="readonly" value="'+cantidad+'"></td><td><input class="form-control" name="unidad_ingr_[]" id="unidad_ingr_' + cont_ingrs +'" readonly="readonly" value="'+ unidad +'"/></td><td><input class="form-control" name="costo_neto_ingr_[]" id="costo_neto_ingr_'+ cont_ingrs + '" readonly="readonly" value="' + (costo_neto) + '"></td><td><input class="form-control" name="costo_bruto_ingr_'+ cont_ingrs + '" id="costo_bruto_ingr_'+ cont_ingrs + '" readonly="readonly" value="' + costo_bruto + '"></td><td><input class="form-control" name="costo_total_neto_ingr[]" value="'+  costo_neto_total +'" readonly="readonly"></td><td><input class="form-control" name="costo_total_bruto_ingr[]" value="'+ costo_bruto_total +'" readonly="readonly"></td><td><input class="form-control" name="precio_total_neto_ingr[]" value="'+  precio_neto +'" readonly="readonly"></td><td><input class="form-control" name="precio_total_bruto_ingr[]" value="'+ bruto +'" readonly="readonly"></td></tr>';
+              var fila = '<tr class="selected" id="fila_ingrs_' + cont_ingrs + '"><td><input hidden name="porcion[]" value="'+porcion+'"/><button type="button" class="btn btn-warning" onClick="adm_ingrs(0, '+ cont_ingrs +')">X</button></td> <td><input hidden name="id_ingr[]" value="' + id + '"> <input class="form-control" readonly value="' + ingr + '"></td><td><input class="form-control" type="number" id="cantidad_ingr_'+cont_ingrs+'" name="cant_ingrs_[]" readonly="readonly" value="'+cantidad+'"></td><td><input class="form-control" name="unidad_ingr_[]" id="unidad_ingr_' + cont_ingrs +'" readonly="readonly" value="'+ unidad +'"/></td><td><input class="form-control" name="costo_neto_ingr_[]" id="costo_neto_ingr_'+ cont_ingrs + '" readonly="readonly" value="' + (costo_neto) + '"></td><td><input class="form-control" name="costo_bruto_ingr_'+ cont_ingrs + '" id="costo_bruto_ingr_'+ cont_ingrs + '" readonly="readonly" value="' + costo_bruto + '"></td><td><input class="form-control" name="costo_total_neto_ingr[]" id="costo_total_neto_ingr_'+cont_ingrs+'" value="'+  costo_neto_total +'" readonly="readonly"></td><td><input class="form-control" name="costo_total_bruto_ingr[]" value="'+ costo_bruto_total +'" readonly="readonly"></td><td><input class="form-control" id="precio_total_neto_ingr_'+cont_ingrs+'" name="precio_total_neto_ingr[]" value="'+  precio_neto +'" readonly="readonly"></td><td><input class="form-control" name="precio_total_bruto_ingr[]" id="precio_total_bruto_ingr_'+cont_ingrs+'" value="'+ bruto +'" readonly="readonly"></td></tr>';
 
               $("#detalles_ingrs").append(fila);
 
@@ -963,13 +963,13 @@
                       <input class="form-control" readonly="readonly" value="{{$i_sim->costo_neto_unidad * 0.19}}"/>
                     </td>
                     <td>
-                      <input class="form-control" readonly="readonly" name="costo_total_neto_ingr[]" value="{{$i_sim->costo_neto_unidad * $i_sim->cantidad}}"/>
+                      <input class="form-control" readonly="readonly" name="costo_total_neto_ingr[]" id="costo_total_neto_ingr_{{$i}}" value="{{$i_sim->costo_neto_unidad * $i_sim->cantidad}}"/>
                     </td>
                     <td>
                       <input class="form-control" readonly="readonly" value="{{$i_sim->costo_neto_unidad * $i_sim->cantidad * 0.19}}"/>
                     </td>
                     <td>
-                      <input class="form-control" readonly="readonly" value="{{$i_sim->precio_neto_unidad}}" name="precio_total_neto_ingr[]"/>
+                      <input class="form-control" readonly="readonly" value="{{$i_sim->precio_neto_unidad}}" name="precio_total_neto_ingr[]" id="precio_total_neto_ingr_{{$i}}"/>
                     </td>
                     <td>
                       <input class="form-control" readonly="readonly" value="{{$i_sim->precio_neto_unidad * 1.19}}" />
