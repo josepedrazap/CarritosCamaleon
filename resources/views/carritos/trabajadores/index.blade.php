@@ -24,7 +24,7 @@
             <td>{{$tra->clase}}</td>
             @if($tra->telefono[1] == 5 && $tra->telefono[2] == 6 && $tra->telefono[3] == 9 && strlen($tra->telefono) >= 11)
               <td>
-                <a href="{{"https://api.whatsapp.com/send?phone=substr($tra->telefono, 1)"}}" target="_blank">
+                <a href="https://api.whatsapp.com/send?phone={{substr($tra->telefono, 1)}}" target="_blank">
                   <IMG SRC="{{ asset('img/img_wh.png') }}" WIDTH=20 HEIGHT=20>    {{($tra->telefono)}}
                 </a>
               </td>
