@@ -1,0 +1,61 @@
+.bg-bubbles li:nth-child(3) {
+  left: 25%;
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+}
+.bg-bubbles li:nth-child(7) {
+  left: 32%;
+  width: 160px;
+  height: 160px;
+  -webkit-animation-delay: 7s;
+          animation-delay: 7s;
+}
+.bg-bubbles li:nth-child(16) {
+  left: 75%;
+  width: 20px;
+  height: 20px;
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+  -webkit-animation-duration: 25s;
+          animation-duration: 25s;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+body {
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #0f9b0f, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #0f9b0f, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.text_principal {
+  font-size: 1.5em;
+  color: #000;
+  text-align: center
+}
+.box_1 {
+  padding-top: 40px;
+  background: #fff;
+  height: 400px;
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
+  margin-bottom: auto;
+  opacity: 0.8;
+  border-radius: 10px;
+}
+.text_footer{
+  font-size: 1.5em;
+  color: #fff;
+  padding-right: 10px;
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+    background-color: #000;
+    opacity: 0.8;
+    color: white;
+    text-align: right;
+}
