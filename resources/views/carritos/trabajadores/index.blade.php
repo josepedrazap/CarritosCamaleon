@@ -22,7 +22,7 @@
           <tr>
             <td>{{$tra->nombre}} {{$tra->apellido}}</td>
             <td>{{$tra->clase}}</td>
-            @if($tra->telefono[0] == 5 && $tra->telefono[1] == 6 && $tra->telefono[2] == 9 && strlen($tra->telefono) >= 11)
+            @if($tra->telefono[1] == 5 && $tra->telefono[2] == 6 && $tra->telefono[3] == 9 && strlen($tra->telefono) >= 11)
               <td>
                 <a href="{{"https://api.whatsapp.com/send?phone=$tra->telefono"}}" target="_blank">
                   <IMG SRC="{{ asset('img/img_wh.png') }}" WIDTH=20 HEIGHT=20>    +{{$tra->telefono}}
