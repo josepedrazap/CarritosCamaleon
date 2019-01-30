@@ -797,6 +797,10 @@ class simulacionesController extends Controller{
     ->where("eve.id", '=', $id_evento)
     ->get();
 
+    if($ev[0]->condicion != 1 ){
+      return "No se pueden modificar eventos ya realizados o cancelados.";
+    }
+
     $sim = DB::table('simulaciones as sim')
     ->where('id', '=', $ev[0]->id_simulacion)
     ->get();
