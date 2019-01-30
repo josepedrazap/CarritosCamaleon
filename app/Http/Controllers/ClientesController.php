@@ -34,9 +34,9 @@ class ClientesController extends Controller
     return view('carritos.clientes.create');
   }
   public function ver_eventos($id){
-    $eventos = DB::table('eventos as eve')
+    $eventos = DB::table('eventos_2 as eve')
     ->where('eve.id_cliente', '=', $id)
-    ->whereIn('eve.condicion', array(2,3))
+    ->whereIn('eve.condicion', array(1,2))
     ->get();
     return view('carritos.clientes.ver_eventos', ["eventos"=>$eventos]);
   }

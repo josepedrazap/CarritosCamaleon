@@ -3,7 +3,6 @@
 namespace CamaleonERP\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use CamaleonERP\Simulaciones;
 use CamaleonERP\Simulacion_productos;
 use CamaleonERP\Simulacion_extras;
@@ -15,14 +14,11 @@ use CamaleonERP\Eventos_2;
 use CamaleonERP\Eventos_tienen_trabajadores;
 use CamaleonERP\Inventario;
 use Illuminate\Support\Facades\Input;
-
 use Illuminate\Support\Facades\Redirect;
 use CamaleonERP\Http\Requests\UserFormRequest;
 use DB;
 
-
 class simulacionesController extends Controller{
-
   public function __construct(){
     $this->middleware('auth');
     $this->middleware('admin');
