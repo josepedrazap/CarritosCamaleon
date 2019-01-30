@@ -127,7 +127,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/carritos/simulaciones"><i class="far fa-circle"></i> Todos las simulaciones</a></li>
+                <li><a href="/carritos/simulaciones"><i class="far fa-circle"></i> Todas las simulaciones</a></li>
                 <li><a href="/simulador"><i class="far fa-circle"></i> Nueva simulación o evento</a></li>
                 <li><a href="/index_eventos"><i class="far fa-circle"></i> Lista eventos</a></li>
               </ul>
@@ -255,7 +255,6 @@
     <!-- jQuery 2.1.4 -->
     @stack('scripts')
     <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
-
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
 

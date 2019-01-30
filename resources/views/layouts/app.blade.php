@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'CarritosCamaleón') }}</title>
+    <title>Entrar - ERP Carritos Camaleón</title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('css/fondo.css')}}">

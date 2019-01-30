@@ -204,18 +204,22 @@ class simulacionesController extends Controller{
   }
   public function simulador_edit_store(Request $request){
     DB::beginTransaction();
-    try{
-      //1 drop todas las tablas
-      //$sim_temp = DB::table('simulaciones as s')->where('s.id', '=', 45)->find(1)->delete();;
 
-      $id_temp = $request->get("id_temp");
-      $deletedRows = Simulaciones::where('id', $id_temp)->delete();
-      $deletedRows = Simulacion_valores::where('id_simulacion', $id_temp)->delete();
-      $deletedRows = Simulacion_productos::where('id_simulacion', $id_temp)->delete();
-      $deletedRows = Simulacion_extras::where('id_simulacion', $id_temp)->delete();
-      $deletedRows = Simulacion_ingr_extra::where('id_simulacion', $id_temp)->delete();
-      $deletedRows = simulacion_nuevo::where('id_simulacion', $id_temp)->delete();
-      $deletedRows = Simulacion_trabajadores::where('id_simulacion', $id_temp)->delete();
+    try{
+      if($request->get("tipo_instruccion") == 4){ //En caso de editar evento
+        $id_evento = $request->get("id_evento");
+        $id_temp = $request->get("id_temp");
+
+      }else{
+        $id_temp = $request->get("id_temp");
+        $deletedRows = Simulaciones::where('id', $id_temp)->delete();
+        $deletedRows = Simulacion_valores::where('id_simulacion', $id_temp)->delete();
+        $deletedRows = Simulacion_productos::where('id_simulacion', $id_temp)->delete();
+        $deletedRows = Simulacion_extras::where('id_simulacion', $id_temp)->delete();
+        $deletedRows = Simulacion_ingr_extra::where('id_simulacion', $id_temp)->delete();
+        $deletedRows = simulacion_nuevo::where('id_simulacion', $id_temp)->delete();
+        $deletedRows = Simulacion_trabajadores::where('id_simulacion', $id_temp)->delete();
+      }
 
       $simulacion = new Simulaciones;
       $simulacion->nombre = $request->get('nombre_simulacion');
@@ -331,6 +335,9 @@ class simulacionesController extends Controller{
       return Redirect::to("/simulacion_resumen?id=" . $simulacion->id);
     }else if($request->get("tipo_instruccion") == "3"){
       return Redirect::to("/calendario");
+    }else if($request->get("tipo_instruccion") == "4"){
+      return Redirect::to("/simulacion_resumen?id=" . $simulacion->id . "&id_evento=" . $id_evento . "&tipo_instruccion=4" . "id_sim=" . $id_temp);
+
     }
     return Redirect::to("/carritos/simulaciones");
   }
@@ -435,6 +442,18 @@ class simulacionesController extends Controller{
                                              ]);
   }
   public function simulador_resumen(Request $request){
+
+    if($request->get("tipo_instruccion") == 4){ //En caso de editar evento
+          $id_evento = $request->get("id_evento");
+          $trabajadores_antiguos = DB::table('eventos_tienen_trabajadores as ett')
+          ->where('ett.id_evento', '=', $id_evento)
+          ->join('trabajadores as tra', 'tra.id', '=', 'ett.id_trabajador')
+          ->get();
+          $evento = DB::table('eventos_2 as eve')
+          ->where('eve.id', '=',   $id_evento)
+          ->get();
+          $id_sim_antigua = $request->get("id_sim");
+    }
     $id_sim = $request->get("id");
 
     $clientes = DB::table("clientes")->get();
@@ -463,51 +482,83 @@ class simulacionesController extends Controller{
     ->join("ingredientes","ingredientes.id", "=", "simulacion_ingr_extra.id_ingrediente")
     ->get();
 
-    return view('carritos.simulaciones.crear_evento', ["productos" => $productos,
-                                                        "trabajadores" => $trabajadores,
-                                                        "nuevos" => $nuevos,
-                                                        "extras" => $extras,
-                                                        "simulacion" => $simulacion,
-                                                        "clientes" => $clientes,
-                                                        "trabajadores_lista" => $trabajadores_lista,
-                                                        "id" => $id_sim, "sim" => $sim,
-                                                        "ingredientes_extras" => $ingredientes_extra]);
+    if($request->get("tipo_instruccion") == 4){
+      return view('carritos.simulaciones.crear_evento_edit', ["productos" => $productos,
+                                                          "trabajadores" => $trabajadores,
+                                                          "nuevos" => $nuevos, "evento" => $evento,
+                                                          "extras" => $extras, "simulacion" => $simulacion,
+                                                          "trabajadores_antiguos" => $trabajadores_antiguos,
+                                                          "clientes" => $clientes,"id_evento" => $id_evento,
+                                                          "trabajadores_lista" => $trabajadores_lista,
+                                                          "id" => $id_sim, "sim" => $sim,
+                                                          "id_sim_antigua" => $id_sim_antigua,
+                                                          "ingredientes_extras" => $ingredientes_extra]);
 
+    }else{
+      return view('carritos.simulaciones.crear_evento', ["productos" => $productos,
+                                                          "trabajadores" => $trabajadores,
+                                                          "nuevos" => $nuevos,
+                                                          "extras" => $extras,
+                                                          "simulacion" => $simulacion,
+                                                          "clientes" => $clientes,
+                                                          "trabajadores_lista" => $trabajadores_lista,
+                                                          "id" => $id_sim, "sim" => $sim,
+                                                          "ingredientes_extras" => $ingredientes_extra]);
+    }
   }
   public function conv_sim_a_evento(Request $request){
+    DB::beginTransaction();
 
-    $cliente_ = DB::table('clientes')->where("clientes.id", "=", $request->get("cliente"))->get();
-    $evento = new Eventos_2;
-    $evento->id_simulacion = $request->get("id");
-    $evento->id_cliente = $request->get("cliente");
-    $evento->fecha_hora = $request->get("fecha_hora");
-    $evento->direccion = $request->get("direccion");
-    $evento->condicion = 1;
-    $evento->estado_pago = 0;
-    $evento->cliente = $cliente_[0]->nombre . " " . $cliente_[0]->apellido;
-    $evento->descripcion = $request->get("descripcion");
-    $evento->save();
-
-    $simulacion = Simulaciones::findOrFail($request->get("id"));
-    $simulacion->estado = 2;
-    $simulacion->update();
-
-    $trabajadores = $request->get("trabajadores");
-    $monto = $request->get("monto");
-    $trabajo = $request->get("trabajo");
-    $cont = 0;
-
-    while($cont < count($trabajadores)){
-      $trab_temp = new Eventos_tienen_trabajadores;
-      $trab_temp->id_evento = $evento->id;
-      $trab_temp->id_trabajador = $trabajadores[$cont];
-      $trab_temp->estado = 1;
-      $trab_temp->trabajo = $trabajo[$cont];
-      $trab_temp->monto = $monto[$cont];
-      $trab_temp->save();
-      $cont++;
+    if($request->get("id_evento")){ //si es evento!!!
+      $d = Eventos_2::where("id", $request->get("id_evento"))->delete();
+      $d = Eventos_tienen_trabajadores::where("id_evento", $request->get("id_evento"))->delete();
+      $id_temp = $request->get("id_sim_antigua");
+      $deletedRows = Simulaciones::where('id', $id_temp)->delete();
+      $deletedRows = Simulacion_valores::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = Simulacion_productos::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = Simulacion_extras::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = Simulacion_ingr_extra::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = simulacion_nuevo::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = Simulacion_trabajadores::where('id_simulacion', $id_temp)->delete();
     }
-    return Redirect::to("/ver_evento?id=" . $evento->id);
+
+    try{
+      $cliente_ = DB::table('clientes')->where("clientes.id", "=", $request->get("cliente"))->get();
+      $evento = new Eventos_2;
+      $evento->id_simulacion = $request->get("id");
+      $evento->id_cliente = $request->get("cliente");
+      $evento->fecha_hora = $request->get("fecha_hora");
+      $evento->direccion = $request->get("direccion");
+      $evento->condicion = 1;
+      $evento->estado_pago = 0;
+      $evento->cliente = $cliente_[0]->nombre . " " . $cliente_[0]->apellido;
+      $evento->descripcion = $request->get("descripcion");
+      $evento->save();
+
+      $simulacion = Simulaciones::findOrFail($request->get("id"));
+      $simulacion->estado = 2;
+      $simulacion->update();
+
+      $trabajadores = $request->get("trabajadores");
+      $monto = $request->get("monto");
+      $trabajo = $request->get("trabajo");
+      $cont = 0;
+
+      while($cont < count($trabajadores)){
+        $trab_temp = new Eventos_tienen_trabajadores;
+        $trab_temp->id_evento = $evento->id;
+        $trab_temp->id_trabajador = $trabajadores[$cont];
+        $trab_temp->estado = 1;
+        $trab_temp->trabajo = $trabajo[$cont];
+        $trab_temp->monto = $monto[$cont];
+        $trab_temp->save();
+        $cont++;
+      }
+      DB::commit();
+      return Redirect::to("/ver_evento?id=" . $evento->id);
+    }catch(Exception $e){
+      DB::rollback();
+    }
   }
   public function index_eventos(Request $request){
     $eventos = DB::table('eventos_2')
@@ -637,6 +688,14 @@ class simulacionesController extends Controller{
     $fecha = $request->get("fecha");
     $id = $request->get("id");
 
+    $ev = DB::table('eventos_2 as eve')
+    ->where("eve.id_simulacion", '=', $id)
+    ->get();
+
+    if(count($ev)){
+      return "Ésta simulación ya se convirtió en evento por lo que no puede ser modificada. No utilice las direcciones de navegación url para manipular el programa";
+    }
+
     $productos = DB::table('productos')
     ->where('productos.condicion', '=', 1)
     ->get();
@@ -678,6 +737,115 @@ class simulacionesController extends Controller{
                                                           "tipo_instruccion" => $tipo_instruccion,
                                                           "fecha"=>$fecha, "extras_sim" => $extras_sim,
                                                           "ingredientes" => $ingr_extras,
+                                                          "extras" => $extras, "nuevos_sim" => $nuevos_sim,
+                                                          "simulacion" => $simulacion]);
+  }
+  public function eliminar_simulacion(Request $request){
+    DB::beginTransaction();
+    try{
+      $id_temp = $request->get("id");
+      $deletedRows = Simulaciones::where('id', $id_temp)->delete();
+      $deletedRows = Simulacion_valores::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = Simulacion_productos::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = Simulacion_extras::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = Simulacion_ingr_extra::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = simulacion_nuevo::where('id_simulacion', $id_temp)->delete();
+      $deletedRows = Simulacion_trabajadores::where('id_simulacion', $id_temp)->delete();
+
+      DB::commit();
+      return Redirect::to("/carritos/simulaciones");
+    }catch(Exception $e){
+      DB::rollback();
+    }
+  }
+  public function eliminar_evento(Request $request){
+    DB::beginTransaction();
+    try{
+      $id_temp = $request->get("id");
+      $evento = DB::table("eventos_2 as eve")
+      ->where('eve.id', '=', $id_temp)
+      ->get();
+      if(count($evento)){
+        if($evento[0]->condicion == 2){
+          return "El evento  " . $id_temp . " ya fue realizado por lo que no podrá ser borrado.";
+        }else{
+          $id_temp = $evento[0]->id_simulacion;
+          $deletedRows = Eventos_tienen_trabajadores::where('id_evento', '=', $evento[0]->id)->delete();
+          $deletedRows = Eventos_2::where('id', '=', $evento[0]->id)->delete();
+          $deletedRows = Simulaciones::where('id', $id_temp)->delete();
+          $deletedRows = Simulacion_valores::where('id_simulacion', $id_temp)->delete();
+          $deletedRows = Simulacion_productos::where('id_simulacion', $id_temp)->delete();
+          $deletedRows = Simulacion_extras::where('id_simulacion', $id_temp)->delete();
+          $deletedRows = Simulacion_ingr_extra::where('id_simulacion', $id_temp)->delete();
+          $deletedRows = simulacion_nuevo::where('id_simulacion', $id_temp)->delete();
+          $deletedRows = Simulacion_trabajadores::where('id_simulacion', $id_temp)->delete();
+        }
+      }else{
+        return "No existe el evento " . $id_temp;
+      }
+      DB::commit();
+      return Redirect::to("/index_eventos");
+    }catch(Exception $e){
+      DB::rollback();
+    }
+  }
+  public function editar_evento(Request $request){
+
+    $id_evento = $request->get("id");
+
+    $ev = DB::table('eventos_2 as eve')
+    ->where("eve.id", '=', $id_evento)
+    ->get();
+
+    $sim = DB::table('simulaciones as sim')
+    ->where('id', '=', $ev[0]->id_simulacion)
+    ->get();
+
+    $fecha = $sim[0]->fecha;
+
+    $id = $sim[0]->id;
+
+    $productos = DB::table('productos')
+    ->where('productos.condicion', '=', 1)
+    ->get();
+    $extras = DB::table('selects_valores as sv')
+    ->where('sv.familia', '=', 'extras')
+    ->where('sv.condicion', '=', 1)
+    ->get();
+    $ingr_extras=DB::table('ingredientes')->get();
+
+
+    $productos_sim = DB::table('simulacion_productos as sp')
+    ->join('productos as p', 'p.id', '=', 'sp.id_producto')
+    ->where('sp.id_simulacion', '=', $id)
+    ->get();
+    $trabajadores = DB::table('simulacion_trabajadores as st')
+    ->where('st.id_simulacion', '=', $id)
+    ->get();
+    $ingredientes_sim = DB::table('simulacion_ingr_extra as sie')
+    ->join('ingredientes as ingr', 'ingr.id', '=', 'sie.id_ingrediente')
+    ->where('sie.id_simulacion', '=', $id)
+    ->get();
+    $extras_sim = DB::table('simulacion_extras as es')
+    ->join('selects_valores as sv', 'sv.id', '=', 'es.id_extra')
+    ->where('es.id_simulacion', '=', $id)
+    ->get();
+    $nuevos_sim = DB::table('simulacion_nuevo as sn')
+    ->where('sn.id_simulacion', '=', $id)
+    ->get();
+    $simulacion = DB::table("simulaciones as s")
+    ->where("s.id", '=', $id)
+    ->get();
+
+    $tipo_instruccion = 4; //Editar evento
+
+    return view('carritos.simulaciones.simulador_edit', ["trabajadores" => $trabajadores,
+                                                          "productos_sim" => $productos_sim,
+                                                          "productos" => $productos, "id_sim" => $id,
+                                                          "ingredientes_sim" => $ingredientes_sim,
+                                                          "tipo_instruccion" => $tipo_instruccion,
+                                                          "fecha"=>$fecha, "extras_sim" => $extras_sim,
+                                                          "ingredientes" => $ingr_extras, "id_evento" => $id_evento,
                                                           "extras" => $extras, "nuevos_sim" => $nuevos_sim,
                                                           "simulacion" => $simulacion]);
   }

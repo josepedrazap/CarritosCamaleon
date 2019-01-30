@@ -23,10 +23,12 @@
             <td>{{$sim->descripcion}}</td>
             <td>
               <a href="/editar_simulacion?id={{$sim->id}}"><Button class="btn btn-info"/>Ver / Editar</button></a>
-
               <a href="/simulacion_resumen?id={{$sim->id}}"><Button class="btn btn-primary"/>Generar como evento</button></a>
+              <a href="" data-target="#modal-delete-{{$sim->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
             </td>
           </tr>
+          @include('carritos.simulaciones.modal_delete_sim')
+
           @endforeach
         </table>
       </div>

@@ -119,6 +119,9 @@ Route::get('/', function () {
   Route::get('/editar_simulacion', "simulacionesController@editar_simulacion");
   Route::get('/simulador_store', 'simulacionesController@simulador_store');
   Route::get('/simulador_edit_store', 'simulacionesController@simulador_edit_store');
+  Route::get('/eliminar_simulacion', 'simulacionesController@eliminar_simulacion');
+  Route::get('/eliminar_evento', 'simulacionesController@eliminar_evento');
+  Route::get("/editar_evento", 'simulacionesController@editar_evento');
 
   Route::get('/estado_evento', 'simulacionesController@estado_evento');
   Route::get('/resumen_evento_calendario', 'simulacionesController@resumen_evento_calendario');

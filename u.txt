@@ -1,53 +1,8 @@
-un decimal kg
 
-clientes borrar*
-comuna*
-proveedor rut*
-grecohen@gmail.com
   35458835
 
-  1ZT7oK04Snmj6Vvu3F
+  pvJV4It356E3daRdH8
 
   rKGUjma5SzoLlRKo
 
-  -----BEGIN CERTIFICATE REQUEST-----
-  MIICxzCCAa8CAQAwgYExCzAJBgNVBAYTAkNMMQswCQYDVQQIDAJSTTERMA8GA1UE
-  BwwIU2FudGlhZ28xHDAaBgNVBAoME0RlZmF1bHQgQ29tcGFueSBMdGQxCzAJBgNV
-  BAsMAml0MScwJQYJKoZIhvcNAQkBFhhqb3NlLnBlZHJhemFAbWFpbC51ZHAuY2ww
-  ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDORPRYG6ew5i1jMK5/HAYC
-  Vkk3go8yY60jP2nqhIOeurOrt+R+It3jLUxg37AL0trsQUw2CPrVO5IDlIRF183z
-  tVx1IVV/H+1tGd7s9/NWYl4xaT1CVPHQ86HECi2J9RCqNUwfoUu/k/xW/lEqOGaH
-  SPUJByBEjp6vqR/THun9YVWOwsiktHeb8iIQE8RfYhxBb99BNC/SapdDHfG46yYy
-  CaQPWDFrlAYqEupPuyw8SQOMYAsovdH25UCbB9JcGkS6MkIOPgG5WxcYopDp6ibg
-  TJPxVe78F8gsOUowVcIHLSfWfFadIo0L7dMXhIFpmY1oGLsTJ6ksI5z2SfHPS0HN
-  AgMBAAGgADANBgkqhkiG9w0BAQsFAAOCAQEAS2yvpWSfUQJXVX4eJjIsQVNFzRIn
-  1HJ2QiIoQNgjvLdAoWkvcpo6p0IW6jrJhMKSb4y98gobLmgr+EJacqB74KsrNkwG
-  pJUpk9wnGr+KIO4svBiRI2XmfTvVm1KT8SOZ0bWg5tEVPOk4+uwbowBZQ2RlTni6
-  YBDYMGrBxw0k4CvgjsJWQR2nCf009zqa/gQJf7YkhK5WbtgMqtp7KIUDNfQPt109
-  xu4nZwtUPTveu2InYaxcWiQrmSRr6hGI7gsK6PIKOUm8DbkO4xY+Z9VKjVfNypib
-  tisJFqpmgxA8BdTevY5ErrIFMD53V7Trv4j5Hf7cWWtvMZvrDybN2y2v+g==
-  -----END CERTIFICATE REQUEST-----
-
-  SSLCertificateFile /etc/pki/tls/certs/localhost.crt
-
-  #   Server Private Key:
-  #   If the key is not combined with the certificate, use this
-  #   directive to point at the key file.  Keep in mind that if
-  #   you've both a RSA and a DSA private key you can configure
-  #   both in parallel (to also allow the use of DSA ciphers, etc.)
-  SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
-
-  #   Server Certificate Chain:
-  #   Point SSLCertificateChainFile at a file containing the
-  #   concatenation of PEM encoded CA certificates which form the
-  #   certificate chain for the server certificate. Alternatively
-  #   the referenced file can be the same as SSLCertificateFile
-  #   when the CA certificates are directly appended to the server
-  #   certificate for convinience.
-  #SSLCertificateChainFile /etc/pki/tls/certs/server-chain.crt
-
-  #   Certificate Authority (CA):
-  #   Set the CA certificate verification path where to find CA
-  #   certificates for client authentication or alternatively one
-  #   huge file containing all of them (file must be PEM encoded)
-  #SSLCACertificateFile /etc/pki/tls/certs/ca-bundle.crt
+bBpFwh215TlctL!(Jdl8

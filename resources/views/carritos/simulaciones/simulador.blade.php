@@ -441,7 +441,6 @@
             honorarios_totales_trabajadores_2 -= parseInt($(sv2).val());
             honorarios_impuesto_totales_trabajadores_2 -= parseInt($(sv3).val());
             honorarios_liquidos_totales_trabajadores_2 -= parseInt($(sv1).val());
-            cont_trabajadores_2--;
           }
           document.getElementById('honorarios_liquidos_totales_trabajadores_2').value = honorarios_liquidos_totales_trabajadores_2;
           document.getElementById('honorarios_impuesto_totales_trabajadores_2').value = honorarios_impuesto_totales_trabajadores_2;

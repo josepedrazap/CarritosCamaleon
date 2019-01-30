@@ -36,8 +36,11 @@
               <a href="/ver_evento?id={{$eve->id}}"><Button class="btn btn-info"/>Ver</button></a>
               <a href="/carritos/pdf/despacho_checklist?id={{$eve->id}}"><Button class="btn btn-warning"/>Guía de producción</button></a>
               <a href="/estado_evento?id={{$eve->id}}"><Button class="btn btn-primary"/>Estado</button>
+              <a href="/editar_evento?id={{$eve->id}}"><Button class="btn btn-info"/>Editar</button>
+              <a href="" data-target="#modal-delete-{{$eve->id}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
             </td>
           </tr>
+          @include('carritos.simulaciones.modal_delete_eve')
           @endforeach
         </table>
       </div>
