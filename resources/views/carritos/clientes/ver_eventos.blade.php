@@ -8,7 +8,6 @@
             <th>id evento</th>
             <th>Fecha y hora</th>
             <th>Dirección</th>
-            <th>Contacto</th>
             <th>Detalles</th>
           </thead>
           @foreach($eventos as $eve)
@@ -17,13 +16,8 @@
             <td>{{$eve->id}}</td>
             <td>{{$eve->fecha_hora}}</td>
             <td>{{$eve->direccion}}</td>
-            @if($eve->contacto[0] == '+' && $eve->contacto[1] == 5 && $eve->contacto[2] == 6 && $eve->contacto[3] == 9 && strlen($eve->contacto) >= 11)
-              <td><IMG SRC="{{ asset('img/img_wh.png') }}" WIDTH=20 HEIGHT=20>    {{$eve->contacto}}</td>
-            @else
-              <td><IMG SRC="{{ asset('img/img_tel.png') }}" WIDTH=20 HEIGHT=20>    {{$eve->contacto}}</td>
-            @endif
             <td>
-                <a href="/carritos/eventos/{{$eve->id}}"><button class="btn btn-info">ver</button></a>
+              <a href="/ver_evento?id={{$eve->id}}"><Button class="btn btn-info"/>Ver</button></a>
             </td>
           </tr>
           @endif
